@@ -9,12 +9,10 @@ class ex1:
         pessoas = []
         for line in file.readlines():
             pessoas.append(re.split("::", line))
-        # por cada ano, função genérica que permite o filtro de processos por espaço de tempo selecionado
-        self.processesPerTimeSpan(pessoas, 1)
-
         file.close()
+        return self.processesPerTimeSpan(pessoas)
 
-    def processesPerTimeSpan(self, pessoas, timeSpan):
+    def processesPerTimeSpan(self, pessoas):
         processos = self.filtraProcessos(pessoas)
         processosPorData = {}
         while (processos != []):
@@ -24,7 +22,7 @@ class ex1:
                 processos, ano)
             processosPorData[ano] = processosNoAno
             processos = processosNoutrosAnos
-        print(processosPorData)
+        return processosPorData
 
     def filtraPorAno(self, processos, yearToFilter):
         procPerYear = 0
