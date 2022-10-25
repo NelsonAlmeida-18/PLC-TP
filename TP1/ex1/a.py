@@ -1,21 +1,14 @@
 import re
+import os
 
 
-class ex1:
+class a:
+    def __init__(self, processos):
+        print(self.processesPerTimeSpan(processos))
 
-    def __init__(self):
-        file = open("./TP1/ex1/processos.txt", "r")
-        pessoas = []
-        for line in file.readlines():
-            pessoas.append(re.split("::", line))
-        file.close()
-        return self.processesPerTimeSpan(pessoas)
-
-    def processesPerTimeSpan(self, pessoas):
-        processos = self.filtraProcessos(pessoas)
+    def processesPerTimeSpan(self, processos):
         processosPorData = {}
         while (processos != []):
-            #print(len(processos), len(processosPorData))
             ano = re.match("(([0-9]{1,4})-*)", processos[0][1]).group(2)
             processosNoAno, processosNoutrosAnos = self.filtraPorAno(
                 processos, ano)
@@ -36,14 +29,3 @@ class ex1:
             else:
                 processosNoutrosAnos.append(pessoa)
         return (procPerYear, processosNoutrosAnos)
-
-    def filtraProcessos(self, pessoas):
-        processos = []
-        for pessoa in pessoas:
-            for elem in pessoa:
-                if re.search("Proc.[0-9]*", elem):
-                    processos.append(pessoa)
-        return processos
-
-
-ex1()

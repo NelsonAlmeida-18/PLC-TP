@@ -1,25 +1,14 @@
 import re
 
 
-class ex1:
+class b:
+    def __init__(self, processos):
+        print(self.nomesPorSeculo(processos))
 
-    def __init__(self):
-        file = open("./TP1/ex1/processos.txt", "r")
-        processos = []
-        for line in file.readlines():
-            processos.append(re.split("::", line))
-
-        file.close()
-
-        print(self.nomesPorAno(processos))
-
-        return None
-
-    def nomesPorAno(self, processos):
+    def nomesPorSeculo(self, processos):
         dic = {"firstNames": {}, "lastNames": {}}
         for processo in processos:
             ano = re.match("(([0-9]{1,4})-*)", processo[1]).group(2)
-            print(ano)
             sec = int(ano)//100 + 1
             if sec not in dic["firstNames"]:
                 dic["firstNames"][sec] = {}
@@ -36,7 +25,4 @@ class ex1:
                 dic["firstNames"][sec][fstName] += 1
                 dic["lastNames"][sec][lastName] += 1
                 i += 1
-        print(dic)
-
-
-ex1()
+        return dic

@@ -9,7 +9,7 @@ class ex2b:
     def webSiteBuilder(self):
         data = self.parser()
         data = data[1:]  # aqui ficam tudo menos os indicadores
-        # ir buscar os indices pelo nme de parcela e colocar num dict tipo{id:0,dataEMD:1,"nome/primeiro":2,...}
+        # ir buscar os indices pelo n0me de parcela e colocar num dict tipo{id:0,dataEMD:1,"nome/primeiro":2,...}
         self.sportsPerYearandTotal(data)
 
     def sportsPerYearandTotal(self, data):
