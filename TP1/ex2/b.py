@@ -2,15 +2,11 @@ import re
 import csv
 
 
-class ex2b:
-    def __init__(self):
-        self.webSiteBuilder()
-
-    def webSiteBuilder(self):
-        data = self.parser()
-        data = data[1:]  # aqui ficam tudo menos os indicadores
+class b():
+    def b(self, processos):
+        data = processos[1:]  # aqui ficam tudo menos os indicadores
         # ir buscar os indices pelo n0me de parcela e colocar num dict tipo{id:0,dataEMD:1,"nome/primeiro":2,...}
-        self.sportsPerYearandTotal(data)
+        return (self.sportsPerYearandTotal(data))
 
     def sportsPerYearandTotal(self, data):
         sportsPerYear = {}
@@ -40,14 +36,3 @@ class ex2b:
             else:
                 newData.append(person)
         return sportsPerY, newData
-
-    def parser(self):
-        parsedData = []
-        with open('./TP1/ex2/emd.csv', newline='') as file:
-            data = csv.reader(file, delimiter=' ', quotechar='|')
-            for line in data:
-                parsedData.append(re.split(",", line[0]))
-        return parsedData
-
-
-ex2b()

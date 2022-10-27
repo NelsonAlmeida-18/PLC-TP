@@ -3,13 +3,9 @@ import re
 import csv
 
 
-class ex2e:
-    def __init__(self):
-        data = self.parser()
+class e:
+    def e(self, data):
         data = data[1:]
-        print(self.readinessStats(data))
-
-    def readinessStats(self, data):
         readinessStats = {}
         # ir buscar os anos, e os aptos/total, não aptos/total
         while (data):
@@ -33,14 +29,3 @@ class ex2e:
             else:
                 newData.append(person)
         return (ready, total), newData
-
-    def parser(self):
-        parsedData = []
-        with open('./TP1/ex2/emd.csv', newline='') as file:
-            data = csv.reader(file, delimiter=' ', quotechar='|')
-            for line in data:
-                parsedData.append(re.split(",", line[0]))
-        return parsedData
-
-
-ex2e()

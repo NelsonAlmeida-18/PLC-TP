@@ -2,10 +2,9 @@ import re
 import csv
 
 
-class ex2c:
-    def __init__(self):
-        data = self.parser()
-        data = data[1:]  # aqui ficam tudo menos os indicadores
+class c:
+    def c(self, processos):
+        data = processos[1:]  # aqui ficam tudo menos os indicadores
         return self.distByAgeAndGender(data)
 
     def distByAgeAndGender(self, data):
@@ -20,14 +19,3 @@ class ex2c:
                 dist[ageRange][person[genderIndex]] = 0
             dist[ageRange][person[genderIndex]] += 1
         return dist
-
-    def parser(self):
-        parsedData = []
-        with open('./TP1/ex2/emd.csv', newline='') as file:
-            data = csv.reader(file, delimiter=' ', quotechar='|')
-            for line in data:
-                parsedData.append(re.split(",", line[0]))
-        return parsedData
-
-
-ex2c()
