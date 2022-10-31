@@ -1,0 +1,28 @@
+body{
+    background-color: rgb(140, 173, 173);;
+}
+h1{
+    font: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 2rem;
+    color: aliceblue;
+}
+table {
+    display: flex;
+    width: fit-content;
+    align-items: left;
+    justify-content: left;
+    width: auto;
+    height: 100vh;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.3rem;
+    color: aliceblue;
+}
+tbody {
+    display: flex;
+    flex-direction: row;
+}
+tr {
+    display: flex;
+    flex-direction: column;
+}

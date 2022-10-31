@@ -1,7 +1,6 @@
 body{
     background-color: rgb(140, 173, 173);
     text-align: center;
-    padding-top: 50vh;
 }
 
 .mainBar,a{
@@ -17,3 +16,9 @@ body{
 .mainBar, a:visited{
     text-decoration: none;
 }
+table{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.3rem;
+    color: aliceblue;
+}
+

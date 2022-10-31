@@ -3,10 +3,21 @@ import csv
 
 
 class b():
-    def b(self, processos):
-        data = processos[1:]  # aqui ficam tudo menos os indicadores
-        # ir buscar os indices pelo n0me de parcela e colocar num dict tipo{id:0,dataEMD:1,"nome/primeiro":2,...}
-        return (self.sportsPerYearandTotal(data))
+    def __init__(self):
+        self.b()
+
+    def b(self):
+        pathToFile = "./TP1/ex2/emd.csv"
+        parsedData = []
+        with open(pathToFile, newline='') as file:
+            data = csv.reader(file, delimiter=' ', quotechar='|')
+            for line in data:
+                parsedData.append(re.split(",", line[0]))
+        data = parsedData[1:]  # aqui ficam tudo menos os indicadores
+        sportsPerYear, totalSports = self.sportsPerYearandTotal(data)
+        indexes = sorted(sportsPerYear)
+        sportsPerYear = {i: sportsPerYear[i] for i in indexes}
+        print(sportsPerYear)
 
     def sportsPerYearandTotal(self, data):
         sportsPerYear = {}
@@ -36,3 +47,6 @@ class b():
             else:
                 newData.append(person)
         return sportsPerY, newData
+
+
+b()
