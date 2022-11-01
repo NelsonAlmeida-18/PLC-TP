@@ -22,3 +22,16 @@ table{
     color: aliceblue;
 }
 
+.title {
+    font: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.5rem;
+    color: aliceblue;
+}
+
+body, .p{
+    font:lighter;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1rem;
+    color: aliceblue;
+}

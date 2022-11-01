@@ -1,33 +1,101 @@
-<img src="./src/Distribuicao_de_praticantes_por_ano.png" alt="">
-<img src="./src/Praticantes_Por_Modalidade.png" alt="">
-<link rel="stylesheet" href="main.css">
+<h1 class="title">Distribuição por modalidade em cada ano e no total</h1>
+<div class="images" style="display: flex; width: 100%; padding-bottom: 2rem;"><img src="./src/b1.png" alt="" style="width:50%">
+<img src="./src/b2.png" alt="" style="width:50%">
+</div>
+<link rel="stylesheet" href="./main.css">
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>2020</th>
       <th>2019</th>
+      <th>2020</th>
       <th>2021</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>BTT</th>
-      <td>16</td>
+      <th>Ciclismo</th>
+      <td>11</td>
       <td>12</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Futebol</th>
+      <td>13</td>
+      <td>7</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>Atletismo</th>
+      <td>9</td>
+      <td>6</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>Patinagem</th>
+      <td>9</td>
+      <td>4</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>Triatlo</th>
+      <td>9</td>
+      <td>14</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>Dança</th>
+      <td>11</td>
+      <td>10</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>Andebol</th>
+      <td>11</td>
+      <td>9</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>Karaté</th>
       <td>9</td>
       <td>11</td>
       <td>1.0</td>
     </tr>
     <tr>
       <th>Equitação</th>
-      <td>5</td>
       <td>7</td>
+      <td>5</td>
       <td>1.0</td>
+    </tr>
+    <tr>
+      <th>Basquetebol</th>
+      <td>9</td>
+      <td>12</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>Badminton</th>
+      <td>12</td>
+      <td>10</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <th>BTT</th>
+      <td>12</td>
+      <td>16</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>Esgrima</th>
+      <td>5</td>
+      <td>9</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>Parapente</th>
+      <td>10</td>
+      <td>5</td>
+      <td>2.0</td>
     </tr>
     <tr>
       <th>Orientação</th>
@@ -35,71 +103,46 @@
       <td>8</td>
       <td>1.0</td>
     </tr>
-    <tr>
-      <th>Basquetebol</th>
-      <td>12</td>
-      <td>9</td>
-      <td>3.0</td>
-    </tr>
-    <tr>
-      <th>Futebol</th>
-      <td>7</td>
-      <td>13</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>Ciclismo</th>
-      <td>12</td>
-      <td>11</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>Triatlo</th>
-      <td>14</td>
-      <td>9</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>Badminton</th>
-      <td>10</td>
-      <td>12</td>
-      <td>2.0</td>
-    </tr>
-    <tr>
-      <th>Karaté</th>
-      <td>11</td>
-      <td>9</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>Esgrima</th>
-      <td>9</td>
-      <td>5</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>Atletismo</th>
-      <td>6</td>
-      <td>9</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>Dança</th>
-      <td>10</td>
-      <td>11</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
+  </tbody>
+</table><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Equitação</th>
       <th>Patinagem</th>
-      <td>4</td>
-      <td>9</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
+      <th>Esgrima</th>
+      <th>Atletismo</th>
+      <th>Orientação</th>
       <th>Parapente</th>
-      <td>5</td>
-      <td>10</td>
-      <td>2.0</td>
+      <th>Andebol</th>
+      <th>Futebol</th>
+      <th>Karaté</th>
+      <th>Dança</th>
+      <th>Ciclismo</th>
+      <th>Triatlo</th>
+      <th>Basquetebol</th>
+      <th>Badminton</th>
+      <th>BTT</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Praticantes</th>
+      <td>13</td>
+      <td>14</td>
+      <td>15</td>
+      <td>16</td>
+      <td>17</td>
+      <td>17</td>
+      <td>21</td>
+      <td>21</td>
+      <td>21</td>
+      <td>22</td>
+      <td>23</td>
+      <td>23</td>
+      <td>24</td>
+      <td>24</td>
+      <td>29</td>
     </tr>
   </tbody>
 </table>

@@ -26,7 +26,7 @@ class ex1:
             if option == "c":
                 c(file)
             if option == "d":
-                d(file)
+                d(file, 20)
             if option == "quit":
                 self.clearConsole(cOs)
                 exit()

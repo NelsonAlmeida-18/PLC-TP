@@ -1,23 +1,16 @@
 import re
-import csv
+import pandas as pd
+import matplotlib.pyplot as plt
 
 
 class b():
-    def __init__(self):
-        self.b()
-
-    def b(self):
-        pathToFile = "./TP1/ex2/emd.csv"
-        parsedData = []
-        with open(pathToFile, newline='') as file:
-            data = csv.reader(file, delimiter=' ', quotechar='|')
-            for line in data:
-                parsedData.append(re.split(",", line[0]))
-        data = parsedData[1:]  # aqui ficam tudo menos os indicadores
+    def b(self, data):
         sportsPerYear, totalSports = self.sportsPerYearandTotal(data)
         indexes = sorted(sportsPerYear)
         sportsPerYear = {i: sportsPerYear[i] for i in indexes}
-        print(sportsPerYear)
+        totalSports = dict(sorted(totalSports.items(), key=lambda x: x[1]))
+        self.plotter(sportsPerYear, totalSports)
+        self.htmlGenerator(sportsPerYear, totalSports)
 
     def sportsPerYearandTotal(self, data):
         sportsPerYear = {}
@@ -48,5 +41,21 @@ class b():
                 newData.append(person)
         return sportsPerY, newData
 
+    def htmlGenerator(self, data1, data2):
+        file = open(f"./TP1/ex2/1/website/b.html", "w")
+        templateText1 = pd.DataFrame(data1).to_html()
+        templateText1 = re.sub(
+            r'''<table border="1" class="dataframe">''', '''<h1 class="title">Distribuição por modalidade em cada ano e no total</h1>\n<div class="images" style="display: flex; width: 100%; padding-bottom: 2rem;"><img src="./src/b1.png" alt="" style="width:50%">\n<img src="./src/b2.png" alt="" style="width:50%">\n</div>\n<link rel="stylesheet" href="./main.css">\n<table border="1" class="dataframe">''', templateText1
+        )
+        file.write(templateText1)
+        templateText2 = pd.DataFrame(data2, index=["Praticantes"]).to_html()
+        file.write(templateText2)
+        file.close()
 
-b()
+    def plotter(self, data1, data2):
+        df1 = pd.DataFrame(data1)
+        df1.plot(kind="bar")
+        plt.savefig("./TP1/ex2/1/website/src/b1.png")
+        df2 = pd.DataFrame(data2, index=["Praticantes"])
+        df2.plot(kind="bar")
+        plt.savefig("./TP1/ex2/1/website/src/b2.png")
