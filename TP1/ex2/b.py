@@ -7,20 +7,30 @@ class b():
     def b(self, data):
         sportsPerYear, totalSports = self.sportsPerYearandTotal(data)
         indexes = sorted(sportsPerYear)
+        # dá sort ao dicionário sportsPerYear por data
         sportsPerYear = {i: sportsPerYear[i] for i in indexes}
+        # ordena o dicionário pelos valores, neste caso quantos desportistas estão presentes no dataset para cada desporto
         totalSports = dict(sorted(totalSports.items(), key=lambda x: x[1]))
+        # gera os gráficos dos datasets guardando-os na pasta src para depois ser usado na criação do website
         self.plotter(sportsPerYear, totalSports)
+        # gera o ficheiro html com as tabelas dos desportos por ano e desportos no total juntamente com as imagens dos gráficos geradas acima
         self.htmlGenerator(sportsPerYear, totalSports)
 
     def sportsPerYearandTotal(self, data):
         sportsPerYear = {}
         totalSports = {}
         while (data):
+            # vamos buscar uma data arbitrária ao array, neste caso a primeira
             year = re.match("(([0-9]{1,4})-*)", data[0][2]).group(2)
+            # passamos a data colecionada acima à função sports per year que a vai utilizar para filtrar os dados dos desportos com registos nesse ano
+            # e retorna também todos os elementos do array cujos registos são em anos diferentes ao passado à função
             sportsYear, updatedData = self.sportsPerYear(data, year)
+            # adiciona a informação do desporto nesse ano ao dicionário de desportos por ano onde a chave é o ano(sabemos que isto nunca se repetirá devido à forma como a função
+            # sportsPerYear está concebida
             sportsPerYear[year] = sportsYear
             data = updatedData
-        # pode ser optimizado com o total sports a ser editado no while acima
+
+        # com os dados colecionados no dicionário sportsPerYear soma o número de desportistas para cada ano e para cada desporto e coleciona no novo dicionário de totalSports
         for year in sportsPerYear:
             for sport in sportsPerYear[year]:
                 if sport not in totalSports:
@@ -30,8 +40,9 @@ class b():
 
     def sportsPerYear(self, data, yearToFilter):
         sportsPerY = {}
-        newData = []  # dataset sem as entradas no ano a ser filtrado
+        newData = []
         for person in data:
+            # a
             if re.match(yearToFilter+r"(-[0-9]{1,2}){2}", person[2]):
                 sport = person[8]
                 if sport not in sportsPerY:
