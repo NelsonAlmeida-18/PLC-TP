@@ -42,7 +42,7 @@ class b():
         sportsPerY = {}
         newData = []
         for person in data:
-            # a
+            # filtra os dados a processar e os dados a guardar para devolver baseada na data passada(yearToFilter)
             if re.match(yearToFilter+r"(-[0-9]{1,2}){2}", person[2]):
                 sport = person[8]
                 if sport not in sportsPerY:
@@ -54,7 +54,10 @@ class b():
 
     def htmlGenerator(self, data1, data2):
         file = open(f"./TP1/ex2/1/website/b.html", "w")
+        # através do dicionário criado acima, utilizamos a library pandas para através de um dataframe gerar a representação da tabela
+        # em html guardada numa variável para depois ser processada
         templateText1 = pd.DataFrame(data1).to_html()
+        # utilizamos esta substituição da tag table gerada acima para inserir o titulo da pagina, imagens e inline styling
         templateText1 = re.sub(
             r'''<table border="1" class="dataframe">''', '''<h1 class="title">Distribuição por modalidade em cada ano e no total</h1>\n<div class="images" style="display: flex; width: 100%; padding-bottom: 2rem;"><img src="./src/b1.png" alt="" style="width:50%">\n<img src="./src/b2.png" alt="" style="width:50%">\n</div>\n<link rel="stylesheet" href="./main.css">\n<table border="1" class="dataframe">''', templateText1
         )
@@ -64,6 +67,7 @@ class b():
         file.close()
 
     def plotter(self, data1, data2):
+        # com os dados passados a esta função geramos os gráficos(recorrendo à library pandas e matplotlib)
         df1 = pd.DataFrame(data1)
         df1.plot(kind="bar")
         plt.savefig("./TP1/ex2/1/website/src/b1.png")

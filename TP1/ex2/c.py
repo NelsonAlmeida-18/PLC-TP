@@ -12,8 +12,8 @@ class c:
 
     def distByAgeAndGender(self, data):
         dist = {"<35": {}, ">=35": {}}
-        ageIndex = 5  # tentar generalizar estes indices com um interpretador
-        genderIndex = 6
+        ageIndex = 5  # indice da representação dos dados relativos à idade no array
+        genderIndex = 6  # indice da representação dos dados relativos ao género no array
         for person in data:
             ageRange = ">=35"
             if int(person[ageIndex]) < 35:
@@ -25,6 +25,8 @@ class c:
 
     def htmlGenerator(self, data1):
         file = open(f"./TP1/ex2/1/website/c.html", "w")
+        # através do dicionário criado acima, utilizamos a library pandas para através de um dataframe gerar a representação da tabela
+        # em html guardada numa variável para depois ser processada
         templateText = pd.DataFrame(data1).to_html()
         templateText = re.sub(
             r'''<table border="1" class="dataframe">''', '''<p class="title">Distribuição por idade e género</p>\n<div class="images" style="padding-bottom: 2rem;"><img src="./src/c.png" alt="">\n</div>\n<link rel="stylesheet" href="./main.css">\n<table border="1" class="dataframe">''', templateText)
@@ -32,6 +34,7 @@ class c:
         file.close()
 
     def plotter(self, data):
+        # com os dados passados a esta função geramos os gráficos(recorrendo à library pandas e matplotlib)
         df1 = pd.DataFrame(data)
         df1.plot(kind="bar")
         plt.savefig("./TP1/ex2/1/website/src/c.png")
