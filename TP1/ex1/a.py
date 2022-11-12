@@ -1,5 +1,4 @@
 import re
-import os
 
 
 class a:
@@ -14,6 +13,7 @@ class a:
                 processos, ano)
             processosPorData[ano] = processosNoAno
             processos = processosNoutrosAnos
+
         return processosPorData
 
     def filtraPorAno(self, processos, yearToFilter):

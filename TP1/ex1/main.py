@@ -46,7 +46,7 @@ class ex1:
         return processos
 
     def clearConsole(self, cOs):
-        if cOs == "windows":
+        if "windows" in cOs:
             os.system("cls")
         else:
             os.system("clear")
