@@ -4,11 +4,11 @@ import os
 import re
 
 
-class JScompiler:
+class Paulocompiler:
     def __init__(self):
         nameOfFile = input("Path for file: ")
         print(os.getcwd())
-        if (re.search(r"([a-zA-Z]|[0-9]|\/)*.js", nameOfFile, flags=re.IGNORECASE)):
+        if (re.search(r"([a-zA-Z]|[0-9]|\/)*.paulo", nameOfFile, flags=re.IGNORECASE)):
             self.compiler(nameOfFile)
         else:
             print("Invalid file extension")
@@ -19,4 +19,4 @@ class JScompiler:
         print(content)
 
 
-JScompiler()
+Paulocompiler()
