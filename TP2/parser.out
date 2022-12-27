@@ -1,1 +1,517 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    CHAPEU
+    DIBIDE
+    SOBRAS
+    SOMANBEZES
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> comentario
+Rule 2     programa -> variavel
+Rule 3     programa -> expr
+Rule 4     comentario -> COMENTARIO ABREPC ID FECHAPC
+Rule 5     variavel -> Decl
+Rule 6     Decl -> VAR ID
+Rule 7     Decl -> VAR ID COM FLOAT
+Rule 8     Decl -> VAR ID COM INT
+Rule 9     Decl -> VAR ID COM soma
+Rule 10    Decl -> VAR ID COM ID
+Rule 11    expr -> alteraVar
+Rule 12    expr -> soma
+Rule 13    expr -> sub
+Rule 14    alteraVar -> ALTERNA ID COM ID
+Rule 15    alteraVar -> ALTERNA ID COM soma
+Rule 16    alteraVar -> ALTERNA ID COM FLOAT
+Rule 17    alteraVar -> ALTERNA ID COM INT
+Rule 18    soma -> INT SOMA INT
+Rule 19    soma -> ID SOMA INT
+Rule 20    soma -> ID SOMA FLOAT
+Rule 21    soma -> ID SOMA ID
+Rule 22    soma -> FLOAT SOMA FLOAT
+Rule 23    soma -> FLOAT SOMA INT
+Rule 24    soma -> INT SOMA FLOAT
+Rule 25    sub -> INT MENUS INT
+Rule 26    sub -> FLOAT MENUS FLOAT
+Rule 27    sub -> FLOAT MENUS INT
+Rule 28    sub -> INT MENUS FLOAT
+
+Terminals, with rules where they appear
+
+ABREPC               : 4
+ALTERNA              : 14 15 16 17
+CHAPEU               : 
+COM                  : 7 8 9 10 14 15 16 17
+COMENTARIO           : 4
+DIBIDE               : 
+FECHAPC              : 4
+FLOAT                : 7 16 20 22 22 23 24 26 26 27 28
+ID                   : 4 6 7 8 9 10 10 14 14 15 16 17 19 20 21 21
+INT                  : 8 17 18 18 19 23 24 25 25 27 28
+MENUS                : 25 26 27 28
+SOBRAS               : 
+SOMA                 : 18 19 20 21 22 23 24
+SOMANBEZES           : 
+VAR                  : 6 7 8 9 10
+error                : 
+
+Nonterminals, with rules where they appear
+
+Decl                 : 5
+alteraVar            : 11
+comentario           : 1
+expr                 : 3
+programa             : 0
+soma                 : 9 12 15
+sub                  : 13
+variavel             : 2
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . comentario
+    (2) programa -> . variavel
+    (3) programa -> . expr
+    (4) comentario -> . COMENTARIO ABREPC ID FECHAPC
+    (5) variavel -> . Decl
+    (11) expr -> . alteraVar
+    (12) expr -> . soma
+    (13) expr -> . sub
+    (6) Decl -> . VAR ID
+    (7) Decl -> . VAR ID COM FLOAT
+    (8) Decl -> . VAR ID COM INT
+    (9) Decl -> . VAR ID COM soma
+    (10) Decl -> . VAR ID COM ID
+    (14) alteraVar -> . ALTERNA ID COM ID
+    (15) alteraVar -> . ALTERNA ID COM soma
+    (16) alteraVar -> . ALTERNA ID COM FLOAT
+    (17) alteraVar -> . ALTERNA ID COM INT
+    (18) soma -> . INT SOMA INT
+    (19) soma -> . ID SOMA INT
+    (20) soma -> . ID SOMA FLOAT
+    (21) soma -> . ID SOMA ID
+    (22) soma -> . FLOAT SOMA FLOAT
+    (23) soma -> . FLOAT SOMA INT
+    (24) soma -> . INT SOMA FLOAT
+    (25) sub -> . INT MENUS INT
+    (26) sub -> . FLOAT MENUS FLOAT
+    (27) sub -> . FLOAT MENUS INT
+    (28) sub -> . INT MENUS FLOAT
+
+    COMENTARIO      shift and go to state 5
+    VAR             shift and go to state 11
+    ALTERNA         shift and go to state 14
+    INT             shift and go to state 13
+    ID              shift and go to state 6
+    FLOAT           shift and go to state 12
+
+    programa                       shift and go to state 1
+    comentario                     shift and go to state 2
+    variavel                       shift and go to state 3
+    expr                           shift and go to state 4
+    Decl                           shift and go to state 7
+    alteraVar                      shift and go to state 8
+    soma                           shift and go to state 9
+    sub                            shift and go to state 10
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (1) programa -> comentario .
+
+    $end            reduce using rule 1 (programa -> comentario .)
+
+
+state 3
+
+    (2) programa -> variavel .
+
+    $end            reduce using rule 2 (programa -> variavel .)
+
+
+state 4
+
+    (3) programa -> expr .
+
+    $end            reduce using rule 3 (programa -> expr .)
+
+
+state 5
+
+    (4) comentario -> COMENTARIO . ABREPC ID FECHAPC
+
+    ABREPC          shift and go to state 15
+
+
+state 6
+
+    (19) soma -> ID . SOMA INT
+    (20) soma -> ID . SOMA FLOAT
+    (21) soma -> ID . SOMA ID
+
+    SOMA            shift and go to state 16
+
+
+state 7
+
+    (5) variavel -> Decl .
+
+    $end            reduce using rule 5 (variavel -> Decl .)
+
+
+state 8
+
+    (11) expr -> alteraVar .
+
+    $end            reduce using rule 11 (expr -> alteraVar .)
+
+
+state 9
+
+    (12) expr -> soma .
+
+    $end            reduce using rule 12 (expr -> soma .)
+
+
+state 10
+
+    (13) expr -> sub .
+
+    $end            reduce using rule 13 (expr -> sub .)
+
+
+state 11
+
+    (6) Decl -> VAR . ID
+    (7) Decl -> VAR . ID COM FLOAT
+    (8) Decl -> VAR . ID COM INT
+    (9) Decl -> VAR . ID COM soma
+    (10) Decl -> VAR . ID COM ID
+
+    ID              shift and go to state 17
+
+
+state 12
+
+    (22) soma -> FLOAT . SOMA FLOAT
+    (23) soma -> FLOAT . SOMA INT
+    (26) sub -> FLOAT . MENUS FLOAT
+    (27) sub -> FLOAT . MENUS INT
+
+    SOMA            shift and go to state 18
+    MENUS           shift and go to state 19
+
+
+state 13
+
+    (18) soma -> INT . SOMA INT
+    (24) soma -> INT . SOMA FLOAT
+    (25) sub -> INT . MENUS INT
+    (28) sub -> INT . MENUS FLOAT
+
+    SOMA            shift and go to state 20
+    MENUS           shift and go to state 21
+
+
+state 14
+
+    (14) alteraVar -> ALTERNA . ID COM ID
+    (15) alteraVar -> ALTERNA . ID COM soma
+    (16) alteraVar -> ALTERNA . ID COM FLOAT
+    (17) alteraVar -> ALTERNA . ID COM INT
+
+    ID              shift and go to state 22
+
+
+state 15
+
+    (4) comentario -> COMENTARIO ABREPC . ID FECHAPC
+
+    ID              shift and go to state 23
+
+
+state 16
+
+    (19) soma -> ID SOMA . INT
+    (20) soma -> ID SOMA . FLOAT
+    (21) soma -> ID SOMA . ID
+
+    INT             shift and go to state 25
+    FLOAT           shift and go to state 26
+    ID              shift and go to state 24
+
+
+state 17
+
+    (6) Decl -> VAR ID .
+    (7) Decl -> VAR ID . COM FLOAT
+    (8) Decl -> VAR ID . COM INT
+    (9) Decl -> VAR ID . COM soma
+    (10) Decl -> VAR ID . COM ID
+
+    $end            reduce using rule 6 (Decl -> VAR ID .)
+    COM             shift and go to state 27
+
+
+state 18
+
+    (22) soma -> FLOAT SOMA . FLOAT
+    (23) soma -> FLOAT SOMA . INT
+
+    FLOAT           shift and go to state 28
+    INT             shift and go to state 29
+
+
+state 19
+
+    (26) sub -> FLOAT MENUS . FLOAT
+    (27) sub -> FLOAT MENUS . INT
+
+    FLOAT           shift and go to state 30
+    INT             shift and go to state 31
+
+
+state 20
+
+    (18) soma -> INT SOMA . INT
+    (24) soma -> INT SOMA . FLOAT
+
+    INT             shift and go to state 32
+    FLOAT           shift and go to state 33
+
+
+state 21
+
+    (25) sub -> INT MENUS . INT
+    (28) sub -> INT MENUS . FLOAT
+
+    INT             shift and go to state 34
+    FLOAT           shift and go to state 35
+
+
+state 22
+
+    (14) alteraVar -> ALTERNA ID . COM ID
+    (15) alteraVar -> ALTERNA ID . COM soma
+    (16) alteraVar -> ALTERNA ID . COM FLOAT
+    (17) alteraVar -> ALTERNA ID . COM INT
+
+    COM             shift and go to state 36
+
+
+state 23
+
+    (4) comentario -> COMENTARIO ABREPC ID . FECHAPC
+
+    FECHAPC         shift and go to state 37
+
+
+state 24
+
+    (21) soma -> ID SOMA ID .
+
+    $end            reduce using rule 21 (soma -> ID SOMA ID .)
+
+
+state 25
+
+    (19) soma -> ID SOMA INT .
+
+    $end            reduce using rule 19 (soma -> ID SOMA INT .)
+
+
+state 26
+
+    (20) soma -> ID SOMA FLOAT .
+
+    $end            reduce using rule 20 (soma -> ID SOMA FLOAT .)
+
+
+state 27
+
+    (7) Decl -> VAR ID COM . FLOAT
+    (8) Decl -> VAR ID COM . INT
+    (9) Decl -> VAR ID COM . soma
+    (10) Decl -> VAR ID COM . ID
+    (18) soma -> . INT SOMA INT
+    (19) soma -> . ID SOMA INT
+    (20) soma -> . ID SOMA FLOAT
+    (21) soma -> . ID SOMA ID
+    (22) soma -> . FLOAT SOMA FLOAT
+    (23) soma -> . FLOAT SOMA INT
+    (24) soma -> . INT SOMA FLOAT
+
+    FLOAT           shift and go to state 39
+    INT             shift and go to state 40
+    ID              shift and go to state 38
+
+    soma                           shift and go to state 41
+
+state 28
+
+    (22) soma -> FLOAT SOMA FLOAT .
+
+    $end            reduce using rule 22 (soma -> FLOAT SOMA FLOAT .)
+
+
+state 29
+
+    (23) soma -> FLOAT SOMA INT .
+
+    $end            reduce using rule 23 (soma -> FLOAT SOMA INT .)
+
+
+state 30
+
+    (26) sub -> FLOAT MENUS FLOAT .
+
+    $end            reduce using rule 26 (sub -> FLOAT MENUS FLOAT .)
+
+
+state 31
+
+    (27) sub -> FLOAT MENUS INT .
+
+    $end            reduce using rule 27 (sub -> FLOAT MENUS INT .)
+
+
+state 32
+
+    (18) soma -> INT SOMA INT .
+
+    $end            reduce using rule 18 (soma -> INT SOMA INT .)
+
+
+state 33
+
+    (24) soma -> INT SOMA FLOAT .
+
+    $end            reduce using rule 24 (soma -> INT SOMA FLOAT .)
+
+
+state 34
+
+    (25) sub -> INT MENUS INT .
+
+    $end            reduce using rule 25 (sub -> INT MENUS INT .)
+
+
+state 35
+
+    (28) sub -> INT MENUS FLOAT .
+
+    $end            reduce using rule 28 (sub -> INT MENUS FLOAT .)
+
+
+state 36
+
+    (14) alteraVar -> ALTERNA ID COM . ID
+    (15) alteraVar -> ALTERNA ID COM . soma
+    (16) alteraVar -> ALTERNA ID COM . FLOAT
+    (17) alteraVar -> ALTERNA ID COM . INT
+    (18) soma -> . INT SOMA INT
+    (19) soma -> . ID SOMA INT
+    (20) soma -> . ID SOMA FLOAT
+    (21) soma -> . ID SOMA ID
+    (22) soma -> . FLOAT SOMA FLOAT
+    (23) soma -> . FLOAT SOMA INT
+    (24) soma -> . INT SOMA FLOAT
+
+    ID              shift and go to state 42
+    FLOAT           shift and go to state 44
+    INT             shift and go to state 45
+
+    soma                           shift and go to state 43
+
+state 37
+
+    (4) comentario -> COMENTARIO ABREPC ID FECHAPC .
+
+    $end            reduce using rule 4 (comentario -> COMENTARIO ABREPC ID FECHAPC .)
+
+
+state 38
+
+    (10) Decl -> VAR ID COM ID .
+    (19) soma -> ID . SOMA INT
+    (20) soma -> ID . SOMA FLOAT
+    (21) soma -> ID . SOMA ID
+
+    $end            reduce using rule 10 (Decl -> VAR ID COM ID .)
+    SOMA            shift and go to state 16
+
+
+state 39
+
+    (7) Decl -> VAR ID COM FLOAT .
+    (22) soma -> FLOAT . SOMA FLOAT
+    (23) soma -> FLOAT . SOMA INT
+
+    $end            reduce using rule 7 (Decl -> VAR ID COM FLOAT .)
+    SOMA            shift and go to state 18
+
+
+state 40
+
+    (8) Decl -> VAR ID COM INT .
+    (18) soma -> INT . SOMA INT
+    (24) soma -> INT . SOMA FLOAT
+
+    $end            reduce using rule 8 (Decl -> VAR ID COM INT .)
+    SOMA            shift and go to state 20
+
+
+state 41
+
+    (9) Decl -> VAR ID COM soma .
+
+    $end            reduce using rule 9 (Decl -> VAR ID COM soma .)
+
+
+state 42
+
+    (14) alteraVar -> ALTERNA ID COM ID .
+    (19) soma -> ID . SOMA INT
+    (20) soma -> ID . SOMA FLOAT
+    (21) soma -> ID . SOMA ID
+
+    $end            reduce using rule 14 (alteraVar -> ALTERNA ID COM ID .)
+    SOMA            shift and go to state 16
+
+
+state 43
+
+    (15) alteraVar -> ALTERNA ID COM soma .
+
+    $end            reduce using rule 15 (alteraVar -> ALTERNA ID COM soma .)
+
+
+state 44
+
+    (16) alteraVar -> ALTERNA ID COM FLOAT .
+    (22) soma -> FLOAT . SOMA FLOAT
+    (23) soma -> FLOAT . SOMA INT
+
+    $end            reduce using rule 16 (alteraVar -> ALTERNA ID COM FLOAT .)
+    SOMA            shift and go to state 18
+
+
+state 45
+
+    (17) alteraVar -> ALTERNA ID COM INT .
+    (18) soma -> INT . SOMA INT
+    (24) soma -> INT . SOMA FLOAT
+
+    $end            reduce using rule 17 (alteraVar -> ALTERNA ID COM INT .)
+    SOMA            shift and go to state 20
+

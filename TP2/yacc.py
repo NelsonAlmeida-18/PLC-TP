@@ -6,6 +6,7 @@ from lex import tokens
 
 def p_COMENTARIO(p):
     "COMENTARIO : COMENTARIO ABREPC ID FECHAPC"
+    p[0] = p[2]
 
 
 def p_VAR(p):
@@ -45,7 +46,5 @@ for linha in sys.stdin:
 
 parser.parse(fonte)
 
-if parser.exito:
-    print("Success")
-    print(f"Numero de vars criadas(total): {parser.idVar}")
-    print(f"Numero de vars criadas com valores: {parser.assignedVar}")
+print(f"Numero de vars criadas(total): {parser.idVar}")
+print(f"Numero de vars criadas com valores: {parser.assignedVar}")

@@ -7,6 +7,9 @@ var nomeDaVariavel
 criar variavel com valor:
 var nomeDaVariavel com valorDaVariavel
 
+alterar valor de uma variavel:
+alterna nomeDaVariavel com  novoValor
+
 condicional if:
 sera (condicao==logico) logo opcao1 senao opcao2
 
