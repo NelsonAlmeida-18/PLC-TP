@@ -12,8 +12,10 @@ class e:
             year = re.match("(([0-9]{1,4})-*)", data[0][2]).group(2)
             (ready, total), newData = self.readinessPerYear(data, year)
             readinessPerc = (ready/total)
-            readinessStats[year] = {"ready": float("{:.2f}".format(
-                100*readinessPerc)), "not_ready": float("{:.2f}".format(100*(1-readinessPerc)))}
+            readinessStats[year] = {
+                "ready": float("{:.2f}".format(100*readinessPerc)),
+                "not_ready": float("{:.2f}".format(100*(1-readinessPerc)))
+            }
             data = newData
         self.plotter(readinessStats)
         self.htmlGenerator(readinessStats)

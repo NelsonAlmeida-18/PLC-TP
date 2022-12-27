@@ -11,22 +11,22 @@ condicional if:
 sera (condicao==logico) logo opcao1 senao opcao2
 
 ciclo while-do:
-enquanto(condicao) faz ciclo 
+enquanto(condicao) faz ciclo
 
 ciclo for-do:
 faz x enquanto(condicao)
 
 operacoes aritméticas usuais:
 + -> soma
-- -> perdeste
+- -> menus
 / -> dibide
-* -> mula
-^ -> pau
+* -> somanbezes
+^ -> chapeu
 % -> sobras
 
 operacoes relacionais:
     Maior entre x e y:
-        maisGrande(x,y) 
+        maisGrande(x,y)
     Menor entre x e y:
         maisPiqueno(x,y)
     Verificar a igualdade entre x e y:
@@ -35,7 +35,7 @@ operacoes relacionais:
         maisGrandeOuGemeo(x,y)
     X menor ou igual que Y:
         maisPiquenoOuGemeo(x,y)
-    
+
 
 ler do stdin:
 entradas

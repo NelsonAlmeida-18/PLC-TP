@@ -1,0 +1,889 @@
+\documentclass[11pt,a4paper]{report}%especifica o tipo de documento que tenciona escrever: carta, artigo, relatório... neste caso é um relatório
+% [11pt,a4paper] Define o tamanho principal das letras do documento. caso não especifique uma delas, é assumido 10pt
+% a4paper -- Define o tamanho do papel.
+
+\usepackage[portuges]{babel}%Babel -- irá activar automaticamente as regras apropriadas de hifenização para a língua todo o
+                                   %-- o texto gerado é automaticamente traduzido para Português.
+                                   %  Por exemplo, “chapter” irá passar a “capítulo”, “table of contents” a “conteúdo”.
+                                   % portuges -- específica para o Português.
+\usepackage[utf8]{inputenc} % define o encoding usado texto fonte (input)--usual "utf8" ou "latin1
+
+\usepackage{graphicx} %permite incluir graficos, tabelas, figuras
+\usepackage{url} % para utilizar o comando \url{}
+\usepackage{enumerate} %permite escolher, nas listas enumeradas, se os iems sao marcados com letras ou s-romanos em vez de numeracao normal
+
+%\usepackage{apalike} % gerar biliografia no estilo 'named' (apalike)
+
+\usepackage{color} % Para escrever em cores
+
+\usepackage{multirow} %tabelas com multilinhas
+\usepackage{array} %formatação especial de tabelas em array
+
+\usepackage[pdftex]{hyperref} % transformar as referências internas do seu documento em hiper-ligações.
+
+%Exemplos de fontes -- nao e vulgar mudar o tipo de fonte
+%\usepackage{tgbonum} % Fonte de letra: TEX Gyre Bonum
+%\usepackage{lmodern} % Fonte de letra: Latin Modern Sans Serif
+%\usepackage{helvet}  % Fonte de letra: Helvetica
+%\usepackage{charter} % Fonte de letra:Charter
+
+\definecolor{saddlebrown}{rgb}{0.55, 0.27, 0.07} % para definir uma nova cor, neste caso 'saddlebrown'
+
+\usepackage{listings}  
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codeblue}{rgb}{0,0,255}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{codefirebrick}{rgb}{160,0,0}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{codefirebrick},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codeblue},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\usepackage{xspace} % deteta se a seguir a palavra tem uma palavra ou um sinal de pontuaçao se tiver uma palavra da espaço, se for um sinal de pontuaçao nao da espaço
+
+\usepackage{hyperref}
+
+\parindent=0pt %espaço a deixar para fazer a  indentação da primeira linha após um parágrafo
+\parskip=2pt % espaço entre o parágrafo e o texto anterior
+
+\setlength{\oddsidemargin}{-1cm} %espaço entre o texto e a margem
+\setlength{\textwidth}{18cm} %Comprimento do texto na pagina
+\setlength{\headsep}{-1cm} %espaço entre o texto e o cabeçalho
+\setlength{\textheight}{23cm} %altura do texto na pagina
+
+% comando '\def' usado para definir abreviatura (macros)
+% o primeiro argumento é o nome do novo comando e o segundo entre chavetas é o texto original, ou sequência de controle, para que expande
+\def\darius{\textsf{Darius}\xspace}
+\def\antlr{\texttt{AnTLR}\xspace}
+\def\pe{\emph{Publicação Eletrónica}\xspace}
+\def\titulo#1{\section{#1}}    %no corpo do documento usa-se na forma '\titulo{MEU TITULO}'
+\def\super#1{{\em Supervisor: #1}\\ }
+\def\area#1{{\em \'{A}rea: #1}\\[0.2cm]}
+\def\resumo{\underline{Resumo}:\\ }
+
+
+
+
+
+\title{Processamento de Linguagens e Compiladores (3º Ano)\\
+       \textbf{Trabalho Prático 1}\\ Relatório de Desenvolvimento
+       }
+\author{Bruno Fernandes\\ (a95972)\\\\ \includegraphics[width=4cm]{Imagens/Bruno} \and Nelson Almeida\\ (a95652)\\\\ \includegraphics[width=4cm]{Imagens/Nelson}
+         \and Nuno Costa\\ (a97610)\\\\ \includegraphics[width=4cm]{Imagens/Nuno}
+       }
+\date{01/11/2022}
+
+\begin{document} % corpo do documento
+\maketitle % apresentar titulo, autor e data
+
+
+\tableofcontents
+
+
+\chapter{Introdução} \label{chap:intro} %referência cruzada
+No âmbito da disciplina de Processamentos de Linguagens e Compiladores foi-nos proposto pelo docente Pedro Rangel Henriques um trabalho de pesquisa cujo objetivo principal é consolidar a aprendizagem da utilização de linguagens regulares em programas em linguagem Python.
+\\
+\\
+Decidimos então resolver os exercícios 1 e 2.
+\\
+O exercício 1 tem como intuito a construção de vários programas em Python para processar o ficheiro de texto "processos.txt" com a intenção de calcular as frequências de alguns elemetos pedidos ao longo do exercício.
+\\
+O exercício 2 tem como objetivo a construção de vários programas para processar o dataset "emd.csv" e produzir o que é solicitado durante o exercício.
+\\
+\\
+Neste documento apresentamos a nossa resolução para cada um dos problemas.
+
+
+\newpage
+
+
+\section*{Estrutura do Relatório}
+O relatório está organizado da seguinte forma:\\
+Começamos por fazer uma pequena introdução, capítulo 1, onde referimos o objetivo deste trabalho e explicamos resumidamente o intuito de cada problema que decidimos resolver.\\
+No capítulo 2 aprensentamos o enunciado dos problemas escolhidos.\\
+O capítulo 3 contém a resolução do primeiro problema e no 4 a resolução do segundo.\\
+No capítulo 5 mostramos os resultados obtidos.\\
+E, por fim, o ultimo capítulo contém a conclusão do trabalho realizado.
+
+
+
+\newpage
+
+
+
+\chapter{Análise e Especificações}
+
+\section{Processador de Pessoas listadas nos Róis de Confessados}
+Construa agora um ou vários programas Python para processar o texto 'processos.txt' com o intuito de calcular frequências de alguns elementos (a ideia é utilizar arrays associativos para o efeito) conforme solicitado a seguir:
+\begin{enumerate}[a)]
+	\item Calcula a frequência de processos por ano (primeiro elemento da data);
+	\item Calcula a frequência de nomes próprios (o primeiro em cada nome) e apelidos (o ultimo em cada nome) por séculos;
+	\item Calcula a frequência dos vários tipos de relação: irmão, sobrinho, etc.
+	\item Imprimir os 20 primeiros registos num novo cheiro de output mas em formato Json.
+\end{enumerate}
+
+
+\section{Processador de Registos de Exames Médicos Desportivos}
+Neste exercício pretende-se trabalhar com um dataset gerado no âmbito do registo de exames médicos desportivos.
+Construa, então, um ou vários programas Python para processar o dataset "emd.csv" e produzir o solicitado nas alíneas seguintes:
+\begin{enumerate}[1.]
+	\item Página principal: de nome "index.html", contendo os seguintes indicadores estatísticos:
+	\begin{enumerate}[a)]
+		\item Datas extremas dos registos no dataset;
+		\item Distribuição por modalidade em cada ano e no total;
+		\item Distribuição por idade e género (para a idade, considera apenas 2 escalões: < 35 anos e >= 35);
+		\item Distribuição por morada;
+		\item Percentagem de aptos e não aptos por ano.
+	\end{enumerate}
+	\item Página do indicador: clicando no indicador na página principal, devemos saltar para a página do indicador
+	onde temos a informação que permitiu obter esse indicador. Por exemplo, para a distribuição por morada,
+	a página deverá apresentar uma lista de moradas, ordenada alfabeticamente e para cada morada deverá
+	apresentar uma sublista de registos, ordenada alfabeticamente por nome de atleta (com os dados: nome do
+	atleta, modalidade).
+\end{enumerate}
+
+
+
+\chapter{Resolução do Exercício 1}
+
+Inicialmente criamos um ficheiro principal "main.py", onde instalamos os packages necessários para a execução do programa pedindo ao utilizador o caminho (path) para o ficheiro que pretende utilizar, tendo como pré-definido o ficheiro "processos.txt".
+Neste mesmo ficheiro criamos a função "parser", que recebe como parâmetro o ficheiro pretendido, gerando um conjuntos de arrays com o conteúdo do mesmo que será usado posteriormente para cada uma das 4 alíneas.
+
+\begin{enumerate}[a)]
+	\item Para resolver a primeira alínea, desenvolvemos o seguinte código para calcular a frequência de processos por ano.
+	\begin{lstlisting}[language=python]
+		def __init__(self, processos):
+			print(self.processesPerTimeSpan(processos))
+		
+		def processesPerTimeSpan(self, processos):
+			processosPorData = {}
+			while (processos != []):
+				ano = re.match("(([0-9]{1,4})-*)", processos[0][1]).group(2)
+			processosNoAno, processosNoutrosAnos = self.filtraPorAno(processos, ano)
+			processosPorData[ano] = processosNoAno
+			processos = processosNoutrosAnos
+			return processosPorData
+		
+		def filtraPorAno(self, processos, yearToFilter):
+			procPerYear = 0
+			processosNoutrosAnos = []
+			for pessoa in processos:
+				flag = 0
+				for elem in pessoa:
+					if re.search(yearToFilter+r"-[0-9]{2}-[0-9]{1,2}", elem):
+						flag = 1
+				if flag == 1:
+					procPerYear += 1
+				else:
+					processosNoutrosAnos.append(pessoa)
+			return (procPerYear, processosNoutrosAnos)
+	\end{lstlisting}
+	
+	Começamos por criar uma função "processesPerTimeSpan" para obter um dicionário com  a frequência de processos para cada ano.\\
+	Para descobrir cada ano fizemos uso da função match com a expressão regular \textbf{"(([0-9]\{1,4\})-*)"} e invocamos a função auxiliar "filtraPorAno".
+	\begin{lstlisting}[language=python]
+		while (processos != []):
+			ano = re.match("(([0-9]{1,4})-*)", processos[0][1]).group(2)
+			processosNoAno, processosNoutrosAnos = self.filtraPorAno(processos, ano)
+	\end{lstlisting}
+	
+	A função auxiliar "filtraPorAno" tem como resultado o número de processos do ano passado como argumento e uma lista contendo todos os processos restantes existentes no ficheiro.\\
+	Assim sendo, para cada processo utilizamos a função search com a expressão regular \textbf{"\--[0-9]\{2\}-[0-9]\{1,2\}"} para encontrar todas as datas desse ano passado com argumento.
+	\begin{lstlisting}[language=python]
+		for pessoa in processos:
+			flag = 0
+			for elem in pessoa:
+				if re.search(yearToFilter+r"-[0-9]{2}-[0-9]{1,2}", elem):
+					flag = 1
+			if flag == 1:
+				procPerYear += 1
+			else:
+				processosNoutrosAnos.append(pessoa)
+	\end{lstlisting}
+	
+	
+	\newpage
+	
+	
+	\item Para a resolução desta alínea, desenvolvemos o seguinte código de modo a obter a frequência de nomes próprios e apelidos por século.
+	\begin{lstlisting}[language=python]
+		def __init__(self, processos):
+			print(self.nomesPorSeculo(processos))
+		
+		def nomesPorSeculo(self, processos):
+			dic = {"firstNames": {}, "lastNames": {}}
+			for processo in processos:
+				ano = re.match("(([0-9]{1,4})-*)", processo[1]).group(2)
+				sec = int(ano)//100 + 1
+				if sec not in dic["firstNames"]:
+					dic["firstNames"][sec] = {}
+					dic["lastNames"][sec] = {}
+				i = 2
+				while (i <= 4):
+					names = re.split(" ", processo[i])
+					fstName = names[0]
+					lastName = names[-1]
+					if fstName not in dic["firstNames"][sec]:
+						dic["firstNames"][sec][fstName] = 0
+					if lastName not in dic["lastNames"][sec]:
+						dic["lastNames"][sec][lastName] = 0
+					dic["firstNames"][sec][fstName] += 1
+					dic["lastNames"][sec][lastName] += 1
+					i += 1
+			return dic
+	\end{lstlisting}
+
+	Começamos por criar uma função "nomesPorSeculo" com o objetivo de obter um dicionário com duas chaves, uma para os nomes próprios e a outra para os apelidos.\\
+	Para tal começamos por encontrar o ano em cada processo usando a função match e a expressão regular \textbf{"(([0-9]\{1,4\})-*)"} e deste modo sabemos a que século pertence esse ano adicionando-o,caso nao exista, ao dicionário.
+	\begin{lstlisting}[language=python]
+			for processo in processos:
+				ano = re.match("(([0-9]{1,4})-*)", processo[1]).group(2)
+				sec = int(ano)//100 + 1
+				if sec not in dic["firstNames"]:
+					dic["firstNames"][sec] = {}
+					dic["lastNames"][sec] = {}
+	\end{lstlisting}
+	Para obter o nome próprio e o apelido recorremos à separação dos nomes de cada pessoa por utilizando a função split, partindo-os nomes pelos espaços existentes entre cada um.\\
+	Após isso adicionamos os nomes próprios e apelidos aos respetivos séculos.
+	\begin{lstlisting}[language=python]
+		names = re.split(" ", processo[i])
+		fstName = names[0]
+		lastName = names[-1]
+		if fstName not in dic["firstNames"][sec]:
+			dic["firstNames"][sec][fstName] = 0
+		if lastName not in dic["lastNames"][sec]:
+			dic["lastNames"][sec][lastName] = 0
+		dic["firstNames"][sec][fstName] += 1
+		dic["lastNames"][sec][lastName] += 1
+	\end{lstlisting}
+	
+	
+	\newpage
+	
+	
+	\item Para a resolução deste problema, desenvolvemos o código que se segue e calcula a frequência dos vários tipos de relação.
+	
+	\begin{lstlisting}[language=python]
+		def __init__(self, processos):
+			print(self.tiposParentesco(processos))
+		
+		def tiposParentesco(self, pessoas):
+			tipos = {}
+			for pessoa in pessoas:
+				for elem in pessoa:
+					parent = re.findall(r'(?<=[a-z]\,)([PMTISANB][A-Za-z ]+|Filho|Filhos)(?=\.)', elem)
+					for x in parent:
+						if x in tipos.keys():
+							tipos[x] = tipos.get(x, 0) + 1
+						else:
+							tipos[x] = 1
+	\end{lstlisting}
+	Começamos por criar uma função "tiposParentesco" que tem como retorno um dicionário que a cada tipo de parentesco associa o número de vezes que o mesmo aparece no ficheiro "processos.txt".\\
+	Primeiramente começamos por identificar cada grau de parentesco encontrado no ficheiro. E visto que podem existir mais do que um por cada pessoa, recorremos à função findall com a expressão regular \textbf{"(?$<=$[a-z]$\backslash$,)([PMTISANB][A-Za-z ]+$|$Filho$|$Filhos)(?=$\backslash$.)}".
+	\begin{lstlisting}[language=python]
+		tipos = {}
+		for pessoa in pessoas:
+			for elem in pessoa:
+				parent = re.findall(r'(?<=[a-z]\,)([PMTISANB][A-Za-z ]+|Filho|Filhos)(?=\.)', elem)   
+	\end{lstlisting}
+	
+	
+	\newpage
+	
+	
+	\item Para a resolução da última alínea, pretendiamos imprimir os 20 primeiros registos num novo ficheiro de output mas em formato Json e para tal desenvolvemos o código abaixo.\\
+	
+	\begin{lstlisting}[language=python]
+		def __init__(self, processos, limit):
+			if (self.jsonFormatter(processos[0:limit])):
+				print("Ficheiro criado com sucesso")
+			else:
+				print("Ocorreu um erro a criar o ficheiro")
+		
+		def jsonFormatter(self, pessoas):
+			file = open("./TP1/ex1/rois.json", "w")
+			file.write("{\"data\":[")
+			templateJson = '''{"folder_id":#,"date":#,"name":#,"father":#,"mother":#,"obs":#}'''
+			pos = 0
+			for pessoa in pessoas:
+				pessoa.append("")
+				person = templateJson
+				for i in pessoa:
+					person = re.sub("#", f"\"{i}\"", person, count=1)
+				if (pos < len(pessoas)-1):
+					file.write(person+",\n")
+				else:
+					file.write(person)
+				pos += 1
+			file.write("]}")
+			file.close()
+			return True   
+	\end{lstlisting}
+	Inicialmente criamos a função "jsonFormatter" que irá retornar o novo output em formato Json.\\
+	Esta função começa por escrever de acordo com o template Json no ficheiro criado por nós "rois.json" e retornar em caso de sucesso "Ficheiro criado com sucesso".
+
+\end{enumerate}
+
+
+\newpage
+
+
+\chapter{Resolução do Exercício 2}
+
+Começamos por criar um ficheiro principal "main.py" onde se começa instala os packages necessários para a execução do programa e pede ao utilizador o path para o ficheiro que pretende utilizar, tendo como pré-definido o ficheiro "emd.csv".
+Com a função "parser" recebendo como parâmetro o ficheiro pretendido, obtemos um conjuntos de arrays com o conteúdo do mesmo que é usado posteriormente para cada uma das 5 alíneas.
+
+\begin{enumerate}
+	\item Para exercício 1 criamos um ficheiro "index.html" que faz referência às restantes alíneas.\\
+	\begin{lstlisting}[language=html]
+		<!DOCTYPE html>
+		<html lang="en">
+		<head>
+			<meta charset="UTF-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<title>Ex2 TP1 PLC</title>
+			<link rel="stylesheet" href="main.css">
+		</head>
+		<body>
+			<div className="mainBar" style="padding-top: 50vh;">
+				<a href="a.html">A</a>
+				<a href="b.html">B</a>
+				<a href="c.html">C</a>
+				<a href="d.html">D</a>
+				<a href="e.html">E</a>
+			</div>
+		</body>
+		</html>
+	\end{lstlisting}
+	Para as alíneas b), c), d), e) e f) utilizamos a biblioteca "pandas" para fazer a função "htmlGenerator" para através de um dataframe gerar a representação da tabela em html, esta é guardada numa variável para depois ser processada.\\
+	Utilizamos também a biblioteca "matplotlib" para podermos gerar gráficos.\\
+	Para adicionar o título da pagina, os gráficos gerados e o "inline styling" ao codigo HTML gerado, utilizamos o re.sub que faz a substituição da tag table gerada por o que pretendemos adicionar.
+		
+	\newpage
+	
+	\begin{enumerate}[a)]
+		\item Para resolver a primeira alínea, criamos um array com todas as datas do ficheiro selecionado e determinamos o mínimo e o máximo deste.\\
+		\begin{lstlisting}[language=python]
+		def a(self, file):
+			datas = [i[2] for i in file]
+			file = open("./TP1/ex2/1/website/a.html", "w")
+			templateText = 
+				'''<!DOCTYPE html >
+				<html lang = "en" >
+				<head >
+					<meta charset = "UTF-8" >
+					<meta http-equiv = "X-UA-Compatible" 	content = "IE=edge" >
+					<meta name = "viewport" content = "width=device-width, initial-scale=1.0" >
+					<title >a</title >
+					<link rel="stylesheet" href="./main.css">
+				</head >
+				<body >
+				</body >
+				</html >'''
+			newText = re.sub(
+				"<body >", f'''\n<body >\n<p class="title">Datas extremas dos registos no dataset</p>\n<p class="minData">Extremo inferior do dataset: {min(datas)}</p>\n<p class="maxData">Extremo superior do dataset: {max(datas)}</p>''', templateText)
+			file.write(newText)
+			file.close()
+		\end{lstlisting}
+	
+		\newpage
+		
+		\item Para a resolução da alínea b) e assim determinar a distribuição por modalidade em cada ano e no total, desenvolvemos o seguinte código.\\
+		\begin{lstlisting}[language=python]	
+				def b(self, data):
+					sportsPerYear, totalSports = self.sportsPerYearandTotal(data)
+					indexes = sorted(sportsPerYear)
+					sportsPerYear = {i: sportsPerYear[i] for i in indexes}
+					totalSports = dict(sorted(totalSports.items(), key=lambda x: x[1]))
+					self.plotter(sportsPerYear, totalSports)
+					self.htmlGenerator(sportsPerYear, totalSports)
+				
+				def sportsPerYearandTotal(self, data):
+					sportsPerYear = {}
+					totalSports = {}
+					while (data):
+						year = re.match("(([0-9]{1,4})-*)", data[0][2]).group(2)
+						sportsYear, updatedData = self.sportsPerYear(data, year)
+						sportsPerYear[year] = sportsYear
+						data = updatedData
+				
+					for year in sportsPerYear:
+						for sport in sportsPerYear[year]:
+							if sport not in totalSports:
+								totalSports[sport] = 0
+							totalSports[sport] += sportsPerYear[year][sport]
+					return sportsPerYear, totalSports
+				
+				def sportsPerYear(self, data, yearToFilter):
+					sportsPerY = {}
+					newData = []
+					for person in data:
+						if re.match(yearToFilter+r"(-[0-9]{1,2}){2}", person[2]):
+							sport = person[8]
+							if sport not in sportsPerY:
+								sportsPerY[sport] = 0
+							sportsPerY[sport] += 1
+						else:
+							newData.append(person)
+					return sportsPerY, newData
+				
+				def htmlGenerator(self, data1, data2):
+					file = open(f"./TP1/ex2/1/website/b.html", "w")
+					templateText1 = pd.DataFrame(data1).to_html()
+					templateText1 = re.sub( 
+						r'''<table border="1" class="dataframe">''', '''<h1 class="title">Distribuição por modalidade em cada ano e no total</h1>\n<div class="images" style="display: flex; width: 100%; padding-bottom: 2rem;"><img src="./src/b1.png" alt="" style="width:50%">\n<img src="./src/b2.png" alt="" style="width:50%">\n</div>\n<link rel="stylesheet" href="./main.css">\n<table border="1" class="dataframe">''', templateText1
+					)
+					file.write(templateText1)
+					templateText2 = pd.DataFrame(data2, index=["Praticantes"]).to_html()
+					file.write(templateText2)
+					file.close()
+				
+				def plotter(self, data1, data2):
+					df1 = pd.DataFrame(data1)
+					df1.plot(kind="bar")
+					plt.savefig("./TP1/ex2/1/website/src/b1.png")
+					df2 = pd.DataFrame(data2, index=["Praticantes"])
+					df2.plot(kind="bar")
+					plt.savefig("./TP1/ex2/1/website/src/b2.png")
+		\end{lstlisting}
+		
+		Começamos por criar a função auxiliar "sportsPerYearandTotal" para obtermos dois dicionários, um com os desportos distribuídos por anos e outro com todos os desportos existentes no ficheiro.\\
+		Para cada pessoa existente no ficheiro utilizamos o match com a expressão regular \textbf{"(([0-9]{1,4})-*)"} para encontrar o ano que vai ser utilizado como parâmetro em outra função auxiliar "sportsPerYear".
+		\begin{lstlisting}[language=python]	
+			year = re.match("(([0-9]{1,4})-*)", data[0][2]).group(2)
+			sportsYear, updatedData = self.sportsPerYear(data, year)
+		\end{lstlisting}
+		Na função "sportsPerYear" começamos por criar um dicionário com os desportos existentes nesse ano e a sua frequência.
+		\begin{lstlisting}[language=python]	
+			if re.match(yearToFilter+r"(-[0-9]{1,2}){2}", person[2]):
+				sport = person[8]
+				if sport not in sportsPerY:
+					sportsPerY[sport] = 0
+				sportsPerY[sport] += 1
+		\end{lstlisting}
+		E um array onde vão ser adicionados apenas os dados relativos aos restantes anos (diferentes do ano passado como parâmetro), para assim, evitar repetições e garantir um melhor controlo.
+		\begin{lstlisting}[language=python]	
+			else:
+				newData.append(person)
+		\end{lstlisting}
+		No fim vão ser retornados o dicionário "sportsPerY" e o array "newData" que são utilizados para atualizar o dicionário "sportsPerYear" e os dados do array "data" do método anterior.
+		\begin{lstlisting}[language=python]	
+			sportsPerYear[year] = sportsYear
+			data = updatedData
+		\end{lstlisting}
+		Por último, com os dados colecionados no dicionário "sportsPerYear", soma o número de desportistas para cada ano e para cada desporto e coleciona no dicionário de "totalSports".
+		\begin{lstlisting}[language=python]	
+			for year in sportsPerYear:
+				for sport in sportsPerYear[year]:
+					if sport not in totalSports:
+						totalSports[sport] = 0
+					totalSports[sport] += sportsPerYear[year][sport]
+		\end{lstlisting}
+		
+		\newpage
+		
+		\item Para a resolução da alínea c) e assim determinar a distribuição por idade e género, desenvolvemos o seguinte código.
+		\begin{lstlisting}[language=python]	
+			def c(self, processos):
+				data = processos[1:]  # aqui ficam tudo menos os indicadores
+				data = self.distByAgeAndGender(data)
+				self.plotter(data)
+				self.htmlGenerator(data)
+			
+			def distByAgeAndGender(self, data):
+				dist = {"<35": {}, ">=35": {}}
+				ageIndex = 5
+				genderIndex = 6
+				for person in data:
+					ageRange = ">=35"
+					if int(person[ageIndex]) < 35:
+						ageRange = "<35"
+					if person[genderIndex] not in dist[ageRange]:
+						dist[ageRange][person[genderIndex]] = 0
+					dist[ageRange][person[genderIndex]] += 1
+			return dist
+			
+			def htmlGenerator(self, data1):
+				file = open(f"./TP1/ex2/1/website/c.html", "w")
+				templateText = pd.DataFrame(data1).to_html()
+				templateText = re.sub(
+					r'''<table border="1" class="dataframe">''', '''<p class="title">Distribuição por idade e género</p>\n<div class="images" style="padding-bottom: 2rem;"><img src="./src/c.png" alt="">\n</div>\n<link rel="stylesheet" href="./main.css">\n<table border="1" class="dataframe">''', templateText)
+				file.write(templateText)
+				file.close()
+			
+			def plotter(self, data):
+				df1 = pd.DataFrame(data)
+				df1.plot(kind="bar")
+				plt.savefig("./TP1/ex2/1/website/src/c.png")
+		\end{lstlisting}
+	
+		Criamos a função auxiliar "distByAgeAndGender" que começa por criar um dicionário onde vão ser guardadas as informações, vai percorrer cada pessoa do ficheiro, verificar se a sua idade é maior ou menor que 35 anos, verificar o género dessa pessoa e incrementar na contação.
+		
+		\newpage
+		
+		\item Para a resolução da alínea d) e assim determinar a distribuição por morada, desenvolvemos o seguinte código.
+		\begin{lstlisting}[language=python]
+			def d(self, processos):
+				data = processos[1:]
+				data = self.distByAddress(data)
+				self.plotter(data)
+				self.htmlGenerator(data)
+			
+			def distByAddress(self, data):
+				distByAddress = {}
+				for person in data:
+					address = person[7]
+					if address not in distByAddress:
+						distByAddress[address] = 0
+						distByAddress[address] += 1
+				return distByAddress
+			
+			def htmlGenerator(self, data1):
+				file = open(f"./TP1/ex2/1/website/d.html", "w")
+				templateText = pd.DataFrame(data1, index=[""]).to_html()
+				templateText = re.sub(
+					r'''<table border="1" class="dataframe">''', '''<p class="title">Distribuição por morada</p>\n<div class="images" style="padding-bottom: 2rem;"><img src="./src/d.png" alt="">\n</div>\n<link rel="stylesheet" href="./main.css">\n<table border="1" class="dataframe">''', templateText
+				)
+				file.write(templateText)
+				file.close()
+			
+			def plotter(self, data):
+				if len(data) >= 50:
+					df1 = pd.DataFrame(data, index=[""])
+					df1.plot(kind="bar")
+					plt.savefig("./TP1/ex2/1/website/src/d.png")
+				else:
+					df1 = pd.DataFrame(data, index=[""])
+					df1.plot(kind="bar")
+					plt.savefig("./TP1/ex2/1/website/src/d.png")
+		\end{lstlisting}
+	
+		Criamos a função auxiliar "distByAddress" que começa por criar um dicionário onde vão ser guardadas as informaçõe, vai percorrer cada pessoa do ficheiro, adicionar ao dicionário a sua morada caso esta não exista e incrementar o número de pessoas que vivem nessa morada.
+		
+		\newpage
+		
+		\item Para a resolução da alínea e) e assim determinar a percentagem de pessoas aptas e não aptas por ano, desenvolvemos o seguinte código.
+		\begin{lstlisting}[language=python]
+			def e(self, data):
+				data = data[1:]
+				readinessStats = {}
+				while (data):
+					year = re.match("(([0-9]{1,4})-*)", data[0][2]).group(2)
+					(ready, total), newData = self.readinessPerYear(data, year)
+					readinessPerc = (ready/total)
+					readinessStats[year] = {
+						"ready": float("{:.2f}".format(100*readinessPerc)),
+						"not_ready": float("{:.2f}".format(100*(1-readinessPerc)))
+					}
+					data = newData
+				self.plotter(readinessStats)
+				self.htmlGenerator(readinessStats)
+			
+			def readinessPerYear(self, data, year):
+				ready = 0
+				total = 0
+				newData = []
+				for person in data:
+					if re.match(year+r"(-[0-9]{1,2}){2}", person[2]):
+						if person[-1] == "true":
+							ready += 1
+						total += 1
+					else:
+						newData.append(person)
+				return (ready, total), newData
+			
+			def htmlGenerator(self, data1):
+				file = open(f"./TP1/ex2/1/website/e.html", "w")
+				templateText = pd.DataFrame(data1).to_html()
+				templateText = re.sub(
+					r'''<table border="1" class="dataframe">''', '''<p class="title">Percentagem de aptos e não aptos por ano</p>\n<div class="images" style="padding-bottom: 2rem;"><img src="./src/e.png" alt="">\n</div>\n<link rel="stylesheet" href="main.css">\n<table border="1" class="dataframe">''', templateText
+				)
+				file.write(templateText)
+				file.close()
+			
+			def plotter(self, data):
+				df1 = pd.DataFrame(data)
+				df1.plot(kind="bar")
+				plt.savefig("./TP1/ex2/1/website/src/e.png")
+		\end{lstlisting}
+	
+		Começamos por percorrer cada pessoa do ficheiro e utilizando o match com a expressão regular \textbf{"(([0-9]{1,4})-*)"} encontrar o ano que vai ser utilizado como parâmetro na função auxiliar "readinessPerYear".
+		\begin{lstlisting}[language=python]
+			year = re.match("(([0-9]{1,4})-*)", data[0][2]).group(2)
+			(ready, total), newData = self.readinessPerYear(data, year)
+		\end{lstlisting}
+		Esta função "readinessPerYear" começa por criar duas variáveis "ready" e "total" que vão servir para saber o número de pessoas aptas e o total de pessoas, respetivamente, e um array onde vão ser adicionados apenas os dados relativos aos restantes anos (diferentes do ano passado como parâmetro), para assim, evitar repetições e garantir um melhor controlo.\\
+		Começamos por percorrer cada pessoa, verificar se o ano coincide com ano passado como parâmetro, incrementar na variavél "ready" se tal se verificar e essa pessoa estiver apta.
+		\begin{lstlisting}[language=python]
+			if re.match(year+r"(-[0-9]{1,2}){2}", person[2]):
+				if person[-1] == "true":
+					ready += 1
+				total += 1
+		\end{lstlisting}
+	
+		Na função principal, depois de receber o número de pessoas aptas e no total nesse ano, são calculadas as porcentagens de atletas aptos e não aptos e colocadas no dicionário. Posteriormente os dados são atualizados.
+		\begin{lstlisting}[language=python]
+			readinessPerc = (ready/total)
+			readinessStats[year] = {
+				"ready": float("{:.2f}".format(100*readinessPerc)),
+				"not_ready": float("{:.2f}".format(100*(1-readinessPerc)))
+			}
+			data = newData
+		\end{lstlisting}
+		
+	\end{enumerate}
+	
+\end{enumerate}
+
+
+
+\chapter{Testes e Resultados obtidos}
+
+\section{Problema 1}
+
+\subsection{Frequência de Processos Por Ano}
+
+\includegraphics[width=18cm]{Imagens/"1aPrint"}
+
+\subsection{Frequência de nomes próprios e apelidos por séculos}
+
+\includegraphics[width=18cm]{Imagens/"1bPrint"}
+
+\subsection{Frequência dos vários tipos de relação}
+
+\includegraphics[width=18cm]{Imagens/"1cPrint"}
+
+\subsection{Imprimir os 20 primeiros registos em formatos Json}
+
+\begin{lstlisting}
+	{
+		"data": [
+		{
+			"folder_id": "575",
+			"date": "1894-11-08",
+			"name": "Aarao Pereira Silva",
+			"father": "Antonio Pereira Silva",
+			"mother": "Francisca Campos Silva",
+			"obs": ""
+		},
+		{
+			"folder_id": "582",
+			"date": "1909-05-12",
+			"name": "Abel Almeida",
+			"father": "Antonio Manuel Almeida",
+			"mother": "Teresa Maria Sousa",
+			"obs": ""
+		},
+		{
+			"folder_id": "569",
+			"date": "1867-05-23",
+			"name": "Abel Alves Barroso",
+			"father": "Antonio Alves Barroso",
+			"mother": "Maria Jose Alvares Barroso",
+			"obs": "Bento Alvares Barroso,Tio Paterno. Proc.32057.   Domingos Jose Alvares Barroso,Tio Materno. Proc.32235."
+		},
+		{
+			"folder_id": "576",
+			"date": "1896-11-28",
+			"name": "Abel Augusto Oliveira",
+			"father": "Francisco Jose Oliveira",
+			"mother": "Antonia Rosa Rebelo",
+			"obs": "Jose Antonio Oliveira,Irmao. Proc.5020."
+		},
+		{
+			"folder_id": "579",
+			"date": "1904-05-27",
+			"name": "Abel Gomes Abreu Reis",
+			"father": "Antonio Gomes Abreu",
+			"mother": "Ana Sequeira Reis",
+			"obs": ""
+		},
+		{
+			"folder_id": "579",
+			"date": "1904-05-21",
+			"name": "Abel Marques Reis",
+			"father": "Jose Joaquim Marques Reis",
+			"mother": "Bernardina Dantas",
+			"obs": ""
+		},
+		{
+			"folder_id": "578",
+			"date": "1901-11-12",
+			"name": "Abel Martins Pereira",
+			"father": "Serafim Martins Pereira",
+			"mother": "Emilia Goncalves",
+			"obs": ""
+		},
+		{
+			"folder_id": "572",
+			"date": "1883-02-01",
+			"name": "Abel Pedro Pereira Freitas",
+			"father": "Joao Freitas Oliveira",
+			"mother": "Cecilia Rosa Pereira",
+			"obs": ""
+		},
+		{
+			"folder_id": "578",
+			"date": "1900-08-30",
+			"name": "Abel Silva Carvalho",
+			"father": "Constantino Silva Rego",
+			"mother": "Margarida Rosa Carvalho",
+			"obs": ""
+		},
+		{
+			"folder_id": "575",
+			"date": "1894-04-30",
+			"name": "Abelardo Jose Cerqueira Araujo",
+			"father": "Jose Maria Araujo",
+			"mother": "Leopoldina Cerqueira Ribeiro Araujo",
+			"obs": ""
+		},
+		{
+			"folder_id": "575",
+			"date": "1894-04-30",
+			"name": "Abelardo Jose Cerqueira Araujo",
+			"father": "Jose Maria Araujo",
+			"mother": "Leopoldina Cerqueira Ribeiro Araujo",
+			"obs": ""
+		},
+		{
+			"folder_id": "572",
+			"date": "1883-11-24",
+			"name": "Abilio Acacio Conceicao Guerreiro",
+			"father": "Jose Antonio Pereira Dantas Guerreiro",
+			"mother": "Maria Rita Pereira Monteiro",
+			"obs": ""
+		},
+		{
+			"folder_id": "579",
+			"date": "1902-10-23",
+			"name": "Abilio Aires Sousa Pereira Guimaraes",
+			"father": "Joaquim Aires Sousa Pereira Guimaraes",
+			"mother": "Josefa Rosa Gomes",
+			"obs": ""
+		},
+		{
+			"folder_id": "571",
+			"date": "1880-01-24",
+			"name": "Abilio Antonio Alves",
+			"father": "Joao Francisco Alves",
+			"mother": "Maria Jesus Rocha",
+			"obs": ""
+		},
+		{
+			"folder_id": "573",
+			"date": "1889-12-03",
+			"name": "Abilio Augusto Arantes",
+			"father": "Sebastiao Arantes",
+			"mother": "Maria Sousa",
+			"obs": ""
+		},
+		{
+			"folder_id": "581",
+			"date": "1908-08-11",
+			"name": "Abilio Augusto Galvao",
+			"father": "Antonio Augusto Galvao",
+			"mother": "Perpetua Duarte Galvao",
+			"obs": ""
+		},
+		{
+			"folder_id": "581",
+			"date": "1908-05-20",
+			"name": "Abilio Augusto Magalhaes",
+			"father": "",
+			"mother": "Maria Jesus Magalhaes",
+			"obs": ""
+		},
+		{
+			"folder_id": "581",
+			"date": "1908-05-20",
+			"name": "Abilio Augusto Magalhaes",
+			"father": "",
+			"mother": "Maria Jesus Magalhaes",
+			"obs": ""
+		},
+		{
+			"folder_id": "581",
+			"date": "1908-05-20",
+			"name": "Abilio Augusto Magalhaes",
+			"father": "",
+			"mother": "Maria Jesus Magalhaes",
+			"obs": ""
+		},
+		{
+			"folder_id": "569",
+			"date": "1869-12-02",
+			"name": "Abilio Augusto Santos",
+			"father": "Jose Joaquim Santos",
+			"mother": "Teresa Jesus",
+			"obs": "Antonio Jose Adao,Tio Materno. Proc.12530.   Albino Antonio Ribeiro,Primo Paterno. Proc.12721."
+		}
+		]
+	}    
+\end{lstlisting}
+
+
+\section{Problema 2}
+
+\subsection{index.html}
+
+\includegraphics[width=18cm]{Imagens/"index"}
+
+\subsection{Datas extremas dos registos no dataset}
+
+\includegraphics[width=18cm]{Imagens/"a)"}
+
+\subsection{Distribuição por modalidade em cada ano e no total}
+
+\includegraphics[width=18cm]{Imagens/"b) 1"}
+\includegraphics[width=18cm]{Imagens/"b) 2"}
+
+\subsection{Distribuição por ano e género}
+
+\includegraphics[width=18cm]{Imagens/"c)"}
+
+\subsection{Distribuição por morada}
+
+\includegraphics[width=18cm]{Imagens/"d)"}
+
+\subsection{Porcentagem de aptos e não aptos por ano}
+
+\includegraphics[width=18cm]{Imagens/"e)"}
+
+
+
+\chapter{Conclusão} \label{concl}
+Com a realização deste trabalho deparamo-nos com vários problemas de programação e raciocínio encontrados anteriormente e que sem o recurso/conhecimento das expressões regulares levavam soluções muito mais complexas, o que se traduziu portanto numa valiosa adição à nossa bagagem.
+Numa perspetiva geral julgamos estar a entregar um trabalho que cumpria a maioria das nossa metas para o mesmo, no entanto é de salientar que certos aspetos do exercício 2 ficaram à quem das nossas expectativas, nuances tais que serão melhoradas e corrigidas em trabalhos futuros.
+
+\newpage
+
+\section{Bibliografia}
+\href{https://pandas.pydata.org/docs/}{Pandas Documentation}
+\\
+\href{https://matplotlib.org/stable/index.html}{Matplotlib Documentation}
+
+
+\appendix % apendice
+
+\end{document} 
