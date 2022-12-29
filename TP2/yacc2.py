@@ -10,30 +10,46 @@ from lex2 import tokens
 
 def p_programa(p):
     '''
-    programa : comentario
-             | variavel
-             | Expr
-             | Busca
+    programa : acoes
     '''
+    p[0]=p[1]
 
-def p_comentario(p):
-    "comentario : COMENTARIO ABREPC STRING FECHAPC"
+#falta adicionar ciclos
+def p_acoes(p):
+    '''
+    acoes : decl
+          | op
+
+    '''
+    p[0]=p[1]
+
+def p_decls_rec(p):
+    '''
+    decls : decls decl
+    '''
+    p[0]=f"{p[1]}{p[2]}"
+
+def p_decls(p):
+    '''
+    decls : decl
+    '''
+    p[0]=p[1]
+
+#tipos de declaracoes
+#comentario
+#variavel
+#array
+#lista
+
+def p_decl_comentario(p):
+    "decl : COMENTARIO ABREPC STRING FECHAPC"
     parser.numeroComents += 1
 
 
-def p_variavel(p):
-    '''
-    variavel : Decl
-             | alteraVar
-
-    '''
-    p[0] = p[1]
-
-
 # Criar varável sem valor
-def p_Decl_NoAssign(p):
+def p_decl_NoAssign(p):
     '''
-    Decl : VAR ID
+    decl : VAR ID
     '''
     varName = p[2]
     if varName not in parser.variaveis:
@@ -45,9 +61,9 @@ def p_Decl_NoAssign(p):
 
 
 # Criar variável com valor INT
-def p_Decl_Int(p):
+def p_decl_Int(p):
     '''
-    Decl : VAR ID COM INT
+    decl : VAR ID COM INT
     '''
     varName = p[2]
     value = int(p[4])
@@ -58,12 +74,10 @@ def p_Decl_Int(p):
         print(f"Variável {varName} já definida.")
         parser.exito = False
 
-
-
 # Criar variável com valor de outra var
-def p_Decl_Var(p):
+def p_decl_Var(p):
     '''
-    Decl : VAR ID COM ID
+    decl : VAR ID COM ID
     '''
     varName = p[2]
     varValue = p[4]
@@ -81,9 +95,9 @@ def p_Decl_Var(p):
 
 
 # Criar variável com valor de uma expressão
-def p_Decl_Expr(p):
+def p_decl_op(p):
     '''
-    Decl : VAR ID COM Expr
+    decl : VAR ID COM op
     '''
     varName = p[2]
     varValue = p[4]
@@ -94,10 +108,71 @@ def p_Decl_Expr(p):
         print(f"Variável {varName} já definida.")
         parser.exito = False
 
-# Altera o valor de uma variável para um INT
-def p_alteraVar_Int(p):
+
+
+# Cria Array sem tamanho
+def p_decl_Lista_NoSize(p):
     '''
-    alteraVar : ALTERNA ID COM INT
+    decl : LISTA ID
+    '''
+    listName = p[2]
+    if listName not in parser.variaveis:
+        parser.variaveis[listName] = []
+        parser.vars += 1
+    else:
+        print(f"Variável com o nome {listName} já definida anteriormente.")
+        parser.exito = False
+
+
+# Cria Array com tamanho
+def p_decl_Lista(p):
+    '''
+    decl : LISTA ID INT
+    '''
+    listName = p[2]
+    size = int(p[3])
+    if listName not in parser.variaveis:
+        parser.variaveis[listName] = [None for i in range(size)]
+        parser.vars += 1
+    else:
+        print(f"Variável com o nome {listName} já definida anteriormente.")
+        parser.exito = False
+
+
+# Cria Matriz sem tamanho
+def p_decl_Matriz_NoSize(p):
+    '''
+    decl : MATRIZ ID
+    '''
+    matrizName = p[2]
+    if matrizName not in parser.variaveis:
+        parser.variaveis[matrizName] = [[]]
+        parser.vars += 1
+    else:
+        print(f"Matriz {matrizName} já definida.")
+        parser.exito = False
+
+
+# Cria Matriz com tamanho
+def p_decl_Matriz(p):
+    '''
+    decl : MATRIZ ID INT INT
+    '''
+    matrizName = p[2]
+    size1 = int(p[3])
+    size2 = int(p[4])
+    if matrizName not in parser.variaveis:
+        parser.variaveis[matrizName] = [[None for j in range(size1)] for i in range(size2)]
+        parser.vars += 1
+    else:
+        print(f"Matriz {matrizName} já definida.")
+        parser.exito = False
+
+
+# Altera o valor de uma variável para um INT
+def p_decl_alteraVar_Int(p):
+    '''
+    decl : ALTERNA ID COM INT
     '''
     varName = p[2]
     value = p[4]
@@ -109,9 +184,9 @@ def p_alteraVar_Int(p):
 
 
 # Altera o valor de uma variável para o resultado de uma expressao
-def p_alteraVar_expr(p):
+def p_decl_alteraVar_op(p):
     '''
-    alteraVar : ALTERNA ID COM Expr
+    decl : ALTERNA ID COM op
     '''
     varName = p[2]
     value = p[4]
@@ -123,9 +198,9 @@ def p_alteraVar_expr(p):
 
 
 # Altera o valor de uma variável com outra variavel
-def p_alteraVar_Var(p):
+def p_decl_alteraVar_Var(p):
     '''
-    alteraVar : ALTERNA ID COM ID
+    decl : ALTERNA ID COM ID
     '''
     varName = p[2]
     varValue = p[4]
@@ -144,9 +219,9 @@ def p_alteraVar_Var(p):
 
 
 # Altera o valor de uma lista numa dada posicao pelo de um inteiro
-def p_alteraLista_Int(p):
+def p_decl_alteraLista_Int(p):
     '''
-    alteraVar : ALTERNA ID INT COM INT
+    decl : ALTERNA ID INT COM INT
     '''
     arrayName = p[2]
     indexForReplacement = int(p[3])
@@ -163,9 +238,9 @@ def p_alteraLista_Int(p):
 
 
 # Altera o valor de uma lista numa dada posicao pelo de uma expressao aritmetica
-def p_alteraLista_expr(p):
+def p_decl_alteraLista_op(p):
     '''
-    alteraVar : ALTERNA ID INT COM Expr
+    decl : ALTERNA ID INT COM op
     '''
     arrayName = p[2]
     indexForReplacement = int(p[3])
@@ -182,9 +257,9 @@ def p_alteraLista_expr(p):
 
 
 # Altera o valor de uma lista numa dada posicao pelo de outra
-def p_alteraLista_Var(p):
+def p_decl_alteraLista_Var(p):
     '''
-    alteraVar : ALTERNA ID INT COM ID
+    decl : ALTERNA ID INT COM ID
     '''
     arrayName = p[2]
     indexForReplacement = int(p[3])
@@ -204,15 +279,24 @@ def p_alteraLista_Var(p):
         parser.exito = False
 
 
+def p_op(p):
+    '''
+    op : ExprArit
+       | ExprRel
+       | ExprLog
+       | Busca
+    '''
+    p[0]=p[1]
+
 
 def p_ExpressaoAritmetica(p):
     '''
-    Expr : soma
-         | sub
-         | mult
-         | div
-         | exp
-         | resto
+    ExprArit : soma
+             | sub
+             | mult
+             | div
+             | exp
+             | resto
     '''
     p[0] = p[1]
 
@@ -366,34 +450,7 @@ def p_resto_id(p):
         print(f"Variável {varName} não definida anteriormente")
         parser.exito = False
 
-
-# Cria Array sem tamanho
-def p_Decl_Lista_NoSize(p):
-    '''
-    Decl : LISTA ID
-    '''
-    listName = p[2]
-    if listName not in parser.variaveis:
-        parser.variaveis[listName] = []
-        parser.vars += 1
-    else:
-        print(f"Variável com o nome {listName} já definida anteriormente.")
-        parser.exito = False
-
-
-# Cria Array com tamanho
-def p_Decl_Lista(p):
-    '''
-    Decl : LISTA ID INT
-    '''
-    listName = p[2]
-    size = int(p[3])
-    if listName not in parser.variaveis:
-        parser.variaveis[listName] = [None for i in range(size)]
-        parser.vars += 1
-    else:
-        print(f"Variável com o nome {listName} já definida anteriormente.")
-        parser.exito = False
+#
 
 
 # Retorna o elemento no indice do array
@@ -413,36 +470,6 @@ def p_Busca_Lista(p):
         parser.exito = False
 
 
-# Cria Matriz sem tamanho
-def p_Decl_Matriz_NoSize(p):
-    '''
-    Decl : MATRIZ ID
-    '''
-    matrizName = p[2]
-    if matrizName not in parser.variaveis:
-        parser.variaveis[matrizName] = [[]]
-        parser.vars += 1
-    else:
-        print(f"Matriz {matrizName} já definida.")
-        parser.exito = False
-
-
-# Cria Matriz com tamanho
-def p_Decl_Matriz(p):
-    '''
-    Decl : MATRIZ ID INT INT
-    '''
-    matrizName = p[2]
-    size1 = int(p[3])
-    size2 = int(p[4])
-    if matrizName not in parser.variaveis:
-        parser.variaveis[matrizName] = [[None for j in range(size1)] for i in range(size2)]
-        parser.vars += 1
-    else:
-        print(f"Matriz {matrizName} já definida.")
-        parser.exito = False
-
-
 # Retorna o elemento no indice da matriz
 def p_Busca_Matriz(p):
     '''
@@ -459,6 +486,104 @@ def p_Busca_Matriz(p):
     else:
         print(f"Indice fora de alcance")
         parser.exito = False
+
+
+def p_ExprRel(p):
+    '''
+    ExprRel : maisGrande
+            | maisPiqueno
+            | gemeo
+            | maisGrandeOuGemeo
+            | maisPiquenoOuGemeo
+    '''
+    p[0] = p[1]
+
+def p_maisGrande(p):
+    '''
+    maisGrande : MAISGRANDE ABREPC INT VIRG INT FECHAPC
+    '''
+    p[0] = f"{int(p[3])>int(p[5])}"
+    print(p[0])
+
+def p_maisPiqueno(p):
+    '''
+    maisPiqueno : MAISPIQUENO ABREPC INT VIRG INT FECHAPC
+    '''
+    p[0] = f"{int(p[3])<int(p[5])}"
+    print(p[0])
+
+def p_gemeo(p):
+    '''
+    gemeo : GEMEO ABREPC INT VIRG INT FECHAPC
+    '''
+    p[0] = f"{int(p[3])==int(p[5])}"
+    print(p[0])
+
+def p_maisGrandeOuGemeo(p):
+    '''
+    maisGrandeOuGemeo : MAISGRANDEOUGEMEO ABREPC INT VIRG INT FECHAPC
+    '''
+    p[0] = f"{int(p[3])>=int(p[5])}"
+    print(p[0])
+
+def p_maisPiquenoOuGemeo(p):
+    '''
+    maisPiquenoOuGemeo : MAISPIQUENOOUGEMEO ABREPC INT VIRG INT FECHAPC
+    '''
+    p[0] = f"{int(p[3])<=int(p[5])}"
+    print(p[0])
+
+
+def p_ExprLog(p):
+    '''
+    ExprLog : ie
+            | oue
+            | noum
+    '''
+    p[0]=p[1]
+
+def p_ie(p):
+    '''
+    ie : INT IE INT
+    '''
+    p[0]=f"{int(p[1]) and int(p[3])}"
+    print(p[0])
+
+def p_ie_1Var(p):
+    '''
+    ie : INT IE ID
+    '''
+    var = p[3]
+    if var in parser.variaveis: 
+        p[0]=f"{int(p[1]) and parser.variaveis[var]}"
+        print(p[0])
+    else:
+        print(f"Variável {var} não definida")
+        parser.exito = False
+
+def p_ie_1Var1(p):
+    '''
+    ie : ID IE INT
+    '''
+    var = p[3]
+    if var in parser.variaveis: 
+        p[0]=f"{int(p[1]) and parser.variaveis[var]}"
+        print(p[0])
+    else:
+        print(f"Variável {var} não definida")
+        parser.exito = False
+
+def p_oue(p):
+    '''
+    oue : INT OUE INT
+    '''
+    p[0]=f"{int(p[1]) or int(p[3])}"
+
+def p_noum(p):
+    '''
+    noum : noum INT
+    '''
+    p[0]=f"{not int(p[3])}"
 
 
 def p_error(p):

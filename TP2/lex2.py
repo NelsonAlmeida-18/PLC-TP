@@ -28,7 +28,11 @@ tokens = [
     'GEMEO',
     'MAISGRANDEOUGEMEO',
     'MAISPIQUENOOUGEMEO',
-    
+
+    'IE',
+    'OUE',
+    'NOUM',
+
 
     "LISTA",
     "MATRIZ",
@@ -100,6 +104,21 @@ def t_MAISGRANDEOUGEMEO(t):
 def t_MAISPIQUENOOUGEMEO(t):
     r"maisPiquenoOuGemeo"
     t.type = "MAISPIQUENOOUGEMEO"
+    return t
+
+def t_IE(t):
+    r"ie"
+    t.type = "IE"
+    return t
+
+def t_OUE(t):
+    r"oue"
+    t.type = "OUE"
+    return t
+
+def t_NOUM(t):
+    r"noum"
+    t.type = "NOUM"
     return t
 
 def t_LISTA(t):
