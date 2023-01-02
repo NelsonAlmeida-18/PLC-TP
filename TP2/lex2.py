@@ -11,6 +11,8 @@ tokens = [
 
     "ABREPC",
     "FECHAPC",
+    "ABREPR",
+    "FECHAPR",
     "VIRG",
 
     "INT",
@@ -41,6 +43,8 @@ tokens = [
 
 t_ABREPC = r'\('
 t_FECHAPC = r'\)'
+t_ABREPR = r'\['
+t_FECHAPR = r'\]'
 t_VIRG = r'\,'
 t_SOMA = r'\+'
 t_MENUS = r'\-'
