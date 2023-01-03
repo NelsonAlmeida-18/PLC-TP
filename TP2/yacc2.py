@@ -10,20 +10,25 @@ from lex2 import tokens
 
 def p_programa(p):
     '''
-    programa : acoes
+    programa : corpo
     '''
+    print("teste")
     parser.assembly = f"START\n{p[1]}STOP"
+
+def p_programa_decls(p):
+    '''
+    programa : decl
+    '''
+    parser.assembly = f"{p[1]}"
 
 # falta adicionar ciclos
 
-
-def p_acoes(p):
+def p_programa_rec(p):
     '''
-    acoes : decl
-          | op
-
+    programa : decl corpo
     '''
-    p[0] = f"{p[1]}"
+    parser.assembly = f"{p[1]}START\n{p[2]}STOP"
+
 
 
 def p_entrada_ID(p):
@@ -56,6 +61,7 @@ def p_decl_NoAssign(p):
     decl : VAR ID
     '''
     varName = p[2]
+    print(varName)
     if varName not in parser.variaveis:
         parser.variaveis[varName] = (None, parser.stackPointer)
         parser.vars += 1
@@ -131,7 +137,7 @@ def p_decl_Lista(p):
         )
         parser.vars += 1
         p[0] = f"PUSHN {size}\n"
-        parser.stackPointer += 1
+        parser.stackPointer += size
     else:
         parser.error = (
             f"Variável com o nome {listName} já definida anteriormente."
@@ -168,51 +174,51 @@ def p_decl_Matriz(p):
             [[None for j in range(size1)] for i in range(size2)], parser.stackPointer)
         parser.vars += 1
         p[0] = f"PUSHN {size1 * size2}\n"
-        parser.stackPointer += 1
+        parser.stackPointer += size1*size2
     else:
         parser.error = (f"Matriz {matrizName} já definida.")
         parser.exito = False
 
 
 # Altera o valor de uma variável para um INT
-def p_decl_alteraVar_Int(p):
+def p_alternaVar(p):
     '''
-    decl : ALTERNA ID COM entrada
+    alterna : ALTERNA ID COM entrada
     '''
     varName = p[2]
     value = p[4]
     if varName in parser.variaveis:
-        parser.variaveis[varName] = value
+        parser.variaveis[varName] = (value, parser.variaveis[varName])
     else:
         parser.error = (f"Variável {varName} não definida anteriormente.")
         parser.exito = False
 
 
 # Altera o valor de uma variável para o resultado de uma expressao
-def p_decl_alteraVar_op(p):
+def p_alternaVar_op(p):
     '''
-    decl : ALTERNA ID COM op
+    alterna : ALTERNA ID COM op
     '''
     varName = p[2]
     value = p[4]
     if varName in parser.variaveis:
-        parser.variaveis[varName] = value
+        parser.variaveis[varName] = (value, parser.variaveis[varName])
     else:
         parser.error = (f"Variável {varName} não definida anteriormente.")
         parser.exito = False
 
 
 # Altera o valor de uma lista numa dada posicao pelo de um inteiro
-def p_decl_alteraLista_Int(p):
+def p_alternaLista(p):
     '''
-    decl : ALTERNA ID entrada COM entrada
+    alterna : ALTERNA ID entrada COM entrada
     '''
     arrayName = p[2]
     indexForReplacement = p[3]
     valueForReplacement = p[5]
     if arrayName in parser.variaveis:
         if indexForReplacement < len(parser.variaveis[arrayName]):
-            parser.variaveis[arrayName][indexForReplacement] = valueForReplacement
+            parser.variaveis[arrayName][indexForReplacement][0] = valueForReplacement
         else:
             parser.error = (f"Indice fora de alcance")
             parser.exito = False
@@ -222,22 +228,43 @@ def p_decl_alteraLista_Int(p):
 
 
 # Altera o valor de uma lista numa dada posicao pelo de uma expressao aritmetica
-def p_decl_alteraLista_op(p):
+def p_alternaLista_op(p):
     '''
-    decl : ALTERNA ID entrada COM op
+    alterna : ALTERNA ID entrada COM op
     '''
     arrayName = p[2]
     indexForReplacement = p[3]
     valueForReplacement = p[5]
     if arrayName in parser.variaveis:
         if indexForReplacement < len(parser.variaveis[arrayName]):
-            parser.variaveis[arrayName][indexForReplacement] = valueForReplacement
+            parser.variaveis[arrayName][indexForReplacement] = (valueForReplacement, parser.variaveis[arrayName][1])
         else:
             parser.error = (f"Indice fora de alcance")
             parser.exito = False
     else:
         parser.error = (f"Variável {arrayName} não definida anteriormente.")
         parser.exito = False
+
+
+def p_corpo(p):
+    '''
+    corpo   : proc
+    '''
+    p[0]=p[1]
+
+def p_corpo_rec(p):
+    '''
+    corpo : corpo proc
+    '''
+    p[0] = f"{p[1]}{p[2]}"
+
+def p_proc_alterna(p):
+    '''
+    proc : alterna
+    '''
+    p[0] = p[1]
+
+#adicionar expressoes entrada, if then else..
 
 
 def p_op(p):
@@ -300,7 +327,7 @@ def p_mult(p):
     val1 = p[1]
     val2 = p[3]
     if isinstance(val1, list) and isinstance(val2, int) or isinstance(val1, int) and isinstance(val2, list):
-        p[0] = f"{val1}{val2}MULL\n"
+        p[0] = f"{val1}{val2}MUL\n"
     else:
         parser.error = (
             f"Operação impossível entre os tipo de dados {type(val1)}, {type(val2)}!")
@@ -330,7 +357,12 @@ def p_exp(p):
     val1 = p[1]
     val2 = p[3]
     if isinstance(val1, type(val2)) and isinstance(val1, int):
-        p[0] = math.pow(val1, val2)
+        entrada = ""
+        for i in range(val2):
+            entrada+=f"PUSHI {val1}\n"
+        for i in range(val2-1):
+            entrada+=f"MUL\n"
+        p[0] = entrada
     else:
         parser.error = (
             f"Operação impossível entre os tipo de dados {type(val1)}, {type(val2)}!")
@@ -363,7 +395,7 @@ def p_Busca_Lista(p):
         parser.error = ("Operação inválida sobre o tipo de dados")
         parser.exito = False
     elif isinstance(indice1, int) and indice1 < len(parser.variaveis[matrizName]):
-        p[0] = parser.variaveis[matrizName][indice1]
+        p[0] = f"{parser.variaveis[matrizName][indice1][0]}"
     else:
         parser.error = (f"Indice fora de alcance")
         parser.exito = False
@@ -560,15 +592,14 @@ parser.linhaDeCodigo = 0
 parser.error = "Syntax Error"
 parser.assembly = ""
 parser.stackPointer = 0
-
-
+parser.exito = True
 
 for line in sys.stdin:
     parser.exito = True
     parser.parse(line)
     if parser.exito:
         print("--------------------------------------")
-        #print(f"Variáveis: {parser.variaveis}")
+        print(f"Variáveis: {parser.variaveis}")
         print(parser.assembly)
         print("--------------------------------------")
     else:
