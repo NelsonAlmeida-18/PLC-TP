@@ -11,8 +11,6 @@ tokens = [
 
     "ABREPC",
     "FECHAPC",
-    "ABREPR",
-    "FECHAPR",
     "VIRG",
 
     "INT",
@@ -28,6 +26,7 @@ tokens = [
     'MAISGRANDE',
     'MAISPIQUENO',
     'GEMEO',
+    'NAOGEMEO',
     'MAISGRANDEOUGEMEO',
     'MAISPIQUENOOUGEMEO',
 
@@ -43,8 +42,6 @@ tokens = [
 
 t_ABREPC = r'\('
 t_FECHAPC = r'\)'
-t_ABREPR = r'\['
-t_FECHAPR = r'\]'
 t_VIRG = r'\,'
 t_SOMA = r'\+'
 t_MENUS = r'\-'
@@ -95,10 +92,16 @@ def t_MAISPIQUENO(t):
     t.type = "MAISPIQUENO"
     return t
 
+def t_NAOGEMEO(t):
+    r"naogemeo"
+    t.type = "NAOGEMEO"
+    return t
+
 def t_GEMEO(t):
     r"gemeo"
     t.type = "GEMEO"
     return t
+
 
 def t_MAISGRANDEOUGEMEO(t):
     r"maisGrandeOuGemeo"

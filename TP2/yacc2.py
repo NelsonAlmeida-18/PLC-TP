@@ -14,14 +14,16 @@ def p_programa(p):
     '''
     parser.assembly = f"START\n{p[1]}STOP"
 
-#falta adicionar ciclos
+# falta adicionar ciclos
+
+
 def p_acoes(p):
     '''
     acoes : decl
           | op
 
     '''
-    p[0]=f"{p[1]}"
+    p[0] = f"{p[1]}"
 
 
 def p_entrada_ID(p):
@@ -33,20 +35,17 @@ def p_entrada_ID(p):
         parser.error = f"Variável {varName} não declarada anteriormente"
         parser.sucesso = False
     else:
-        p[0]=parser.variaveis[varName]
+        p[0] = parser.variaveis[varName]
+
 
 def p_entrada_INT(p):
     '''
     entrada : INT
     '''
-    p[0]=int(p[1])
+    p[0] = int(p[1])
 
-#tipos de declaracoes
-#comentario
-#variavel
-#array
-#lista
 
+# Comentário
 def p_decl_comentario(p):
     "decl : COMENTARIO ABREPC STRING FECHAPC"
 
@@ -58,13 +57,13 @@ def p_decl_NoAssign(p):
     '''
     varName = p[2]
     if varName not in parser.variaveis:
-        parser.variaveis[varName] = None
+        parser.variaveis[varName] = (None, parser.stackPointer)
         parser.vars += 1
         p[0] = f"PUSHI 0\n"
-        parser.stackPointer+=1
-        ##TO REview push 0?
+        parser.stackPointer += 1
+        # TO REview push 0?
     else:
-        parser.error=(f"Variável {varName} já definida.")
+        parser.error = (f"Variável {varName} já definida.")
         parser.exito = False
 
 
@@ -76,12 +75,12 @@ def p_decl_Int(p):
     varName = p[2]
     value = p[4]
     if varName not in parser.variaveis:
-        parser.variaveis[varName] = value
+        parser.variaveis[varName] = (value, parser.stackPointer)
         p[0] = f"PUSHI {value}\n"
         parser.vars += 1
-        parser.stackPointer+=1
+        parser.stackPointer += 1
     else:
-        parser.error=(f"Variável {varName} já definida.")
+        parser.error = (f"Variável {varName[1]} já definida.")
         parser.exito = False
 
 
@@ -93,10 +92,10 @@ def p_decl_op(p):
     varName = p[2]
     varValue = p[4]
     if varName not in parser.variaveis:
-        parser.variaveis[varName] = varValue
+        parser.variaveis[varName] = (varValue, parser.stackPointer)
         parser.vars += 1
         p[0] = f"PUSHI {varValue}\n"
-        parser.stackPointer+=1
+        parser.stackPointer += 1
     else:
         parser.error = (f"Variável {varName} já definida.")
         parser.exito = False
@@ -109,11 +108,13 @@ def p_decl_Lista_NoSize(p):
     '''
     listName = p[2]
     if listName not in parser.variaveis:
-        parser.variaveis[listName] = []
+        parser.variaveis[listName] = ([], parser.stackPointer)
         parser.vars += 1
-        parser.stackPointer+=1
+        p[0] = f"PUSHN 0\n"
+        parser.stackPointer += 1
     else:
-        parser.error = (f"Variável com o nome {listName} já definida anteriormente.")
+        parser.error = (
+            f"Variável com o nome {listName} já definida anteriormente.")
         parser.exito = False
 
 
@@ -125,24 +126,30 @@ def p_decl_Lista(p):
     listName = p[2]
     size = p[3]
     if listName not in parser.variaveis:
-        parser.variaveis[listName] = [None for i in range(size)]
+        parser.variaveis[listName] = (
+            [None for i in range(size)], parser.stackPointer
+        )
         parser.vars += 1
-        
-        
+        p[0] = f"PUSHN {size}\n"
+        parser.stackPointer += 1
     else:
-        parser.error = (f"Variável com o nome {listName} já definida anteriormente.")
+        parser.error = (
+            f"Variável com o nome {listName} já definida anteriormente."
+        )
         parser.exito = False
-    
+
 
 # Cria Matriz sem tamanho
 def p_decl_Matriz_NoSize(p):
     '''
-    decl : MATRIZ ID 
+    decl : MATRIZ ID
     '''
     matrizName = p[2]
     if matrizName not in parser.variaveis:
-        parser.variaveis[matrizName] = [[]]
+        parser.variaveis[matrizName] = ([[]], parser.stackPointer)
         parser.vars += 1
+        p[0] = f"PUSHN 0\n"
+        parser.stackPointer += 1
     else:
         parser.error = (f"Matriz {matrizName} já definida.")
         parser.exito = False
@@ -157,8 +164,11 @@ def p_decl_Matriz(p):
     size1 = p[3]
     size2 = p[4]
     if matrizName not in parser.variaveis:
-        parser.variaveis[matrizName] = [[None for j in range(size1)] for i in range(size2)]
+        parser.variaveis[matrizName] = (
+            [[None for j in range(size1)] for i in range(size2)], parser.stackPointer)
         parser.vars += 1
+        p[0] = f"PUSHN {size1 * size2}\n"
+        parser.stackPointer += 1
     else:
         parser.error = (f"Matriz {matrizName} já definida.")
         parser.exito = False
@@ -201,7 +211,7 @@ def p_decl_alteraLista_Int(p):
     indexForReplacement = p[3]
     valueForReplacement = p[5]
     if arrayName in parser.variaveis:
-        if indexForReplacement<len(parser.variaveis[arrayName]):
+        if indexForReplacement < len(parser.variaveis[arrayName]):
             parser.variaveis[arrayName][indexForReplacement] = valueForReplacement
         else:
             parser.error = (f"Indice fora de alcance")
@@ -220,7 +230,7 @@ def p_decl_alteraLista_op(p):
     indexForReplacement = p[3]
     valueForReplacement = p[5]
     if arrayName in parser.variaveis:
-        if indexForReplacement<len(parser.variaveis[arrayName]):
+        if indexForReplacement < len(parser.variaveis[arrayName]):
             parser.variaveis[arrayName][indexForReplacement] = valueForReplacement
         else:
             parser.error = (f"Indice fora de alcance")
@@ -230,7 +240,6 @@ def p_decl_alteraLista_op(p):
         parser.exito = False
 
 
-
 def p_op(p):
     '''
     op : ExprArit
@@ -238,7 +247,7 @@ def p_op(p):
        | ExprLog
        | Busca
     '''
-    p[0]=p[1]
+    p[0] = p[1]
 
 
 def p_ExpressaoAritmetica(p):
@@ -260,11 +269,12 @@ def p_soma(p):
     '''
     val1 = p[1]
     val2 = p[3]
-    if val1 != None and val2 != None or isinstance(val1,type(val2)):
-        p[0] = val1 + val2
+    if val1 != None and val2 != None or isinstance(val1, type(val2)):
+        p[0] = f"{val1}{val2}ADD\n"
     else:
-        parser.error = (f"Operação impossível entre os tipo de dados {type(val1)}, {type(val2)}!")
-        parser.exito=False
+        parser.error = (
+            f"Operação impossível entre os tipo de dados {type(val1)}, {type(val2)}!")
+        parser.exito = False
 
 
 # Subtração
@@ -274,11 +284,12 @@ def p_sub(p):
     '''
     val1 = p[1]
     val2 = p[3]
-    if isinstance(val1,type(val2)) and isinstance(val1,int):
-        p[0] = val1 - val2
+    if isinstance(val1, type(val2)) and isinstance(val1, int):
+        p[0] = f"{val1}{val2}SUB\n"
     else:
-        parser.error = (f"Operação impossível entre os tipo de dados {type(val1)}, {type(val2)}!")
-        parser.exito=False
+        parser.error = (
+            f"Operação impossível entre os tipo de dados {type(val1)}, {type(val2)}!")
+        parser.exito = False
 
 
 # Multiplicação
@@ -288,11 +299,12 @@ def p_mult(p):
     '''
     val1 = p[1]
     val2 = p[3]
-    if isinstance(val1,list) and isinstance(val2,int) or isinstance(val1,int) and isinstance(val2,list):
-        p[0] = val1 * val2
+    if isinstance(val1, list) and isinstance(val2, int) or isinstance(val1, int) and isinstance(val2, list):
+        p[0] = f"{val1}{val2}MULL\n"
     else:
-        parser.error = (f"Operação impossível entre os tipo de dados {type(val1)}, {type(val2)}!")
-        parser.exito=False
+        parser.error = (
+            f"Operação impossível entre os tipo de dados {type(val1)}, {type(val2)}!")
+        parser.exito = False
 
 
 # Divisão
@@ -302,11 +314,13 @@ def p_div(p):
     '''
     val1 = p[1]
     val2 = p[3]
-    if isinstance(val1,type(val2)) and isinstance(val1,int):
-        p[0] = val1 / val2
+    if isinstance(val1, type(val2)) and isinstance(val1, int):
+        p[0] = f"{val1}{val2}DIV\n"
     else:
-        parser.error = (f"Operação impossível entre os tipo de dados {type(val1)}, {type(val2)}!")
-        parser.exito=False
+        parser.error = (
+            f"Operação impossível entre os tipo de dados {type(val1)}, {type(val2)}!")
+        parser.exito = False
+
 
 # Exponenciação
 def p_exp(p):
@@ -315,11 +329,12 @@ def p_exp(p):
     '''
     val1 = p[1]
     val2 = p[3]
-    if isinstance(val1,type(val2)) and isinstance(val1,int):
-        p[0] = math.pow(val1,val2)
+    if isinstance(val1, type(val2)) and isinstance(val1, int):
+        p[0] = math.pow(val1, val2)
     else:
-        parser.error = (f"Operação impossível entre os tipo de dados {type(val1)}, {type(val2)}!")
-        parser.exito=False
+        parser.error = (
+            f"Operação impossível entre os tipo de dados {type(val1)}, {type(val2)}!")
+        parser.exito = False
 
 
 # Resto da divisão
@@ -329,25 +344,25 @@ def p_resto(p):
     '''
     val1 = p[1]
     val2 = p[3]
-    if isinstance(val1,type(val2)) and isinstance(val1,int):
-        p[0] = val1 % val2
+    if isinstance(val1, type(val2)) and isinstance(val1, int):
+        p[0] = f"{val1}{val2}MOD\n"
     else:
-        parser.error = (f"Operação impossível entre os tipo de dados {type(val1)}, {type(val2)}!")
-        parser.exito=False
-
+        parser.error = (
+            f"Operação impossível entre os tipo de dados {type(val1)}, {type(val2)}!")
+        parser.exito = False
 
 
 # Retorna o elemento no indice do array
 def p_Busca_Lista(p):
     '''
-    Busca : BUSCA ID entrada 
+    Busca : BUSCA ID entrada
     '''
     matrizName = p[2]
     indice1 = p[3]
-    if isinstance(parser.variaveis[matrizName], int) or parser.variaveis[matrizName]==None:
+    if isinstance(parser.variaveis[matrizName], int) or parser.variaveis[matrizName] == None:
         parser.error = ("Operação inválida sobre o tipo de dados")
         parser.exito = False
-    elif isinstance(indice1, int) and indice1 < len(parser.variaveis[matrizName]) :
+    elif isinstance(indice1, int) and indice1 < len(parser.variaveis[matrizName]):
         p[0] = parser.variaveis[matrizName][indice1]
     else:
         parser.error = (f"Indice fora de alcance")
@@ -362,10 +377,10 @@ def p_Busca_Matriz(p):
     matrizName = p[2]
     indice1 = p[3]
     indice2 = p[4]
-    if isinstance(parser.variaveis[matrizName], int) or parser.variaveis[matrizName]==None:
+    if isinstance(parser.variaveis[matrizName], int) or parser.variaveis[matrizName] == None:
         parser.error = ("Operação inválida sobre o tipo de dados")
         parser.exito = False
-    elif isinstance(indice1, int) and  isinstance(indice2, int) and  indice1 < len(parser.variaveis[matrizName]) and indice2 < len(parser.variaveis[matrizName][indice1]):
+    elif isinstance(indice1, int) and isinstance(indice2, int) and indice1 < len(parser.variaveis[matrizName]) and indice2 < len(parser.variaveis[matrizName][indice1]):
         p[0] = parser.variaveis[matrizName][indice1][indice2]
     else:
         parser.error = (f"Indice fora de alcance")
@@ -380,6 +395,7 @@ def p_ExprRel(p):
             | gemeo
             | maisGrandeOuGemeo
             | maisPiquenoOuGemeo
+            | naoGemeo
     '''
     p[0] = p[1]
 
@@ -392,10 +408,11 @@ def p_maisGrande(p):
     val1 = p[3]
     val2 = p[5]
     if isinstance(val1, type(val2)):
-        p[0] = f"{p[3] > p[5]}"
+        p[0] = f"{p[3]}{p[5]}SUP\n"
     else:
         parser.error = f"Operação inválida entre o tipo de dados {type(val1)}, {type(val2)}"
         parser.exito = False
+
 
 # Operação Menor (<)
 def p_maisPiqueno(p):
@@ -405,10 +422,11 @@ def p_maisPiqueno(p):
     val1 = p[3]
     val2 = p[5]
     if isinstance(val1, type(val2)):
-        p[0] = f"{p[3] < p[5]}"
+        p[0] = f"{p[3]}{p[5]}INF\n"
     else:
         parser.error = f"Operação inválida entre o tipo de dados {type(val1)}, {type(val2)}"
         parser.exito = False
+
 
 # Operação Egual (==)
 def p_gemeo(p):
@@ -418,10 +436,11 @@ def p_gemeo(p):
     val1 = p[3]
     val2 = p[5]
     if isinstance(val1, type(val2)):
-        p[0] = f"{p[3] == p[5]}"
+        p[0] = f"{p[3]}{p[5]}EQUAL\n"
     else:
         parser.error = f"Operação inválida entre o tipo de dados {type(val1)}, {type(val2)}"
         parser.exito = False
+
 
 # Operação Maior ou Igual (>=)
 def p_maisGrandeOuGemeo(p):
@@ -431,10 +450,11 @@ def p_maisGrandeOuGemeo(p):
     val1 = p[3]
     val2 = p[5]
     if isinstance(val1, type(val2)):
-        p[0] = f"{p[3] >= p[5]}"
+        p[0] = f"{p[3]}{p[5]}SUPEQ\n"
     else:
         parser.error = f"Operação inválida entre o tipo de dados {type(val1)}, {type(val2)}"
         parser.exito = False
+
 
 # Operação Menor ou Igual (<=)
 def p_maisPiquenoOuGemeo(p):
@@ -444,10 +464,25 @@ def p_maisPiquenoOuGemeo(p):
     val1 = p[3]
     val2 = p[5]
     if isinstance(val1, type(val2)):
-        p[0] = f"{p[3] <= p[5]}"
+        p[0] = f"{p[3]}{p[5]}INFEQ\n"
     else:
         parser.error = f"Operação inválida entre o tipo de dados {type(val1)}, {type(val2)}"
         parser.exito = False
+
+
+# Operação Diferente (!=)
+def p_naoGemeo(p):
+    '''
+    naoGemeo : NAOGEMEO ABREPC entrada VIRG entrada FECHAPC
+    '''
+    val1 = p[3]
+    val2 = p[5]
+    if isinstance(val1, type(val2)):
+        p[0] = f"{p[3]}{p[5]}NOT\nEQUAL\n"
+    else:
+        parser.error = f"Operação inválida entre o tipo de dados {type(val1)}, {type(val2)}"
+        parser.exito = False
+
 
 # Operações Logicas
 def p_ExprLog(p):
@@ -456,7 +491,8 @@ def p_ExprLog(p):
             | oue
             | noum
     '''
-    p[0]=p[1]
+    p[0] = p[1]
+
 
 # Operação E
 def p_ie(p):
@@ -471,6 +507,7 @@ def p_ie(p):
         parser.error = f"Operação inválida entre o tipo de dados {type(val1)}, {type(val2)}"
         parser.exito = False
 
+
 # Operação Ou
 def p_oue(p):
     '''
@@ -479,7 +516,7 @@ def p_oue(p):
     val1 = p[1]
     val2 = p[3]
     if isinstance(val1, type(val2)):
-        p[0] = f"{p[3] or p[5]}"
+        p[0] = f"{p[3]}{p[5]}NOT\n"
     else:
         parser.error = f"Operação inválida entre o tipo de dados {type(val1)}, {type(val2)}"
         parser.exito = False
@@ -492,11 +529,10 @@ def p_noum(p):
     '''
     val1 = p[3]
     if isinstance(val1, int):
-        p[0] = f"{not p[3]}"
+        p[0] = f"{p[3]}NOT"
     else:
         parser.error = f"Operação inválida com o tipo de dados {type(val1)}"
         parser.exito = False
-
 
 
 def p_error(p):
@@ -505,7 +541,7 @@ def p_error(p):
         parser.exito = False
     except:
         parser.error = (p)
-        parser.exito=False
+        parser.exito = False
 
 
 def syntatic_sugar(syntaxError):
@@ -524,6 +560,8 @@ parser.linhaDeCodigo = 0
 parser.error = "Syntax Error"
 parser.assembly = ""
 parser.stackPointer = 0
+
+
 
 for line in sys.stdin:
     parser.exito = True
