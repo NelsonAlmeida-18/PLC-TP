@@ -1,1443 +1,1071 @@
 Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
+Unused terminals:
+
+    ALTERNA
+    BUSCA
+    CHAPEU
+    COMENTARIO
+    GEMEO
+    IE
+    MATRIZ
+    NAOGEMEO
+    OUE
+    STRING
+
 Grammar
 
-Rule 0     S' -> programa
-Rule 1     programa -> corpo
-Rule 2     programa -> decl
-Rule 3     programa -> decl corpo
-Rule 4     entrada -> ID
-Rule 5     entrada -> INT
-Rule 6     decl -> COMENTARIO ABREPC STRING FECHAPC
-Rule 7     decl -> VAR ID
-Rule 8     decl -> VAR ID COM entrada
-Rule 9     decl -> VAR ID COM op
-Rule 10    decl -> LISTA ID
-Rule 11    decl -> LISTA ID entrada
-Rule 12    decl -> MATRIZ ID
-Rule 13    decl -> MATRIZ ID entrada entrada
-Rule 14    alterna -> ALTERNA ID COM entrada
-Rule 15    alterna -> ALTERNA ID COM op
-Rule 16    alterna -> ALTERNA ID entrada COM entrada
-Rule 17    alterna -> ALTERNA ID entrada COM op
-Rule 18    corpo -> proc
-Rule 19    corpo -> corpo proc
-Rule 20    proc -> alterna
-Rule 21    op -> ExprArit
-Rule 22    op -> ExprRel
-Rule 23    op -> ExprLog
-Rule 24    op -> Busca
-Rule 25    ExprArit -> soma
-Rule 26    ExprArit -> sub
-Rule 27    ExprArit -> mult
-Rule 28    ExprArit -> div
-Rule 29    ExprArit -> exp
-Rule 30    ExprArit -> resto
-Rule 31    soma -> entrada SOMA entrada
-Rule 32    sub -> entrada MENUS entrada
-Rule 33    mult -> entrada SOMANBEZES entrada
-Rule 34    div -> entrada DIBIDE entrada
-Rule 35    exp -> entrada CHAPEU entrada
-Rule 36    resto -> entrada SOBRAS entrada
-Rule 37    Busca -> BUSCA ID entrada
-Rule 38    Busca -> BUSCA ID entrada entrada
-Rule 39    ExprRel -> maisGrande
-Rule 40    ExprRel -> maisPiqueno
-Rule 41    ExprRel -> gemeo
-Rule 42    ExprRel -> maisGrandeOuGemeo
-Rule 43    ExprRel -> maisPiquenoOuGemeo
-Rule 44    ExprRel -> naoGemeo
-Rule 45    maisGrande -> MAISGRANDE ABREPC entrada VIRG entrada FECHAPC
-Rule 46    maisPiqueno -> MAISPIQUENO ABREPC entrada VIRG entrada FECHAPC
-Rule 47    gemeo -> GEMEO ABREPC entrada VIRG entrada FECHAPC
-Rule 48    maisGrandeOuGemeo -> MAISGRANDEOUGEMEO ABREPC entrada VIRG entrada FECHAPC
-Rule 49    maisPiquenoOuGemeo -> MAISPIQUENOOUGEMEO ABREPC entrada VIRG entrada FECHAPC
-Rule 50    naoGemeo -> NAOGEMEO ABREPC entrada VIRG entrada FECHAPC
-Rule 51    ExprLog -> ie
-Rule 52    ExprLog -> oue
-Rule 53    ExprLog -> noum
-Rule 54    ie -> entrada IE entrada
-Rule 55    oue -> entrada OUE entrada
-Rule 56    noum -> NOUM ABREPC entrada FECHAPC
+Rule 0     S' -> Programa
+Rule 1     Programa -> Decls
+Rule 2     Decls -> Decl
+Rule 3     Decls -> Decls Decl
+Rule 4     expr -> INT
+Rule 5     expr -> ID
+Rule 6     Decl -> VAR ID
+Rule 7     Decl -> VAR ID COM expr
+Rule 8     Decl -> LISTA ID INT
+Rule 9     expr -> expr SOMA expr
+Rule 10    expr -> expr MENUS expr
+Rule 11    expr -> expr SOMANBEZES expr
+Rule 12    expr -> expr DIBIDE expr
+Rule 13    expr -> expr SOBRAS expr
+Rule 14    expr -> NOUM ABREPC expr FECHAPC
+Rule 15    expr -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+Rule 16    expr -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+Rule 17    expr -> MAISGRANDE ABREPC expr VIRG expr FECHAPC
+Rule 18    expr -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
 
 Terminals, with rules where they appear
 
-ABREPC               : 6 45 46 47 48 49 50 56
-ALTERNA              : 14 15 16 17
-BUSCA                : 37 38
-CHAPEU               : 35
-COM                  : 8 9 14 15 16 17
-COMENTARIO           : 6
-DIBIDE               : 34
-FECHAPC              : 6 45 46 47 48 49 50 56
-GEMEO                : 47
-ID                   : 4 7 8 9 10 11 12 13 14 15 16 17 37 38
-IE                   : 54
-INT                  : 5
-LISTA                : 10 11
-MAISGRANDE           : 45
-MAISGRANDEOUGEMEO    : 48
-MAISPIQUENO          : 46
-MAISPIQUENOOUGEMEO   : 49
-MATRIZ               : 12 13
-MENUS                : 32
-NAOGEMEO             : 50
-NOUM                 : 56
-OUE                  : 55
-SOBRAS               : 36
-SOMA                 : 31
-SOMANBEZES           : 33
-STRING               : 6
-VAR                  : 7 8 9
-VIRG                 : 45 46 47 48 49 50
+ABREPC               : 14 15 16 17 18
+ALTERNA              : 
+BUSCA                : 
+CHAPEU               : 
+COM                  : 7
+COMENTARIO           : 
+DIBIDE               : 12
+FECHAPC              : 14 15 16 17 18
+GEMEO                : 
+ID                   : 5 6 7 8
+IE                   : 
+INT                  : 4 8
+LISTA                : 8
+MAISGRANDE           : 17
+MAISGRANDEOUGEMEO    : 18
+MAISPIQUENO          : 15
+MAISPIQUENOOUGEMEO   : 16
+MATRIZ               : 
+MENUS                : 10
+NAOGEMEO             : 
+NOUM                 : 14
+OUE                  : 
+SOBRAS               : 13
+SOMA                 : 9
+SOMANBEZES           : 11
+STRING               : 
+VAR                  : 6 7
+VIRG                 : 15 16 17 18
 error                : 
 
 Nonterminals, with rules where they appear
 
-Busca                : 24
-ExprArit             : 21
-ExprLog              : 23
-ExprRel              : 22
-alterna              : 20
-corpo                : 1 3 19
-decl                 : 2 3
-div                  : 28
-entrada              : 8 11 13 13 14 16 16 17 31 31 32 32 33 33 34 34 35 35 36 36 37 38 38 45 45 46 46 47 47 48 48 49 49 50 50 54 54 55 55 56
-exp                  : 29
-gemeo                : 41
-ie                   : 51
-maisGrande           : 39
-maisGrandeOuGemeo    : 42
-maisPiqueno          : 40
-maisPiquenoOuGemeo   : 43
-mult                 : 27
-naoGemeo             : 44
-noum                 : 53
-op                   : 9 15 17
-oue                  : 52
-proc                 : 18 19
-programa             : 0
-resto                : 30
-soma                 : 25
-sub                  : 26
+Decl                 : 2 3
+Decls                : 1 3
+Programa             : 0
+expr                 : 7 9 9 10 10 11 11 12 12 13 13 14 15 15 16 16 17 17 18 18
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . programa
-    (1) programa -> . corpo
-    (2) programa -> . decl
-    (3) programa -> . decl corpo
-    (18) corpo -> . proc
-    (19) corpo -> . corpo proc
-    (6) decl -> . COMENTARIO ABREPC STRING FECHAPC
-    (7) decl -> . VAR ID
-    (8) decl -> . VAR ID COM entrada
-    (9) decl -> . VAR ID COM op
-    (10) decl -> . LISTA ID
-    (11) decl -> . LISTA ID entrada
-    (12) decl -> . MATRIZ ID
-    (13) decl -> . MATRIZ ID entrada entrada
-    (20) proc -> . alterna
-    (14) alterna -> . ALTERNA ID COM entrada
-    (15) alterna -> . ALTERNA ID COM op
-    (16) alterna -> . ALTERNA ID entrada COM entrada
-    (17) alterna -> . ALTERNA ID entrada COM op
+    (0) S' -> . Programa
+    (1) Programa -> . Decls
+    (2) Decls -> . Decl
+    (3) Decls -> . Decls Decl
+    (6) Decl -> . VAR ID
+    (7) Decl -> . VAR ID COM expr
+    (8) Decl -> . LISTA ID INT
 
-    COMENTARIO      shift and go to state 5
-    VAR             shift and go to state 6
-    LISTA           shift and go to state 7
-    MATRIZ          shift and go to state 8
-    ALTERNA         shift and go to state 10
+    VAR             shift and go to state 4
+    LISTA           shift and go to state 5
 
-    programa                       shift and go to state 1
-    corpo                          shift and go to state 2
-    decl                           shift and go to state 3
-    proc                           shift and go to state 4
-    alterna                        shift and go to state 9
+    Programa                       shift and go to state 1
+    Decls                          shift and go to state 2
+    Decl                           shift and go to state 3
 
 state 1
 
-    (0) S' -> programa .
+    (0) S' -> Programa .
 
 
 
 state 2
 
-    (1) programa -> corpo .
-    (19) corpo -> corpo . proc
-    (20) proc -> . alterna
-    (14) alterna -> . ALTERNA ID COM entrada
-    (15) alterna -> . ALTERNA ID COM op
-    (16) alterna -> . ALTERNA ID entrada COM entrada
-    (17) alterna -> . ALTERNA ID entrada COM op
+    (1) Programa -> Decls .
+    (3) Decls -> Decls . Decl
+    (6) Decl -> . VAR ID
+    (7) Decl -> . VAR ID COM expr
+    (8) Decl -> . LISTA ID INT
 
-    $end            reduce using rule 1 (programa -> corpo .)
-    ALTERNA         shift and go to state 10
+    $end            reduce using rule 1 (Programa -> Decls .)
+    VAR             shift and go to state 4
+    LISTA           shift and go to state 5
 
-    proc                           shift and go to state 11
-    alterna                        shift and go to state 9
+    Decl                           shift and go to state 6
 
 state 3
 
-    (2) programa -> decl .
-    (3) programa -> decl . corpo
-    (18) corpo -> . proc
-    (19) corpo -> . corpo proc
-    (20) proc -> . alterna
-    (14) alterna -> . ALTERNA ID COM entrada
-    (15) alterna -> . ALTERNA ID COM op
-    (16) alterna -> . ALTERNA ID entrada COM entrada
-    (17) alterna -> . ALTERNA ID entrada COM op
+    (2) Decls -> Decl .
 
-    $end            reduce using rule 2 (programa -> decl .)
-    ALTERNA         shift and go to state 10
+    VAR             reduce using rule 2 (Decls -> Decl .)
+    LISTA           reduce using rule 2 (Decls -> Decl .)
+    $end            reduce using rule 2 (Decls -> Decl .)
 
-    corpo                          shift and go to state 12
-    proc                           shift and go to state 4
-    alterna                        shift and go to state 9
 
 state 4
 
-    (18) corpo -> proc .
+    (6) Decl -> VAR . ID
+    (7) Decl -> VAR . ID COM expr
 
-    ALTERNA         reduce using rule 18 (corpo -> proc .)
-    $end            reduce using rule 18 (corpo -> proc .)
+    ID              shift and go to state 7
 
 
 state 5
 
-    (6) decl -> COMENTARIO . ABREPC STRING FECHAPC
+    (8) Decl -> LISTA . ID INT
 
-    ABREPC          shift and go to state 13
+    ID              shift and go to state 8
 
 
 state 6
 
-    (7) decl -> VAR . ID
-    (8) decl -> VAR . ID COM entrada
-    (9) decl -> VAR . ID COM op
+    (3) Decls -> Decls Decl .
 
-    ID              shift and go to state 14
+    VAR             reduce using rule 3 (Decls -> Decls Decl .)
+    LISTA           reduce using rule 3 (Decls -> Decls Decl .)
+    $end            reduce using rule 3 (Decls -> Decls Decl .)
 
 
 state 7
 
-    (10) decl -> LISTA . ID
-    (11) decl -> LISTA . ID entrada
+    (6) Decl -> VAR ID .
+    (7) Decl -> VAR ID . COM expr
 
-    ID              shift and go to state 15
+    VAR             reduce using rule 6 (Decl -> VAR ID .)
+    LISTA           reduce using rule 6 (Decl -> VAR ID .)
+    $end            reduce using rule 6 (Decl -> VAR ID .)
+    COM             shift and go to state 9
 
 
 state 8
 
-    (12) decl -> MATRIZ . ID
-    (13) decl -> MATRIZ . ID entrada entrada
+    (8) Decl -> LISTA ID . INT
 
-    ID              shift and go to state 16
+    INT             shift and go to state 10
 
 
 state 9
 
-    (20) proc -> alterna .
+    (7) Decl -> VAR ID COM . expr
+    (4) expr -> . INT
+    (5) expr -> . ID
+    (9) expr -> . expr SOMA expr
+    (10) expr -> . expr MENUS expr
+    (11) expr -> . expr SOMANBEZES expr
+    (12) expr -> . expr DIBIDE expr
+    (13) expr -> . expr SOBRAS expr
+    (14) expr -> . NOUM ABREPC expr FECHAPC
+    (15) expr -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (16) expr -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (17) expr -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (18) expr -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
 
-    ALTERNA         reduce using rule 20 (proc -> alterna .)
-    $end            reduce using rule 20 (proc -> alterna .)
+    INT             shift and go to state 13
+    ID              shift and go to state 11
+    NOUM            shift and go to state 14
+    MAISPIQUENO     shift and go to state 15
+    MAISPIQUENOOUGEMEO shift and go to state 16
+    MAISGRANDE      shift and go to state 17
+    MAISGRANDEOUGEMEO shift and go to state 18
 
+    expr                           shift and go to state 12
 
 state 10
 
-    (14) alterna -> ALTERNA . ID COM entrada
-    (15) alterna -> ALTERNA . ID COM op
-    (16) alterna -> ALTERNA . ID entrada COM entrada
-    (17) alterna -> ALTERNA . ID entrada COM op
+    (8) Decl -> LISTA ID INT .
 
-    ID              shift and go to state 17
+    VAR             reduce using rule 8 (Decl -> LISTA ID INT .)
+    LISTA           reduce using rule 8 (Decl -> LISTA ID INT .)
+    $end            reduce using rule 8 (Decl -> LISTA ID INT .)
 
 
 state 11
 
-    (19) corpo -> corpo proc .
+    (5) expr -> ID .
 
-    ALTERNA         reduce using rule 19 (corpo -> corpo proc .)
-    $end            reduce using rule 19 (corpo -> corpo proc .)
+    SOMA            reduce using rule 5 (expr -> ID .)
+    MENUS           reduce using rule 5 (expr -> ID .)
+    SOMANBEZES      reduce using rule 5 (expr -> ID .)
+    DIBIDE          reduce using rule 5 (expr -> ID .)
+    SOBRAS          reduce using rule 5 (expr -> ID .)
+    VAR             reduce using rule 5 (expr -> ID .)
+    LISTA           reduce using rule 5 (expr -> ID .)
+    $end            reduce using rule 5 (expr -> ID .)
+    FECHAPC         reduce using rule 5 (expr -> ID .)
+    VIRG            reduce using rule 5 (expr -> ID .)
 
 
 state 12
 
-    (3) programa -> decl corpo .
-    (19) corpo -> corpo . proc
-    (20) proc -> . alterna
-    (14) alterna -> . ALTERNA ID COM entrada
-    (15) alterna -> . ALTERNA ID COM op
-    (16) alterna -> . ALTERNA ID entrada COM entrada
-    (17) alterna -> . ALTERNA ID entrada COM op
+    (7) Decl -> VAR ID COM expr .
+    (9) expr -> expr . SOMA expr
+    (10) expr -> expr . MENUS expr
+    (11) expr -> expr . SOMANBEZES expr
+    (12) expr -> expr . DIBIDE expr
+    (13) expr -> expr . SOBRAS expr
 
-    $end            reduce using rule 3 (programa -> decl corpo .)
-    ALTERNA         shift and go to state 10
+    VAR             reduce using rule 7 (Decl -> VAR ID COM expr .)
+    LISTA           reduce using rule 7 (Decl -> VAR ID COM expr .)
+    $end            reduce using rule 7 (Decl -> VAR ID COM expr .)
+    SOMA            shift and go to state 19
+    MENUS           shift and go to state 20
+    SOMANBEZES      shift and go to state 21
+    DIBIDE          shift and go to state 22
+    SOBRAS          shift and go to state 23
 
-    proc                           shift and go to state 11
-    alterna                        shift and go to state 9
 
 state 13
 
-    (6) decl -> COMENTARIO ABREPC . STRING FECHAPC
+    (4) expr -> INT .
 
-    STRING          shift and go to state 18
+    SOMA            reduce using rule 4 (expr -> INT .)
+    MENUS           reduce using rule 4 (expr -> INT .)
+    SOMANBEZES      reduce using rule 4 (expr -> INT .)
+    DIBIDE          reduce using rule 4 (expr -> INT .)
+    SOBRAS          reduce using rule 4 (expr -> INT .)
+    VAR             reduce using rule 4 (expr -> INT .)
+    LISTA           reduce using rule 4 (expr -> INT .)
+    $end            reduce using rule 4 (expr -> INT .)
+    FECHAPC         reduce using rule 4 (expr -> INT .)
+    VIRG            reduce using rule 4 (expr -> INT .)
 
 
 state 14
 
-    (7) decl -> VAR ID .
-    (8) decl -> VAR ID . COM entrada
-    (9) decl -> VAR ID . COM op
+    (14) expr -> NOUM . ABREPC expr FECHAPC
 
-    ALTERNA         reduce using rule 7 (decl -> VAR ID .)
-    $end            reduce using rule 7 (decl -> VAR ID .)
-    COM             shift and go to state 19
+    ABREPC          shift and go to state 24
 
 
 state 15
 
-    (10) decl -> LISTA ID .
-    (11) decl -> LISTA ID . entrada
-    (4) entrada -> . ID
-    (5) entrada -> . INT
+    (15) expr -> MAISPIQUENO . ABREPC expr VIRG expr FECHAPC
 
-    ALTERNA         reduce using rule 10 (decl -> LISTA ID .)
-    $end            reduce using rule 10 (decl -> LISTA ID .)
-    ID              shift and go to state 20
-    INT             shift and go to state 22
+    ABREPC          shift and go to state 25
 
-    entrada                        shift and go to state 21
 
 state 16
 
-    (12) decl -> MATRIZ ID .
-    (13) decl -> MATRIZ ID . entrada entrada
-    (4) entrada -> . ID
-    (5) entrada -> . INT
+    (16) expr -> MAISPIQUENOOUGEMEO . ABREPC expr VIRG expr FECHAPC
 
-    ALTERNA         reduce using rule 12 (decl -> MATRIZ ID .)
-    $end            reduce using rule 12 (decl -> MATRIZ ID .)
-    ID              shift and go to state 20
-    INT             shift and go to state 22
+    ABREPC          shift and go to state 26
 
-    entrada                        shift and go to state 23
 
 state 17
 
-    (14) alterna -> ALTERNA ID . COM entrada
-    (15) alterna -> ALTERNA ID . COM op
-    (16) alterna -> ALTERNA ID . entrada COM entrada
-    (17) alterna -> ALTERNA ID . entrada COM op
-    (4) entrada -> . ID
-    (5) entrada -> . INT
+    (17) expr -> MAISGRANDE . ABREPC expr VIRG expr FECHAPC
 
-    COM             shift and go to state 24
-    ID              shift and go to state 20
-    INT             shift and go to state 22
+    ABREPC          shift and go to state 27
 
-    entrada                        shift and go to state 25
 
 state 18
 
-    (6) decl -> COMENTARIO ABREPC STRING . FECHAPC
+    (18) expr -> MAISGRANDEOUGEMEO . ABREPC expr VIRG expr FECHAPC
 
-    FECHAPC         shift and go to state 26
+    ABREPC          shift and go to state 28
 
 
 state 19
 
-    (8) decl -> VAR ID COM . entrada
-    (9) decl -> VAR ID COM . op
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-    (21) op -> . ExprArit
-    (22) op -> . ExprRel
-    (23) op -> . ExprLog
-    (24) op -> . Busca
-    (25) ExprArit -> . soma
-    (26) ExprArit -> . sub
-    (27) ExprArit -> . mult
-    (28) ExprArit -> . div
-    (29) ExprArit -> . exp
-    (30) ExprArit -> . resto
-    (39) ExprRel -> . maisGrande
-    (40) ExprRel -> . maisPiqueno
-    (41) ExprRel -> . gemeo
-    (42) ExprRel -> . maisGrandeOuGemeo
-    (43) ExprRel -> . maisPiquenoOuGemeo
-    (44) ExprRel -> . naoGemeo
-    (51) ExprLog -> . ie
-    (52) ExprLog -> . oue
-    (53) ExprLog -> . noum
-    (37) Busca -> . BUSCA ID entrada
-    (38) Busca -> . BUSCA ID entrada entrada
-    (31) soma -> . entrada SOMA entrada
-    (32) sub -> . entrada MENUS entrada
-    (33) mult -> . entrada SOMANBEZES entrada
-    (34) div -> . entrada DIBIDE entrada
-    (35) exp -> . entrada CHAPEU entrada
-    (36) resto -> . entrada SOBRAS entrada
-    (45) maisGrande -> . MAISGRANDE ABREPC entrada VIRG entrada FECHAPC
-    (46) maisPiqueno -> . MAISPIQUENO ABREPC entrada VIRG entrada FECHAPC
-    (47) gemeo -> . GEMEO ABREPC entrada VIRG entrada FECHAPC
-    (48) maisGrandeOuGemeo -> . MAISGRANDEOUGEMEO ABREPC entrada VIRG entrada FECHAPC
-    (49) maisPiquenoOuGemeo -> . MAISPIQUENOOUGEMEO ABREPC entrada VIRG entrada FECHAPC
-    (50) naoGemeo -> . NAOGEMEO ABREPC entrada VIRG entrada FECHAPC
-    (54) ie -> . entrada IE entrada
-    (55) oue -> . entrada OUE entrada
-    (56) noum -> . NOUM ABREPC entrada FECHAPC
+    (9) expr -> expr SOMA . expr
+    (4) expr -> . INT
+    (5) expr -> . ID
+    (9) expr -> . expr SOMA expr
+    (10) expr -> . expr MENUS expr
+    (11) expr -> . expr SOMANBEZES expr
+    (12) expr -> . expr DIBIDE expr
+    (13) expr -> . expr SOBRAS expr
+    (14) expr -> . NOUM ABREPC expr FECHAPC
+    (15) expr -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (16) expr -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (17) expr -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (18) expr -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
 
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-    BUSCA           shift and go to state 48
-    MAISGRANDE      shift and go to state 49
-    MAISPIQUENO     shift and go to state 50
-    GEMEO           shift and go to state 51
-    MAISGRANDEOUGEMEO shift and go to state 52
-    MAISPIQUENOOUGEMEO shift and go to state 53
-    NAOGEMEO        shift and go to state 54
-    NOUM            shift and go to state 55
+    INT             shift and go to state 13
+    ID              shift and go to state 11
+    NOUM            shift and go to state 14
+    MAISPIQUENO     shift and go to state 15
+    MAISPIQUENOOUGEMEO shift and go to state 16
+    MAISGRANDE      shift and go to state 17
+    MAISGRANDEOUGEMEO shift and go to state 18
 
-    entrada                        shift and go to state 27
-    op                             shift and go to state 28
-    ExprArit                       shift and go to state 29
-    ExprRel                        shift and go to state 30
-    ExprLog                        shift and go to state 31
-    Busca                          shift and go to state 32
-    soma                           shift and go to state 33
-    sub                            shift and go to state 34
-    mult                           shift and go to state 35
-    div                            shift and go to state 36
-    exp                            shift and go to state 37
-    resto                          shift and go to state 38
-    maisGrande                     shift and go to state 39
-    maisPiqueno                    shift and go to state 40
-    gemeo                          shift and go to state 41
-    maisGrandeOuGemeo              shift and go to state 42
-    maisPiquenoOuGemeo             shift and go to state 43
-    naoGemeo                       shift and go to state 44
-    ie                             shift and go to state 45
-    oue                            shift and go to state 46
-    noum                           shift and go to state 47
+    expr                           shift and go to state 29
 
 state 20
 
-    (4) entrada -> ID .
+    (10) expr -> expr MENUS . expr
+    (4) expr -> . INT
+    (5) expr -> . ID
+    (9) expr -> . expr SOMA expr
+    (10) expr -> . expr MENUS expr
+    (11) expr -> . expr SOMANBEZES expr
+    (12) expr -> . expr DIBIDE expr
+    (13) expr -> . expr SOBRAS expr
+    (14) expr -> . NOUM ABREPC expr FECHAPC
+    (15) expr -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (16) expr -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (17) expr -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (18) expr -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
 
-    ALTERNA         reduce using rule 4 (entrada -> ID .)
-    $end            reduce using rule 4 (entrada -> ID .)
-    ID              reduce using rule 4 (entrada -> ID .)
-    INT             reduce using rule 4 (entrada -> ID .)
-    COM             reduce using rule 4 (entrada -> ID .)
-    SOMA            reduce using rule 4 (entrada -> ID .)
-    MENUS           reduce using rule 4 (entrada -> ID .)
-    SOMANBEZES      reduce using rule 4 (entrada -> ID .)
-    DIBIDE          reduce using rule 4 (entrada -> ID .)
-    CHAPEU          reduce using rule 4 (entrada -> ID .)
-    SOBRAS          reduce using rule 4 (entrada -> ID .)
-    IE              reduce using rule 4 (entrada -> ID .)
-    OUE             reduce using rule 4 (entrada -> ID .)
-    VIRG            reduce using rule 4 (entrada -> ID .)
-    FECHAPC         reduce using rule 4 (entrada -> ID .)
+    INT             shift and go to state 13
+    ID              shift and go to state 11
+    NOUM            shift and go to state 14
+    MAISPIQUENO     shift and go to state 15
+    MAISPIQUENOOUGEMEO shift and go to state 16
+    MAISGRANDE      shift and go to state 17
+    MAISGRANDEOUGEMEO shift and go to state 18
 
+    expr                           shift and go to state 30
 
 state 21
 
-    (11) decl -> LISTA ID entrada .
+    (11) expr -> expr SOMANBEZES . expr
+    (4) expr -> . INT
+    (5) expr -> . ID
+    (9) expr -> . expr SOMA expr
+    (10) expr -> . expr MENUS expr
+    (11) expr -> . expr SOMANBEZES expr
+    (12) expr -> . expr DIBIDE expr
+    (13) expr -> . expr SOBRAS expr
+    (14) expr -> . NOUM ABREPC expr FECHAPC
+    (15) expr -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (16) expr -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (17) expr -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (18) expr -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
 
-    ALTERNA         reduce using rule 11 (decl -> LISTA ID entrada .)
-    $end            reduce using rule 11 (decl -> LISTA ID entrada .)
+    INT             shift and go to state 13
+    ID              shift and go to state 11
+    NOUM            shift and go to state 14
+    MAISPIQUENO     shift and go to state 15
+    MAISPIQUENOOUGEMEO shift and go to state 16
+    MAISGRANDE      shift and go to state 17
+    MAISGRANDEOUGEMEO shift and go to state 18
 
+    expr                           shift and go to state 31
 
 state 22
 
-    (5) entrada -> INT .
+    (12) expr -> expr DIBIDE . expr
+    (4) expr -> . INT
+    (5) expr -> . ID
+    (9) expr -> . expr SOMA expr
+    (10) expr -> . expr MENUS expr
+    (11) expr -> . expr SOMANBEZES expr
+    (12) expr -> . expr DIBIDE expr
+    (13) expr -> . expr SOBRAS expr
+    (14) expr -> . NOUM ABREPC expr FECHAPC
+    (15) expr -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (16) expr -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (17) expr -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (18) expr -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
 
-    ALTERNA         reduce using rule 5 (entrada -> INT .)
-    $end            reduce using rule 5 (entrada -> INT .)
-    ID              reduce using rule 5 (entrada -> INT .)
-    INT             reduce using rule 5 (entrada -> INT .)
-    COM             reduce using rule 5 (entrada -> INT .)
-    SOMA            reduce using rule 5 (entrada -> INT .)
-    MENUS           reduce using rule 5 (entrada -> INT .)
-    SOMANBEZES      reduce using rule 5 (entrada -> INT .)
-    DIBIDE          reduce using rule 5 (entrada -> INT .)
-    CHAPEU          reduce using rule 5 (entrada -> INT .)
-    SOBRAS          reduce using rule 5 (entrada -> INT .)
-    IE              reduce using rule 5 (entrada -> INT .)
-    OUE             reduce using rule 5 (entrada -> INT .)
-    VIRG            reduce using rule 5 (entrada -> INT .)
-    FECHAPC         reduce using rule 5 (entrada -> INT .)
+    INT             shift and go to state 13
+    ID              shift and go to state 11
+    NOUM            shift and go to state 14
+    MAISPIQUENO     shift and go to state 15
+    MAISPIQUENOOUGEMEO shift and go to state 16
+    MAISGRANDE      shift and go to state 17
+    MAISGRANDEOUGEMEO shift and go to state 18
 
+    expr                           shift and go to state 32
 
 state 23
 
-    (13) decl -> MATRIZ ID entrada . entrada
-    (4) entrada -> . ID
-    (5) entrada -> . INT
+    (13) expr -> expr SOBRAS . expr
+    (4) expr -> . INT
+    (5) expr -> . ID
+    (9) expr -> . expr SOMA expr
+    (10) expr -> . expr MENUS expr
+    (11) expr -> . expr SOMANBEZES expr
+    (12) expr -> . expr DIBIDE expr
+    (13) expr -> . expr SOBRAS expr
+    (14) expr -> . NOUM ABREPC expr FECHAPC
+    (15) expr -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (16) expr -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (17) expr -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (18) expr -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
 
-    ID              shift and go to state 20
-    INT             shift and go to state 22
+    INT             shift and go to state 13
+    ID              shift and go to state 11
+    NOUM            shift and go to state 14
+    MAISPIQUENO     shift and go to state 15
+    MAISPIQUENOOUGEMEO shift and go to state 16
+    MAISGRANDE      shift and go to state 17
+    MAISGRANDEOUGEMEO shift and go to state 18
 
-    entrada                        shift and go to state 56
+    expr                           shift and go to state 33
 
 state 24
 
-    (14) alterna -> ALTERNA ID COM . entrada
-    (15) alterna -> ALTERNA ID COM . op
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-    (21) op -> . ExprArit
-    (22) op -> . ExprRel
-    (23) op -> . ExprLog
-    (24) op -> . Busca
-    (25) ExprArit -> . soma
-    (26) ExprArit -> . sub
-    (27) ExprArit -> . mult
-    (28) ExprArit -> . div
-    (29) ExprArit -> . exp
-    (30) ExprArit -> . resto
-    (39) ExprRel -> . maisGrande
-    (40) ExprRel -> . maisPiqueno
-    (41) ExprRel -> . gemeo
-    (42) ExprRel -> . maisGrandeOuGemeo
-    (43) ExprRel -> . maisPiquenoOuGemeo
-    (44) ExprRel -> . naoGemeo
-    (51) ExprLog -> . ie
-    (52) ExprLog -> . oue
-    (53) ExprLog -> . noum
-    (37) Busca -> . BUSCA ID entrada
-    (38) Busca -> . BUSCA ID entrada entrada
-    (31) soma -> . entrada SOMA entrada
-    (32) sub -> . entrada MENUS entrada
-    (33) mult -> . entrada SOMANBEZES entrada
-    (34) div -> . entrada DIBIDE entrada
-    (35) exp -> . entrada CHAPEU entrada
-    (36) resto -> . entrada SOBRAS entrada
-    (45) maisGrande -> . MAISGRANDE ABREPC entrada VIRG entrada FECHAPC
-    (46) maisPiqueno -> . MAISPIQUENO ABREPC entrada VIRG entrada FECHAPC
-    (47) gemeo -> . GEMEO ABREPC entrada VIRG entrada FECHAPC
-    (48) maisGrandeOuGemeo -> . MAISGRANDEOUGEMEO ABREPC entrada VIRG entrada FECHAPC
-    (49) maisPiquenoOuGemeo -> . MAISPIQUENOOUGEMEO ABREPC entrada VIRG entrada FECHAPC
-    (50) naoGemeo -> . NAOGEMEO ABREPC entrada VIRG entrada FECHAPC
-    (54) ie -> . entrada IE entrada
-    (55) oue -> . entrada OUE entrada
-    (56) noum -> . NOUM ABREPC entrada FECHAPC
+    (14) expr -> NOUM ABREPC . expr FECHAPC
+    (4) expr -> . INT
+    (5) expr -> . ID
+    (9) expr -> . expr SOMA expr
+    (10) expr -> . expr MENUS expr
+    (11) expr -> . expr SOMANBEZES expr
+    (12) expr -> . expr DIBIDE expr
+    (13) expr -> . expr SOBRAS expr
+    (14) expr -> . NOUM ABREPC expr FECHAPC
+    (15) expr -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (16) expr -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (17) expr -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (18) expr -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
 
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-    BUSCA           shift and go to state 48
-    MAISGRANDE      shift and go to state 49
-    MAISPIQUENO     shift and go to state 50
-    GEMEO           shift and go to state 51
-    MAISGRANDEOUGEMEO shift and go to state 52
-    MAISPIQUENOOUGEMEO shift and go to state 53
-    NAOGEMEO        shift and go to state 54
-    NOUM            shift and go to state 55
+    INT             shift and go to state 13
+    ID              shift and go to state 11
+    NOUM            shift and go to state 14
+    MAISPIQUENO     shift and go to state 15
+    MAISPIQUENOOUGEMEO shift and go to state 16
+    MAISGRANDE      shift and go to state 17
+    MAISGRANDEOUGEMEO shift and go to state 18
 
-    entrada                        shift and go to state 57
-    op                             shift and go to state 58
-    ExprArit                       shift and go to state 29
-    ExprRel                        shift and go to state 30
-    ExprLog                        shift and go to state 31
-    Busca                          shift and go to state 32
-    soma                           shift and go to state 33
-    sub                            shift and go to state 34
-    mult                           shift and go to state 35
-    div                            shift and go to state 36
-    exp                            shift and go to state 37
-    resto                          shift and go to state 38
-    maisGrande                     shift and go to state 39
-    maisPiqueno                    shift and go to state 40
-    gemeo                          shift and go to state 41
-    maisGrandeOuGemeo              shift and go to state 42
-    maisPiquenoOuGemeo             shift and go to state 43
-    naoGemeo                       shift and go to state 44
-    ie                             shift and go to state 45
-    oue                            shift and go to state 46
-    noum                           shift and go to state 47
+    expr                           shift and go to state 34
 
 state 25
 
-    (16) alterna -> ALTERNA ID entrada . COM entrada
-    (17) alterna -> ALTERNA ID entrada . COM op
+    (15) expr -> MAISPIQUENO ABREPC . expr VIRG expr FECHAPC
+    (4) expr -> . INT
+    (5) expr -> . ID
+    (9) expr -> . expr SOMA expr
+    (10) expr -> . expr MENUS expr
+    (11) expr -> . expr SOMANBEZES expr
+    (12) expr -> . expr DIBIDE expr
+    (13) expr -> . expr SOBRAS expr
+    (14) expr -> . NOUM ABREPC expr FECHAPC
+    (15) expr -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (16) expr -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (17) expr -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (18) expr -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
 
-    COM             shift and go to state 59
+    INT             shift and go to state 13
+    ID              shift and go to state 11
+    NOUM            shift and go to state 14
+    MAISPIQUENO     shift and go to state 15
+    MAISPIQUENOOUGEMEO shift and go to state 16
+    MAISGRANDE      shift and go to state 17
+    MAISGRANDEOUGEMEO shift and go to state 18
 
+    expr                           shift and go to state 35
 
 state 26
 
-    (6) decl -> COMENTARIO ABREPC STRING FECHAPC .
+    (16) expr -> MAISPIQUENOOUGEMEO ABREPC . expr VIRG expr FECHAPC
+    (4) expr -> . INT
+    (5) expr -> . ID
+    (9) expr -> . expr SOMA expr
+    (10) expr -> . expr MENUS expr
+    (11) expr -> . expr SOMANBEZES expr
+    (12) expr -> . expr DIBIDE expr
+    (13) expr -> . expr SOBRAS expr
+    (14) expr -> . NOUM ABREPC expr FECHAPC
+    (15) expr -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (16) expr -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (17) expr -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (18) expr -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
 
-    ALTERNA         reduce using rule 6 (decl -> COMENTARIO ABREPC STRING FECHAPC .)
-    $end            reduce using rule 6 (decl -> COMENTARIO ABREPC STRING FECHAPC .)
+    INT             shift and go to state 13
+    ID              shift and go to state 11
+    NOUM            shift and go to state 14
+    MAISPIQUENO     shift and go to state 15
+    MAISPIQUENOOUGEMEO shift and go to state 16
+    MAISGRANDE      shift and go to state 17
+    MAISGRANDEOUGEMEO shift and go to state 18
 
+    expr                           shift and go to state 36
 
 state 27
 
-    (8) decl -> VAR ID COM entrada .
-    (31) soma -> entrada . SOMA entrada
-    (32) sub -> entrada . MENUS entrada
-    (33) mult -> entrada . SOMANBEZES entrada
-    (34) div -> entrada . DIBIDE entrada
-    (35) exp -> entrada . CHAPEU entrada
-    (36) resto -> entrada . SOBRAS entrada
-    (54) ie -> entrada . IE entrada
-    (55) oue -> entrada . OUE entrada
+    (17) expr -> MAISGRANDE ABREPC . expr VIRG expr FECHAPC
+    (4) expr -> . INT
+    (5) expr -> . ID
+    (9) expr -> . expr SOMA expr
+    (10) expr -> . expr MENUS expr
+    (11) expr -> . expr SOMANBEZES expr
+    (12) expr -> . expr DIBIDE expr
+    (13) expr -> . expr SOBRAS expr
+    (14) expr -> . NOUM ABREPC expr FECHAPC
+    (15) expr -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (16) expr -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (17) expr -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (18) expr -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
 
-    ALTERNA         reduce using rule 8 (decl -> VAR ID COM entrada .)
-    $end            reduce using rule 8 (decl -> VAR ID COM entrada .)
-    SOMA            shift and go to state 60
-    MENUS           shift and go to state 61
-    SOMANBEZES      shift and go to state 62
-    DIBIDE          shift and go to state 63
-    CHAPEU          shift and go to state 64
-    SOBRAS          shift and go to state 65
-    IE              shift and go to state 66
-    OUE             shift and go to state 67
+    INT             shift and go to state 13
+    ID              shift and go to state 11
+    NOUM            shift and go to state 14
+    MAISPIQUENO     shift and go to state 15
+    MAISPIQUENOOUGEMEO shift and go to state 16
+    MAISGRANDE      shift and go to state 17
+    MAISGRANDEOUGEMEO shift and go to state 18
 
+    expr                           shift and go to state 37
 
 state 28
 
-    (9) decl -> VAR ID COM op .
+    (18) expr -> MAISGRANDEOUGEMEO ABREPC . expr VIRG expr FECHAPC
+    (4) expr -> . INT
+    (5) expr -> . ID
+    (9) expr -> . expr SOMA expr
+    (10) expr -> . expr MENUS expr
+    (11) expr -> . expr SOMANBEZES expr
+    (12) expr -> . expr DIBIDE expr
+    (13) expr -> . expr SOBRAS expr
+    (14) expr -> . NOUM ABREPC expr FECHAPC
+    (15) expr -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (16) expr -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (17) expr -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (18) expr -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
 
-    ALTERNA         reduce using rule 9 (decl -> VAR ID COM op .)
-    $end            reduce using rule 9 (decl -> VAR ID COM op .)
+    INT             shift and go to state 13
+    ID              shift and go to state 11
+    NOUM            shift and go to state 14
+    MAISPIQUENO     shift and go to state 15
+    MAISPIQUENOOUGEMEO shift and go to state 16
+    MAISGRANDE      shift and go to state 17
+    MAISGRANDEOUGEMEO shift and go to state 18
 
+    expr                           shift and go to state 38
 
 state 29
 
-    (21) op -> ExprArit .
+    (9) expr -> expr SOMA expr .
+    (9) expr -> expr . SOMA expr
+    (10) expr -> expr . MENUS expr
+    (11) expr -> expr . SOMANBEZES expr
+    (12) expr -> expr . DIBIDE expr
+    (13) expr -> expr . SOBRAS expr
 
-    ALTERNA         reduce using rule 21 (op -> ExprArit .)
-    $end            reduce using rule 21 (op -> ExprArit .)
+  ! shift/reduce conflict for SOMA resolved as shift
+  ! shift/reduce conflict for MENUS resolved as shift
+  ! shift/reduce conflict for SOMANBEZES resolved as shift
+  ! shift/reduce conflict for DIBIDE resolved as shift
+  ! shift/reduce conflict for SOBRAS resolved as shift
+    VAR             reduce using rule 9 (expr -> expr SOMA expr .)
+    LISTA           reduce using rule 9 (expr -> expr SOMA expr .)
+    $end            reduce using rule 9 (expr -> expr SOMA expr .)
+    FECHAPC         reduce using rule 9 (expr -> expr SOMA expr .)
+    VIRG            reduce using rule 9 (expr -> expr SOMA expr .)
+    SOMA            shift and go to state 19
+    MENUS           shift and go to state 20
+    SOMANBEZES      shift and go to state 21
+    DIBIDE          shift and go to state 22
+    SOBRAS          shift and go to state 23
+
+  ! SOMA            [ reduce using rule 9 (expr -> expr SOMA expr .) ]
+  ! MENUS           [ reduce using rule 9 (expr -> expr SOMA expr .) ]
+  ! SOMANBEZES      [ reduce using rule 9 (expr -> expr SOMA expr .) ]
+  ! DIBIDE          [ reduce using rule 9 (expr -> expr SOMA expr .) ]
+  ! SOBRAS          [ reduce using rule 9 (expr -> expr SOMA expr .) ]
 
 
 state 30
 
-    (22) op -> ExprRel .
+    (10) expr -> expr MENUS expr .
+    (9) expr -> expr . SOMA expr
+    (10) expr -> expr . MENUS expr
+    (11) expr -> expr . SOMANBEZES expr
+    (12) expr -> expr . DIBIDE expr
+    (13) expr -> expr . SOBRAS expr
 
-    ALTERNA         reduce using rule 22 (op -> ExprRel .)
-    $end            reduce using rule 22 (op -> ExprRel .)
+  ! shift/reduce conflict for SOMA resolved as shift
+  ! shift/reduce conflict for MENUS resolved as shift
+  ! shift/reduce conflict for SOMANBEZES resolved as shift
+  ! shift/reduce conflict for DIBIDE resolved as shift
+  ! shift/reduce conflict for SOBRAS resolved as shift
+    VAR             reduce using rule 10 (expr -> expr MENUS expr .)
+    LISTA           reduce using rule 10 (expr -> expr MENUS expr .)
+    $end            reduce using rule 10 (expr -> expr MENUS expr .)
+    FECHAPC         reduce using rule 10 (expr -> expr MENUS expr .)
+    VIRG            reduce using rule 10 (expr -> expr MENUS expr .)
+    SOMA            shift and go to state 19
+    MENUS           shift and go to state 20
+    SOMANBEZES      shift and go to state 21
+    DIBIDE          shift and go to state 22
+    SOBRAS          shift and go to state 23
+
+  ! SOMA            [ reduce using rule 10 (expr -> expr MENUS expr .) ]
+  ! MENUS           [ reduce using rule 10 (expr -> expr MENUS expr .) ]
+  ! SOMANBEZES      [ reduce using rule 10 (expr -> expr MENUS expr .) ]
+  ! DIBIDE          [ reduce using rule 10 (expr -> expr MENUS expr .) ]
+  ! SOBRAS          [ reduce using rule 10 (expr -> expr MENUS expr .) ]
 
 
 state 31
 
-    (23) op -> ExprLog .
+    (11) expr -> expr SOMANBEZES expr .
+    (9) expr -> expr . SOMA expr
+    (10) expr -> expr . MENUS expr
+    (11) expr -> expr . SOMANBEZES expr
+    (12) expr -> expr . DIBIDE expr
+    (13) expr -> expr . SOBRAS expr
 
-    ALTERNA         reduce using rule 23 (op -> ExprLog .)
-    $end            reduce using rule 23 (op -> ExprLog .)
+  ! shift/reduce conflict for SOMA resolved as shift
+  ! shift/reduce conflict for MENUS resolved as shift
+  ! shift/reduce conflict for SOMANBEZES resolved as shift
+  ! shift/reduce conflict for DIBIDE resolved as shift
+  ! shift/reduce conflict for SOBRAS resolved as shift
+    VAR             reduce using rule 11 (expr -> expr SOMANBEZES expr .)
+    LISTA           reduce using rule 11 (expr -> expr SOMANBEZES expr .)
+    $end            reduce using rule 11 (expr -> expr SOMANBEZES expr .)
+    FECHAPC         reduce using rule 11 (expr -> expr SOMANBEZES expr .)
+    VIRG            reduce using rule 11 (expr -> expr SOMANBEZES expr .)
+    SOMA            shift and go to state 19
+    MENUS           shift and go to state 20
+    SOMANBEZES      shift and go to state 21
+    DIBIDE          shift and go to state 22
+    SOBRAS          shift and go to state 23
+
+  ! SOMA            [ reduce using rule 11 (expr -> expr SOMANBEZES expr .) ]
+  ! MENUS           [ reduce using rule 11 (expr -> expr SOMANBEZES expr .) ]
+  ! SOMANBEZES      [ reduce using rule 11 (expr -> expr SOMANBEZES expr .) ]
+  ! DIBIDE          [ reduce using rule 11 (expr -> expr SOMANBEZES expr .) ]
+  ! SOBRAS          [ reduce using rule 11 (expr -> expr SOMANBEZES expr .) ]
 
 
 state 32
 
-    (24) op -> Busca .
+    (12) expr -> expr DIBIDE expr .
+    (9) expr -> expr . SOMA expr
+    (10) expr -> expr . MENUS expr
+    (11) expr -> expr . SOMANBEZES expr
+    (12) expr -> expr . DIBIDE expr
+    (13) expr -> expr . SOBRAS expr
 
-    ALTERNA         reduce using rule 24 (op -> Busca .)
-    $end            reduce using rule 24 (op -> Busca .)
+  ! shift/reduce conflict for SOMA resolved as shift
+  ! shift/reduce conflict for MENUS resolved as shift
+  ! shift/reduce conflict for SOMANBEZES resolved as shift
+  ! shift/reduce conflict for DIBIDE resolved as shift
+  ! shift/reduce conflict for SOBRAS resolved as shift
+    VAR             reduce using rule 12 (expr -> expr DIBIDE expr .)
+    LISTA           reduce using rule 12 (expr -> expr DIBIDE expr .)
+    $end            reduce using rule 12 (expr -> expr DIBIDE expr .)
+    FECHAPC         reduce using rule 12 (expr -> expr DIBIDE expr .)
+    VIRG            reduce using rule 12 (expr -> expr DIBIDE expr .)
+    SOMA            shift and go to state 19
+    MENUS           shift and go to state 20
+    SOMANBEZES      shift and go to state 21
+    DIBIDE          shift and go to state 22
+    SOBRAS          shift and go to state 23
+
+  ! SOMA            [ reduce using rule 12 (expr -> expr DIBIDE expr .) ]
+  ! MENUS           [ reduce using rule 12 (expr -> expr DIBIDE expr .) ]
+  ! SOMANBEZES      [ reduce using rule 12 (expr -> expr DIBIDE expr .) ]
+  ! DIBIDE          [ reduce using rule 12 (expr -> expr DIBIDE expr .) ]
+  ! SOBRAS          [ reduce using rule 12 (expr -> expr DIBIDE expr .) ]
 
 
 state 33
 
-    (25) ExprArit -> soma .
+    (13) expr -> expr SOBRAS expr .
+    (9) expr -> expr . SOMA expr
+    (10) expr -> expr . MENUS expr
+    (11) expr -> expr . SOMANBEZES expr
+    (12) expr -> expr . DIBIDE expr
+    (13) expr -> expr . SOBRAS expr
 
-    ALTERNA         reduce using rule 25 (ExprArit -> soma .)
-    $end            reduce using rule 25 (ExprArit -> soma .)
+  ! shift/reduce conflict for SOMA resolved as shift
+  ! shift/reduce conflict for MENUS resolved as shift
+  ! shift/reduce conflict for SOMANBEZES resolved as shift
+  ! shift/reduce conflict for DIBIDE resolved as shift
+  ! shift/reduce conflict for SOBRAS resolved as shift
+    VAR             reduce using rule 13 (expr -> expr SOBRAS expr .)
+    LISTA           reduce using rule 13 (expr -> expr SOBRAS expr .)
+    $end            reduce using rule 13 (expr -> expr SOBRAS expr .)
+    FECHAPC         reduce using rule 13 (expr -> expr SOBRAS expr .)
+    VIRG            reduce using rule 13 (expr -> expr SOBRAS expr .)
+    SOMA            shift and go to state 19
+    MENUS           shift and go to state 20
+    SOMANBEZES      shift and go to state 21
+    DIBIDE          shift and go to state 22
+    SOBRAS          shift and go to state 23
+
+  ! SOMA            [ reduce using rule 13 (expr -> expr SOBRAS expr .) ]
+  ! MENUS           [ reduce using rule 13 (expr -> expr SOBRAS expr .) ]
+  ! SOMANBEZES      [ reduce using rule 13 (expr -> expr SOBRAS expr .) ]
+  ! DIBIDE          [ reduce using rule 13 (expr -> expr SOBRAS expr .) ]
+  ! SOBRAS          [ reduce using rule 13 (expr -> expr SOBRAS expr .) ]
 
 
 state 34
 
-    (26) ExprArit -> sub .
+    (14) expr -> NOUM ABREPC expr . FECHAPC
+    (9) expr -> expr . SOMA expr
+    (10) expr -> expr . MENUS expr
+    (11) expr -> expr . SOMANBEZES expr
+    (12) expr -> expr . DIBIDE expr
+    (13) expr -> expr . SOBRAS expr
 
-    ALTERNA         reduce using rule 26 (ExprArit -> sub .)
-    $end            reduce using rule 26 (ExprArit -> sub .)
+    FECHAPC         shift and go to state 39
+    SOMA            shift and go to state 19
+    MENUS           shift and go to state 20
+    SOMANBEZES      shift and go to state 21
+    DIBIDE          shift and go to state 22
+    SOBRAS          shift and go to state 23
 
 
 state 35
 
-    (27) ExprArit -> mult .
+    (15) expr -> MAISPIQUENO ABREPC expr . VIRG expr FECHAPC
+    (9) expr -> expr . SOMA expr
+    (10) expr -> expr . MENUS expr
+    (11) expr -> expr . SOMANBEZES expr
+    (12) expr -> expr . DIBIDE expr
+    (13) expr -> expr . SOBRAS expr
 
-    ALTERNA         reduce using rule 27 (ExprArit -> mult .)
-    $end            reduce using rule 27 (ExprArit -> mult .)
+    VIRG            shift and go to state 40
+    SOMA            shift and go to state 19
+    MENUS           shift and go to state 20
+    SOMANBEZES      shift and go to state 21
+    DIBIDE          shift and go to state 22
+    SOBRAS          shift and go to state 23
 
 
 state 36
 
-    (28) ExprArit -> div .
+    (16) expr -> MAISPIQUENOOUGEMEO ABREPC expr . VIRG expr FECHAPC
+    (9) expr -> expr . SOMA expr
+    (10) expr -> expr . MENUS expr
+    (11) expr -> expr . SOMANBEZES expr
+    (12) expr -> expr . DIBIDE expr
+    (13) expr -> expr . SOBRAS expr
 
-    ALTERNA         reduce using rule 28 (ExprArit -> div .)
-    $end            reduce using rule 28 (ExprArit -> div .)
+    VIRG            shift and go to state 41
+    SOMA            shift and go to state 19
+    MENUS           shift and go to state 20
+    SOMANBEZES      shift and go to state 21
+    DIBIDE          shift and go to state 22
+    SOBRAS          shift and go to state 23
 
 
 state 37
 
-    (29) ExprArit -> exp .
+    (17) expr -> MAISGRANDE ABREPC expr . VIRG expr FECHAPC
+    (9) expr -> expr . SOMA expr
+    (10) expr -> expr . MENUS expr
+    (11) expr -> expr . SOMANBEZES expr
+    (12) expr -> expr . DIBIDE expr
+    (13) expr -> expr . SOBRAS expr
 
-    ALTERNA         reduce using rule 29 (ExprArit -> exp .)
-    $end            reduce using rule 29 (ExprArit -> exp .)
+    VIRG            shift and go to state 42
+    SOMA            shift and go to state 19
+    MENUS           shift and go to state 20
+    SOMANBEZES      shift and go to state 21
+    DIBIDE          shift and go to state 22
+    SOBRAS          shift and go to state 23
 
 
 state 38
 
-    (30) ExprArit -> resto .
+    (18) expr -> MAISGRANDEOUGEMEO ABREPC expr . VIRG expr FECHAPC
+    (9) expr -> expr . SOMA expr
+    (10) expr -> expr . MENUS expr
+    (11) expr -> expr . SOMANBEZES expr
+    (12) expr -> expr . DIBIDE expr
+    (13) expr -> expr . SOBRAS expr
 
-    ALTERNA         reduce using rule 30 (ExprArit -> resto .)
-    $end            reduce using rule 30 (ExprArit -> resto .)
+    VIRG            shift and go to state 43
+    SOMA            shift and go to state 19
+    MENUS           shift and go to state 20
+    SOMANBEZES      shift and go to state 21
+    DIBIDE          shift and go to state 22
+    SOBRAS          shift and go to state 23
 
 
 state 39
 
-    (39) ExprRel -> maisGrande .
+    (14) expr -> NOUM ABREPC expr FECHAPC .
 
-    ALTERNA         reduce using rule 39 (ExprRel -> maisGrande .)
-    $end            reduce using rule 39 (ExprRel -> maisGrande .)
+    SOMA            reduce using rule 14 (expr -> NOUM ABREPC expr FECHAPC .)
+    MENUS           reduce using rule 14 (expr -> NOUM ABREPC expr FECHAPC .)
+    SOMANBEZES      reduce using rule 14 (expr -> NOUM ABREPC expr FECHAPC .)
+    DIBIDE          reduce using rule 14 (expr -> NOUM ABREPC expr FECHAPC .)
+    SOBRAS          reduce using rule 14 (expr -> NOUM ABREPC expr FECHAPC .)
+    VAR             reduce using rule 14 (expr -> NOUM ABREPC expr FECHAPC .)
+    LISTA           reduce using rule 14 (expr -> NOUM ABREPC expr FECHAPC .)
+    $end            reduce using rule 14 (expr -> NOUM ABREPC expr FECHAPC .)
+    FECHAPC         reduce using rule 14 (expr -> NOUM ABREPC expr FECHAPC .)
+    VIRG            reduce using rule 14 (expr -> NOUM ABREPC expr FECHAPC .)
 
 
 state 40
 
-    (40) ExprRel -> maisPiqueno .
+    (15) expr -> MAISPIQUENO ABREPC expr VIRG . expr FECHAPC
+    (4) expr -> . INT
+    (5) expr -> . ID
+    (9) expr -> . expr SOMA expr
+    (10) expr -> . expr MENUS expr
+    (11) expr -> . expr SOMANBEZES expr
+    (12) expr -> . expr DIBIDE expr
+    (13) expr -> . expr SOBRAS expr
+    (14) expr -> . NOUM ABREPC expr FECHAPC
+    (15) expr -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (16) expr -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (17) expr -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (18) expr -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
 
-    ALTERNA         reduce using rule 40 (ExprRel -> maisPiqueno .)
-    $end            reduce using rule 40 (ExprRel -> maisPiqueno .)
+    INT             shift and go to state 13
+    ID              shift and go to state 11
+    NOUM            shift and go to state 14
+    MAISPIQUENO     shift and go to state 15
+    MAISPIQUENOOUGEMEO shift and go to state 16
+    MAISGRANDE      shift and go to state 17
+    MAISGRANDEOUGEMEO shift and go to state 18
 
+    expr                           shift and go to state 44
 
 state 41
 
-    (41) ExprRel -> gemeo .
+    (16) expr -> MAISPIQUENOOUGEMEO ABREPC expr VIRG . expr FECHAPC
+    (4) expr -> . INT
+    (5) expr -> . ID
+    (9) expr -> . expr SOMA expr
+    (10) expr -> . expr MENUS expr
+    (11) expr -> . expr SOMANBEZES expr
+    (12) expr -> . expr DIBIDE expr
+    (13) expr -> . expr SOBRAS expr
+    (14) expr -> . NOUM ABREPC expr FECHAPC
+    (15) expr -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (16) expr -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (17) expr -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (18) expr -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
 
-    ALTERNA         reduce using rule 41 (ExprRel -> gemeo .)
-    $end            reduce using rule 41 (ExprRel -> gemeo .)
+    INT             shift and go to state 13
+    ID              shift and go to state 11
+    NOUM            shift and go to state 14
+    MAISPIQUENO     shift and go to state 15
+    MAISPIQUENOOUGEMEO shift and go to state 16
+    MAISGRANDE      shift and go to state 17
+    MAISGRANDEOUGEMEO shift and go to state 18
 
+    expr                           shift and go to state 45
 
 state 42
 
-    (42) ExprRel -> maisGrandeOuGemeo .
+    (17) expr -> MAISGRANDE ABREPC expr VIRG . expr FECHAPC
+    (4) expr -> . INT
+    (5) expr -> . ID
+    (9) expr -> . expr SOMA expr
+    (10) expr -> . expr MENUS expr
+    (11) expr -> . expr SOMANBEZES expr
+    (12) expr -> . expr DIBIDE expr
+    (13) expr -> . expr SOBRAS expr
+    (14) expr -> . NOUM ABREPC expr FECHAPC
+    (15) expr -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (16) expr -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (17) expr -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (18) expr -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
 
-    ALTERNA         reduce using rule 42 (ExprRel -> maisGrandeOuGemeo .)
-    $end            reduce using rule 42 (ExprRel -> maisGrandeOuGemeo .)
+    INT             shift and go to state 13
+    ID              shift and go to state 11
+    NOUM            shift and go to state 14
+    MAISPIQUENO     shift and go to state 15
+    MAISPIQUENOOUGEMEO shift and go to state 16
+    MAISGRANDE      shift and go to state 17
+    MAISGRANDEOUGEMEO shift and go to state 18
 
+    expr                           shift and go to state 46
 
 state 43
 
-    (43) ExprRel -> maisPiquenoOuGemeo .
+    (18) expr -> MAISGRANDEOUGEMEO ABREPC expr VIRG . expr FECHAPC
+    (4) expr -> . INT
+    (5) expr -> . ID
+    (9) expr -> . expr SOMA expr
+    (10) expr -> . expr MENUS expr
+    (11) expr -> . expr SOMANBEZES expr
+    (12) expr -> . expr DIBIDE expr
+    (13) expr -> . expr SOBRAS expr
+    (14) expr -> . NOUM ABREPC expr FECHAPC
+    (15) expr -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (16) expr -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (17) expr -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (18) expr -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
 
-    ALTERNA         reduce using rule 43 (ExprRel -> maisPiquenoOuGemeo .)
-    $end            reduce using rule 43 (ExprRel -> maisPiquenoOuGemeo .)
+    INT             shift and go to state 13
+    ID              shift and go to state 11
+    NOUM            shift and go to state 14
+    MAISPIQUENO     shift and go to state 15
+    MAISPIQUENOOUGEMEO shift and go to state 16
+    MAISGRANDE      shift and go to state 17
+    MAISGRANDEOUGEMEO shift and go to state 18
 
+    expr                           shift and go to state 47
 
 state 44
 
-    (44) ExprRel -> naoGemeo .
+    (15) expr -> MAISPIQUENO ABREPC expr VIRG expr . FECHAPC
+    (9) expr -> expr . SOMA expr
+    (10) expr -> expr . MENUS expr
+    (11) expr -> expr . SOMANBEZES expr
+    (12) expr -> expr . DIBIDE expr
+    (13) expr -> expr . SOBRAS expr
 
-    ALTERNA         reduce using rule 44 (ExprRel -> naoGemeo .)
-    $end            reduce using rule 44 (ExprRel -> naoGemeo .)
+    FECHAPC         shift and go to state 48
+    SOMA            shift and go to state 19
+    MENUS           shift and go to state 20
+    SOMANBEZES      shift and go to state 21
+    DIBIDE          shift and go to state 22
+    SOBRAS          shift and go to state 23
 
 
 state 45
 
-    (51) ExprLog -> ie .
+    (16) expr -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr . FECHAPC
+    (9) expr -> expr . SOMA expr
+    (10) expr -> expr . MENUS expr
+    (11) expr -> expr . SOMANBEZES expr
+    (12) expr -> expr . DIBIDE expr
+    (13) expr -> expr . SOBRAS expr
 
-    ALTERNA         reduce using rule 51 (ExprLog -> ie .)
-    $end            reduce using rule 51 (ExprLog -> ie .)
+    FECHAPC         shift and go to state 49
+    SOMA            shift and go to state 19
+    MENUS           shift and go to state 20
+    SOMANBEZES      shift and go to state 21
+    DIBIDE          shift and go to state 22
+    SOBRAS          shift and go to state 23
 
 
 state 46
 
-    (52) ExprLog -> oue .
+    (17) expr -> MAISGRANDE ABREPC expr VIRG expr . FECHAPC
+    (9) expr -> expr . SOMA expr
+    (10) expr -> expr . MENUS expr
+    (11) expr -> expr . SOMANBEZES expr
+    (12) expr -> expr . DIBIDE expr
+    (13) expr -> expr . SOBRAS expr
 
-    ALTERNA         reduce using rule 52 (ExprLog -> oue .)
-    $end            reduce using rule 52 (ExprLog -> oue .)
+    FECHAPC         shift and go to state 50
+    SOMA            shift and go to state 19
+    MENUS           shift and go to state 20
+    SOMANBEZES      shift and go to state 21
+    DIBIDE          shift and go to state 22
+    SOBRAS          shift and go to state 23
 
 
 state 47
 
-    (53) ExprLog -> noum .
+    (18) expr -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr . FECHAPC
+    (9) expr -> expr . SOMA expr
+    (10) expr -> expr . MENUS expr
+    (11) expr -> expr . SOMANBEZES expr
+    (12) expr -> expr . DIBIDE expr
+    (13) expr -> expr . SOBRAS expr
 
-    ALTERNA         reduce using rule 53 (ExprLog -> noum .)
-    $end            reduce using rule 53 (ExprLog -> noum .)
+    FECHAPC         shift and go to state 51
+    SOMA            shift and go to state 19
+    MENUS           shift and go to state 20
+    SOMANBEZES      shift and go to state 21
+    DIBIDE          shift and go to state 22
+    SOBRAS          shift and go to state 23
 
 
 state 48
 
-    (37) Busca -> BUSCA . ID entrada
-    (38) Busca -> BUSCA . ID entrada entrada
+    (15) expr -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .
 
-    ID              shift and go to state 68
+    SOMA            reduce using rule 15 (expr -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
+    MENUS           reduce using rule 15 (expr -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
+    SOMANBEZES      reduce using rule 15 (expr -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
+    DIBIDE          reduce using rule 15 (expr -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
+    SOBRAS          reduce using rule 15 (expr -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
+    VAR             reduce using rule 15 (expr -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
+    LISTA           reduce using rule 15 (expr -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
+    $end            reduce using rule 15 (expr -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
+    FECHAPC         reduce using rule 15 (expr -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
+    VIRG            reduce using rule 15 (expr -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
 
 
 state 49
 
-    (45) maisGrande -> MAISGRANDE . ABREPC entrada VIRG entrada FECHAPC
+    (16) expr -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .
 
-    ABREPC          shift and go to state 69
+    SOMA            reduce using rule 16 (expr -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    MENUS           reduce using rule 16 (expr -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    SOMANBEZES      reduce using rule 16 (expr -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    DIBIDE          reduce using rule 16 (expr -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    SOBRAS          reduce using rule 16 (expr -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    VAR             reduce using rule 16 (expr -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    LISTA           reduce using rule 16 (expr -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    $end            reduce using rule 16 (expr -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    FECHAPC         reduce using rule 16 (expr -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    VIRG            reduce using rule 16 (expr -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
 
 
 state 50
 
-    (46) maisPiqueno -> MAISPIQUENO . ABREPC entrada VIRG entrada FECHAPC
+    (17) expr -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .
 
-    ABREPC          shift and go to state 70
+    SOMA            reduce using rule 17 (expr -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
+    MENUS           reduce using rule 17 (expr -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
+    SOMANBEZES      reduce using rule 17 (expr -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
+    DIBIDE          reduce using rule 17 (expr -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
+    SOBRAS          reduce using rule 17 (expr -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
+    VAR             reduce using rule 17 (expr -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
+    LISTA           reduce using rule 17 (expr -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
+    $end            reduce using rule 17 (expr -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
+    FECHAPC         reduce using rule 17 (expr -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
+    VIRG            reduce using rule 17 (expr -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
 
 
 state 51
 
-    (47) gemeo -> GEMEO . ABREPC entrada VIRG entrada FECHAPC
-
-    ABREPC          shift and go to state 71
-
-
-state 52
-
-    (48) maisGrandeOuGemeo -> MAISGRANDEOUGEMEO . ABREPC entrada VIRG entrada FECHAPC
-
-    ABREPC          shift and go to state 72
-
-
-state 53
-
-    (49) maisPiquenoOuGemeo -> MAISPIQUENOOUGEMEO . ABREPC entrada VIRG entrada FECHAPC
-
-    ABREPC          shift and go to state 73
-
-
-state 54
-
-    (50) naoGemeo -> NAOGEMEO . ABREPC entrada VIRG entrada FECHAPC
-
-    ABREPC          shift and go to state 74
-
-
-state 55
-
-    (56) noum -> NOUM . ABREPC entrada FECHAPC
-
-    ABREPC          shift and go to state 75
-
-
-state 56
-
-    (13) decl -> MATRIZ ID entrada entrada .
-
-    ALTERNA         reduce using rule 13 (decl -> MATRIZ ID entrada entrada .)
-    $end            reduce using rule 13 (decl -> MATRIZ ID entrada entrada .)
-
-
-state 57
-
-    (14) alterna -> ALTERNA ID COM entrada .
-    (31) soma -> entrada . SOMA entrada
-    (32) sub -> entrada . MENUS entrada
-    (33) mult -> entrada . SOMANBEZES entrada
-    (34) div -> entrada . DIBIDE entrada
-    (35) exp -> entrada . CHAPEU entrada
-    (36) resto -> entrada . SOBRAS entrada
-    (54) ie -> entrada . IE entrada
-    (55) oue -> entrada . OUE entrada
-
-    ALTERNA         reduce using rule 14 (alterna -> ALTERNA ID COM entrada .)
-    $end            reduce using rule 14 (alterna -> ALTERNA ID COM entrada .)
-    SOMA            shift and go to state 60
-    MENUS           shift and go to state 61
-    SOMANBEZES      shift and go to state 62
-    DIBIDE          shift and go to state 63
-    CHAPEU          shift and go to state 64
-    SOBRAS          shift and go to state 65
-    IE              shift and go to state 66
-    OUE             shift and go to state 67
-
-
-state 58
-
-    (15) alterna -> ALTERNA ID COM op .
-
-    ALTERNA         reduce using rule 15 (alterna -> ALTERNA ID COM op .)
-    $end            reduce using rule 15 (alterna -> ALTERNA ID COM op .)
-
-
-state 59
-
-    (16) alterna -> ALTERNA ID entrada COM . entrada
-    (17) alterna -> ALTERNA ID entrada COM . op
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-    (21) op -> . ExprArit
-    (22) op -> . ExprRel
-    (23) op -> . ExprLog
-    (24) op -> . Busca
-    (25) ExprArit -> . soma
-    (26) ExprArit -> . sub
-    (27) ExprArit -> . mult
-    (28) ExprArit -> . div
-    (29) ExprArit -> . exp
-    (30) ExprArit -> . resto
-    (39) ExprRel -> . maisGrande
-    (40) ExprRel -> . maisPiqueno
-    (41) ExprRel -> . gemeo
-    (42) ExprRel -> . maisGrandeOuGemeo
-    (43) ExprRel -> . maisPiquenoOuGemeo
-    (44) ExprRel -> . naoGemeo
-    (51) ExprLog -> . ie
-    (52) ExprLog -> . oue
-    (53) ExprLog -> . noum
-    (37) Busca -> . BUSCA ID entrada
-    (38) Busca -> . BUSCA ID entrada entrada
-    (31) soma -> . entrada SOMA entrada
-    (32) sub -> . entrada MENUS entrada
-    (33) mult -> . entrada SOMANBEZES entrada
-    (34) div -> . entrada DIBIDE entrada
-    (35) exp -> . entrada CHAPEU entrada
-    (36) resto -> . entrada SOBRAS entrada
-    (45) maisGrande -> . MAISGRANDE ABREPC entrada VIRG entrada FECHAPC
-    (46) maisPiqueno -> . MAISPIQUENO ABREPC entrada VIRG entrada FECHAPC
-    (47) gemeo -> . GEMEO ABREPC entrada VIRG entrada FECHAPC
-    (48) maisGrandeOuGemeo -> . MAISGRANDEOUGEMEO ABREPC entrada VIRG entrada FECHAPC
-    (49) maisPiquenoOuGemeo -> . MAISPIQUENOOUGEMEO ABREPC entrada VIRG entrada FECHAPC
-    (50) naoGemeo -> . NAOGEMEO ABREPC entrada VIRG entrada FECHAPC
-    (54) ie -> . entrada IE entrada
-    (55) oue -> . entrada OUE entrada
-    (56) noum -> . NOUM ABREPC entrada FECHAPC
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-    BUSCA           shift and go to state 48
-    MAISGRANDE      shift and go to state 49
-    MAISPIQUENO     shift and go to state 50
-    GEMEO           shift and go to state 51
-    MAISGRANDEOUGEMEO shift and go to state 52
-    MAISPIQUENOOUGEMEO shift and go to state 53
-    NAOGEMEO        shift and go to state 54
-    NOUM            shift and go to state 55
-
-    entrada                        shift and go to state 76
-    op                             shift and go to state 77
-    ExprArit                       shift and go to state 29
-    ExprRel                        shift and go to state 30
-    ExprLog                        shift and go to state 31
-    Busca                          shift and go to state 32
-    soma                           shift and go to state 33
-    sub                            shift and go to state 34
-    mult                           shift and go to state 35
-    div                            shift and go to state 36
-    exp                            shift and go to state 37
-    resto                          shift and go to state 38
-    maisGrande                     shift and go to state 39
-    maisPiqueno                    shift and go to state 40
-    gemeo                          shift and go to state 41
-    maisGrandeOuGemeo              shift and go to state 42
-    maisPiquenoOuGemeo             shift and go to state 43
-    naoGemeo                       shift and go to state 44
-    ie                             shift and go to state 45
-    oue                            shift and go to state 46
-    noum                           shift and go to state 47
-
-state 60
-
-    (31) soma -> entrada SOMA . entrada
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 78
-
-state 61
-
-    (32) sub -> entrada MENUS . entrada
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 79
-
-state 62
-
-    (33) mult -> entrada SOMANBEZES . entrada
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 80
-
-state 63
-
-    (34) div -> entrada DIBIDE . entrada
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 81
-
-state 64
-
-    (35) exp -> entrada CHAPEU . entrada
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 82
-
-state 65
-
-    (36) resto -> entrada SOBRAS . entrada
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 83
-
-state 66
-
-    (54) ie -> entrada IE . entrada
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 84
-
-state 67
-
-    (55) oue -> entrada OUE . entrada
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 85
-
-state 68
-
-    (37) Busca -> BUSCA ID . entrada
-    (38) Busca -> BUSCA ID . entrada entrada
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 86
-
-state 69
-
-    (45) maisGrande -> MAISGRANDE ABREPC . entrada VIRG entrada FECHAPC
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 87
-
-state 70
-
-    (46) maisPiqueno -> MAISPIQUENO ABREPC . entrada VIRG entrada FECHAPC
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 88
-
-state 71
-
-    (47) gemeo -> GEMEO ABREPC . entrada VIRG entrada FECHAPC
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 89
-
-state 72
-
-    (48) maisGrandeOuGemeo -> MAISGRANDEOUGEMEO ABREPC . entrada VIRG entrada FECHAPC
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 90
-
-state 73
-
-    (49) maisPiquenoOuGemeo -> MAISPIQUENOOUGEMEO ABREPC . entrada VIRG entrada FECHAPC
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 91
-
-state 74
-
-    (50) naoGemeo -> NAOGEMEO ABREPC . entrada VIRG entrada FECHAPC
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 92
-
-state 75
-
-    (56) noum -> NOUM ABREPC . entrada FECHAPC
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 93
-
-state 76
-
-    (16) alterna -> ALTERNA ID entrada COM entrada .
-    (31) soma -> entrada . SOMA entrada
-    (32) sub -> entrada . MENUS entrada
-    (33) mult -> entrada . SOMANBEZES entrada
-    (34) div -> entrada . DIBIDE entrada
-    (35) exp -> entrada . CHAPEU entrada
-    (36) resto -> entrada . SOBRAS entrada
-    (54) ie -> entrada . IE entrada
-    (55) oue -> entrada . OUE entrada
-
-    ALTERNA         reduce using rule 16 (alterna -> ALTERNA ID entrada COM entrada .)
-    $end            reduce using rule 16 (alterna -> ALTERNA ID entrada COM entrada .)
-    SOMA            shift and go to state 60
-    MENUS           shift and go to state 61
-    SOMANBEZES      shift and go to state 62
-    DIBIDE          shift and go to state 63
-    CHAPEU          shift and go to state 64
-    SOBRAS          shift and go to state 65
-    IE              shift and go to state 66
-    OUE             shift and go to state 67
-
-
-state 77
-
-    (17) alterna -> ALTERNA ID entrada COM op .
-
-    ALTERNA         reduce using rule 17 (alterna -> ALTERNA ID entrada COM op .)
-    $end            reduce using rule 17 (alterna -> ALTERNA ID entrada COM op .)
-
-
-state 78
-
-    (31) soma -> entrada SOMA entrada .
-
-    ALTERNA         reduce using rule 31 (soma -> entrada SOMA entrada .)
-    $end            reduce using rule 31 (soma -> entrada SOMA entrada .)
-
-
-state 79
-
-    (32) sub -> entrada MENUS entrada .
-
-    ALTERNA         reduce using rule 32 (sub -> entrada MENUS entrada .)
-    $end            reduce using rule 32 (sub -> entrada MENUS entrada .)
-
-
-state 80
-
-    (33) mult -> entrada SOMANBEZES entrada .
-
-    ALTERNA         reduce using rule 33 (mult -> entrada SOMANBEZES entrada .)
-    $end            reduce using rule 33 (mult -> entrada SOMANBEZES entrada .)
-
-
-state 81
-
-    (34) div -> entrada DIBIDE entrada .
-
-    ALTERNA         reduce using rule 34 (div -> entrada DIBIDE entrada .)
-    $end            reduce using rule 34 (div -> entrada DIBIDE entrada .)
-
-
-state 82
-
-    (35) exp -> entrada CHAPEU entrada .
-
-    ALTERNA         reduce using rule 35 (exp -> entrada CHAPEU entrada .)
-    $end            reduce using rule 35 (exp -> entrada CHAPEU entrada .)
-
-
-state 83
-
-    (36) resto -> entrada SOBRAS entrada .
-
-    ALTERNA         reduce using rule 36 (resto -> entrada SOBRAS entrada .)
-    $end            reduce using rule 36 (resto -> entrada SOBRAS entrada .)
-
-
-state 84
-
-    (54) ie -> entrada IE entrada .
-
-    ALTERNA         reduce using rule 54 (ie -> entrada IE entrada .)
-    $end            reduce using rule 54 (ie -> entrada IE entrada .)
-
-
-state 85
-
-    (55) oue -> entrada OUE entrada .
-
-    ALTERNA         reduce using rule 55 (oue -> entrada OUE entrada .)
-    $end            reduce using rule 55 (oue -> entrada OUE entrada .)
-
-
-state 86
-
-    (37) Busca -> BUSCA ID entrada .
-    (38) Busca -> BUSCA ID entrada . entrada
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ALTERNA         reduce using rule 37 (Busca -> BUSCA ID entrada .)
-    $end            reduce using rule 37 (Busca -> BUSCA ID entrada .)
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 94
-
-state 87
-
-    (45) maisGrande -> MAISGRANDE ABREPC entrada . VIRG entrada FECHAPC
-
-    VIRG            shift and go to state 95
-
-
-state 88
-
-    (46) maisPiqueno -> MAISPIQUENO ABREPC entrada . VIRG entrada FECHAPC
-
-    VIRG            shift and go to state 96
-
-
-state 89
-
-    (47) gemeo -> GEMEO ABREPC entrada . VIRG entrada FECHAPC
-
-    VIRG            shift and go to state 97
-
-
-state 90
-
-    (48) maisGrandeOuGemeo -> MAISGRANDEOUGEMEO ABREPC entrada . VIRG entrada FECHAPC
-
-    VIRG            shift and go to state 98
-
-
-state 91
-
-    (49) maisPiquenoOuGemeo -> MAISPIQUENOOUGEMEO ABREPC entrada . VIRG entrada FECHAPC
-
-    VIRG            shift and go to state 99
-
-
-state 92
-
-    (50) naoGemeo -> NAOGEMEO ABREPC entrada . VIRG entrada FECHAPC
-
-    VIRG            shift and go to state 100
-
-
-state 93
-
-    (56) noum -> NOUM ABREPC entrada . FECHAPC
-
-    FECHAPC         shift and go to state 101
-
-
-state 94
-
-    (38) Busca -> BUSCA ID entrada entrada .
-
-    ALTERNA         reduce using rule 38 (Busca -> BUSCA ID entrada entrada .)
-    $end            reduce using rule 38 (Busca -> BUSCA ID entrada entrada .)
-
-
-state 95
-
-    (45) maisGrande -> MAISGRANDE ABREPC entrada VIRG . entrada FECHAPC
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 102
-
-state 96
-
-    (46) maisPiqueno -> MAISPIQUENO ABREPC entrada VIRG . entrada FECHAPC
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 103
-
-state 97
-
-    (47) gemeo -> GEMEO ABREPC entrada VIRG . entrada FECHAPC
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 104
-
-state 98
-
-    (48) maisGrandeOuGemeo -> MAISGRANDEOUGEMEO ABREPC entrada VIRG . entrada FECHAPC
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 105
-
-state 99
-
-    (49) maisPiquenoOuGemeo -> MAISPIQUENOOUGEMEO ABREPC entrada VIRG . entrada FECHAPC
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 106
-
-state 100
-
-    (50) naoGemeo -> NAOGEMEO ABREPC entrada VIRG . entrada FECHAPC
-    (4) entrada -> . ID
-    (5) entrada -> . INT
-
-    ID              shift and go to state 20
-    INT             shift and go to state 22
-
-    entrada                        shift and go to state 107
-
-state 101
-
-    (56) noum -> NOUM ABREPC entrada FECHAPC .
-
-    ALTERNA         reduce using rule 56 (noum -> NOUM ABREPC entrada FECHAPC .)
-    $end            reduce using rule 56 (noum -> NOUM ABREPC entrada FECHAPC .)
-
-
-state 102
-
-    (45) maisGrande -> MAISGRANDE ABREPC entrada VIRG entrada . FECHAPC
-
-    FECHAPC         shift and go to state 108
-
-
-state 103
-
-    (46) maisPiqueno -> MAISPIQUENO ABREPC entrada VIRG entrada . FECHAPC
-
-    FECHAPC         shift and go to state 109
-
-
-state 104
-
-    (47) gemeo -> GEMEO ABREPC entrada VIRG entrada . FECHAPC
-
-    FECHAPC         shift and go to state 110
-
-
-state 105
-
-    (48) maisGrandeOuGemeo -> MAISGRANDEOUGEMEO ABREPC entrada VIRG entrada . FECHAPC
-
-    FECHAPC         shift and go to state 111
-
-
-state 106
-
-    (49) maisPiquenoOuGemeo -> MAISPIQUENOOUGEMEO ABREPC entrada VIRG entrada . FECHAPC
-
-    FECHAPC         shift and go to state 112
-
-
-state 107
-
-    (50) naoGemeo -> NAOGEMEO ABREPC entrada VIRG entrada . FECHAPC
-
-    FECHAPC         shift and go to state 113
-
-
-state 108
-
-    (45) maisGrande -> MAISGRANDE ABREPC entrada VIRG entrada FECHAPC .
-
-    ALTERNA         reduce using rule 45 (maisGrande -> MAISGRANDE ABREPC entrada VIRG entrada FECHAPC .)
-    $end            reduce using rule 45 (maisGrande -> MAISGRANDE ABREPC entrada VIRG entrada FECHAPC .)
-
-
-state 109
-
-    (46) maisPiqueno -> MAISPIQUENO ABREPC entrada VIRG entrada FECHAPC .
-
-    ALTERNA         reduce using rule 46 (maisPiqueno -> MAISPIQUENO ABREPC entrada VIRG entrada FECHAPC .)
-    $end            reduce using rule 46 (maisPiqueno -> MAISPIQUENO ABREPC entrada VIRG entrada FECHAPC .)
-
-
-state 110
-
-    (47) gemeo -> GEMEO ABREPC entrada VIRG entrada FECHAPC .
-
-    ALTERNA         reduce using rule 47 (gemeo -> GEMEO ABREPC entrada VIRG entrada FECHAPC .)
-    $end            reduce using rule 47 (gemeo -> GEMEO ABREPC entrada VIRG entrada FECHAPC .)
-
-
-state 111
-
-    (48) maisGrandeOuGemeo -> MAISGRANDEOUGEMEO ABREPC entrada VIRG entrada FECHAPC .
-
-    ALTERNA         reduce using rule 48 (maisGrandeOuGemeo -> MAISGRANDEOUGEMEO ABREPC entrada VIRG entrada FECHAPC .)
-    $end            reduce using rule 48 (maisGrandeOuGemeo -> MAISGRANDEOUGEMEO ABREPC entrada VIRG entrada FECHAPC .)
-
-
-state 112
-
-    (49) maisPiquenoOuGemeo -> MAISPIQUENOOUGEMEO ABREPC entrada VIRG entrada FECHAPC .
-
-    ALTERNA         reduce using rule 49 (maisPiquenoOuGemeo -> MAISPIQUENOOUGEMEO ABREPC entrada VIRG entrada FECHAPC .)
-    $end            reduce using rule 49 (maisPiquenoOuGemeo -> MAISPIQUENOOUGEMEO ABREPC entrada VIRG entrada FECHAPC .)
-
-
-state 113
-
-    (50) naoGemeo -> NAOGEMEO ABREPC entrada VIRG entrada FECHAPC .
-
-    ALTERNA         reduce using rule 50 (naoGemeo -> NAOGEMEO ABREPC entrada VIRG entrada FECHAPC .)
-    $end            reduce using rule 50 (naoGemeo -> NAOGEMEO ABREPC entrada VIRG entrada FECHAPC .)
-
+    (18) expr -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .
+
+    SOMA            reduce using rule 18 (expr -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    MENUS           reduce using rule 18 (expr -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    SOMANBEZES      reduce using rule 18 (expr -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    DIBIDE          reduce using rule 18 (expr -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    SOBRAS          reduce using rule 18 (expr -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    VAR             reduce using rule 18 (expr -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    LISTA           reduce using rule 18 (expr -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    $end            reduce using rule 18 (expr -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    FECHAPC         reduce using rule 18 (expr -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+    VIRG            reduce using rule 18 (expr -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for SOMA in state 29 resolved as shift
+WARNING: shift/reduce conflict for MENUS in state 29 resolved as shift
+WARNING: shift/reduce conflict for SOMANBEZES in state 29 resolved as shift
+WARNING: shift/reduce conflict for DIBIDE in state 29 resolved as shift
+WARNING: shift/reduce conflict for SOBRAS in state 29 resolved as shift
+WARNING: shift/reduce conflict for SOMA in state 30 resolved as shift
+WARNING: shift/reduce conflict for MENUS in state 30 resolved as shift
+WARNING: shift/reduce conflict for SOMANBEZES in state 30 resolved as shift
+WARNING: shift/reduce conflict for DIBIDE in state 30 resolved as shift
+WARNING: shift/reduce conflict for SOBRAS in state 30 resolved as shift
+WARNING: shift/reduce conflict for SOMA in state 31 resolved as shift
+WARNING: shift/reduce conflict for MENUS in state 31 resolved as shift
+WARNING: shift/reduce conflict for SOMANBEZES in state 31 resolved as shift
+WARNING: shift/reduce conflict for DIBIDE in state 31 resolved as shift
+WARNING: shift/reduce conflict for SOBRAS in state 31 resolved as shift
+WARNING: shift/reduce conflict for SOMA in state 32 resolved as shift
+WARNING: shift/reduce conflict for MENUS in state 32 resolved as shift
+WARNING: shift/reduce conflict for SOMANBEZES in state 32 resolved as shift
+WARNING: shift/reduce conflict for DIBIDE in state 32 resolved as shift
+WARNING: shift/reduce conflict for SOBRAS in state 32 resolved as shift
+WARNING: shift/reduce conflict for SOMA in state 33 resolved as shift
+WARNING: shift/reduce conflict for MENUS in state 33 resolved as shift
+WARNING: shift/reduce conflict for SOMANBEZES in state 33 resolved as shift
+WARNING: shift/reduce conflict for DIBIDE in state 33 resolved as shift
+WARNING: shift/reduce conflict for SOBRAS in state 33 resolved as shift

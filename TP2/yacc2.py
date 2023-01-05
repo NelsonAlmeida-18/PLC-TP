@@ -67,7 +67,6 @@ def p_decl_NoAssign(p):
         parser.vars += 1
         p[0] = f"PUSHI 0\n"
         parser.stackPointer += 1
-        # TO REview push 0?
     else:
         parser.error = (f"Variável {varName} já definida.")
         parser.exito = False
@@ -82,7 +81,7 @@ def p_decl_Int(p):
     value = p[4]
     if varName not in parser.variaveis:
         parser.variaveis[varName] = (value, parser.stackPointer)
-        p[0] = f"PUSHI {value}\n"
+        p[0] = f"PUSHI {value} STOREG {parser.stackPointer}\n"
         parser.vars += 1
         parser.stackPointer += 1
     else:
@@ -100,7 +99,7 @@ def p_decl_op(p):
     if varName not in parser.variaveis:
         parser.variaveis[varName] = (varValue, parser.stackPointer)
         parser.vars += 1
-        p[0] = f"PUSHI {varValue}\n"
+        p[0] = f"PUSHI {varValue} STOREG {parser.stackPointer}\n"
         parser.stackPointer += 1
     else:
         parser.error = (f"Variável {varName} já definida.")
@@ -296,8 +295,8 @@ def p_soma(p):
     '''
     val1 = p[1]
     val2 = p[3]
-    if val1 != None and val2 != None or isinstance(val1, type(val2)):
-        p[0] = f"{val1}{val2}ADD\n"
+    if type(val1)==type(val2) and isinstance(val1, int):
+        p[0] = f"{val1}\n PUSHI {val2} ADD\n"
     else:
         parser.error = (
             f"Operação impossível entre os tipo de dados {type(val1)}, {type(val2)}!")
