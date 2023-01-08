@@ -1,0 +1,60 @@
+criar um comentario:
+comentario(o comentario a fazer)
+
+criar uma variável:
+var nomeDaVariavel
+
+criar variavel com valor:
+var nomeDaVariavel com valorDaVariavel
+
+condicional if:
+se (condicao==logico) logo opcao1 senao opcao2
+
+ciclo while-do:
+enquanto(condicao) faz ciclo 
+
+ciclo for-do:
+faz x enquanto(condicao)
+
+operacoes aritméticas usuais:
++ -> soma
+- -> perdeste
+/ -> dibide
+* -> mula
+^ -> pau
+% -> sobras
+
+operacoes relacionais:
+    Maior entre x e y:
+        maisGrande(x,y) 
+    Menor entre x e y:
+        maisPiqueno(x,y)
+    Verificar a igualdade entre x e y:
+        gemeo(x,y)
+    X maior ou igual que Y:
+        maisGrandeOuGemeo(x,y)
+    X menor ou igual que Y:
+        maisPiquenoOuGemeo(x,y)
+    
+
+ler do stdin:
+entradas
+
+ler do stdout:
+saidas
+
+criar array:
+lista nomeDaLista
+
+criar array de tamanho x:
+lista nomeDaLista tamanhoX
+
+operacao de indexaçao no array:
+busca nomeDoArray indice
+
+criar matriz de tamanho t1xt2:
+matriz nomeDaMatriz t1 t2
+
+operacao de indexacao na matriz:
+busca nomeDaMatriz indice1 indice2
+
