@@ -1,16 +1,14 @@
 import ply.lex as lex
 
 tokens = [
-    "COMENTARIO",
-    "ALTERNA",
-
-    "STRING",
     "ID",
     "VAR",
     "COM",
 
     "ABREPC",
     "FECHAPC",
+    "ABREPR",
+    "FECHAPR",
     "VIRG",
 
     "INT",
@@ -21,7 +19,6 @@ tokens = [
     'DIBIDE',
     'CHAPEU',
     'SOBRAS',
-
 
     'MAISGRANDE',
     'MAISPIQUENO',
@@ -34,14 +31,26 @@ tokens = [
     'OUE',
     'NOUM',
 
+    "ALTERNA",
 
     "LISTA",
     "MATRIZ",
-    "BUSCA"
+    "BUSCA",
+
+    "SE",
+    "COND",
+    "LOGO",
+    "SENAO",
+    "FIM",
+
+    "ENQUANTO",
+    "FAZ"
 ]
 
 t_ABREPC = r'\('
 t_FECHAPC = r'\)'
+t_ABREPR = r'\['
+t_FECHAPR = r'\]'
 t_VIRG = r'\,'
 t_SOMA = r'\+'
 t_MENUS = r'\-'
@@ -52,8 +61,6 @@ t_SOBRAS = r'\%'
 
 t_ignore = ' \r\n\t'
 
-
-t_STRING = r"\"\w+\"|\'\w+\'"
 t_ID = r"\w+"
 
 
@@ -102,7 +109,6 @@ def t_GEMEO(t):
     t.type = "GEMEO"
     return t
 
-
 def t_MAISGRANDEOUGEMEO(t):
     r"maisGrandeOuGemeo"
     t.type = "MAISGRANDEOUGEMEO"
@@ -143,6 +149,35 @@ def t_BUSCA(t):
     t.type = "BUSCA"
     return t
 
+def t_SE(t):
+    r'se'
+    t.type = "SE"
+    return t
+
+def t_LOGO(t):
+    r'logo'
+    t.type = "LOGO"
+    return t
+
+def t_SENAO(t):
+    r'senao'
+    t.type = "SENAO"
+    return t
+
+def t_ENQUANTO(t):
+    r'enquanto'
+    t.type = "ENQUANTO"
+    return t
+
+def t_FAZ(t):
+    r'faz'
+    t.type = "FAZ"
+    return t
+
+def t_FIM(t):
+    r'fim'
+    t.type = "FIM"
+    return t
 
 def t_error(t):
     print('Illegal character: ' + t.value[0])

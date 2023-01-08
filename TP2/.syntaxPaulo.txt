@@ -8,7 +8,7 @@ criar variavel com valor:
 var nomeDaVariavel com valorDaVariavel
 
 condicional if:
-sera (condicao==logico) logo opcao1 senao opcao2
+se (condicao==logico) logo opcao1 senao opcao2
 
 ciclo while-do:
 enquanto(condicao) faz ciclo 
