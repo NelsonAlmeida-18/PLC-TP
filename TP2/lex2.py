@@ -17,7 +17,6 @@ tokens = [
     'MENUS',
     'SOMANBEZES',
     'DIBIDE',
-    'CHAPEU',
     'SOBRAS',
 
     'MAISGRANDE',
@@ -37,10 +36,12 @@ tokens = [
     "MATRIZ",
     "BUSCA",
 
-    "SE",
-    "LOGO",
     "SENAO",
+    "SE",
+    "ENTAO",
     "FIM",
+    "ABRECHAV",
+    "FECHACHAV",
 
     "ENTRADAS",
     "SAIDAS",
@@ -49,6 +50,8 @@ tokens = [
     "FAZ"
 ]
 
+t_ABRECHAV = r"\{"
+t_FECHACHAV = r"\}"
 t_ABREPC = r'\('
 t_FECHAPC = r'\)'
 t_ABREPR = r'\['
@@ -150,19 +153,20 @@ def t_BUSCA(t):
     t.type = "BUSCA"
     return t
 
+
+def t_SENAO(t):
+    r'senao'
+    t.type = "SENAO"
+    return t
+
 def t_SE(t):
     r'se'
     t.type = "SE"
     return t
 
-def t_LOGO(t):
-    r'logo'
-    t.type = "LOGO"
-    return t
-
-def t_SENAO(t):
-    r'senao'
-    t.type = "SENAO"
+def t_ENTAO(t):
+    r'entao'
+    t.type = "ENTAO"
     return t
 
 def t_ENTRADAS(t):

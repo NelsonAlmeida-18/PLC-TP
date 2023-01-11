@@ -7,10 +7,20 @@ import math
 
 from lex2 import *
 
+# Set up a logging object
+import logging
+logging.basicConfig(
+    level = logging.DEBUG,
+    filename = "parselog.txt",
+    filemode = "w",
+    format = "%(filename)10s:%(lineno)4d:%(message)s"
+)
+
 
 def p_Programa_Empty(p):
     '''
     Programa : Decls
+             | Atrib
     '''
     parser.assembly = f'{p[1]}'
 
@@ -106,7 +116,7 @@ def p_Decl_Lista_NoSize(p):
     "Decl : LISTA ID"
     listName = p[2]
     if listName not in parser.variaveis:
-        parser.variaveis[listName] = ([], parser.stackPointer)
+        parser.variaveis[listName] = (parser.stackPointer, 0)
         p[0] = f"PUSHN 0\n"
         parser.stackPointer += 1
     else:
@@ -121,9 +131,13 @@ def p_DeclLista_Size(p):
     listName = p[2]
     size = int(p[3])
     if listName not in parser.variaveis:
-        parser.variaveis[listName] = (None, parser.stackPointer)
-        p[0] = f"PUSHN {size}\n"
-        parser.stackPointer += size
+        if size>0:
+            parser.variaveis[listName] = (parser.stackPointer, size-1)
+            p[0] = f"PUSHN {size}\n"
+            parser.stackPointer += size-1
+        else:
+            parser.error = f"Impossível declarar um array de tamanho {size}"
+            parser.exito = False
     else:
         parser.error = (
             f"Variável com o nome {listName} já definida anteriormente.")
@@ -134,9 +148,13 @@ def p_DeclLista_Size(p):
 def p_AlternaLista_elem(p):
     "Atrib : ALTERNA ID ABREPR INT FECHAPR COM expr"
     varName = p[2]
-    print(p[4])
+    pos = p[4]
     if varName in parser.variaveis:
+        if pos<parser.variaveis[varName][1]:
             p[0] = f"PUSHGP\nPUSHI {parser.variaveis[varName][1]}\nPADD\n{p[4]}{p[7]}STOREN\n"
+        else:
+            parser.error = f"Indice {pos} fora de alcance"
+            parser.exito = False
     else:
         parser.error = f"Variável com o nome {varName} não definida" 
         parser.exito = False
@@ -153,7 +171,7 @@ def p_AtribLista_lista(p):
         for i in lista:
             assm+=f"PUSHI {i}\n"
         
-        parser.variaveis[varName]=(assm, parser.stackPointer)
+        parser.variaveis[varName]=(parser.stackPointer, len(lista)-1)
         parser.stackPointer+=len(lista)-1
         p[0]=assm
 
@@ -163,7 +181,7 @@ def p_Decl_Matriz_NoSize(p):
     "Decl : MATRIZ ID"
     listName = p[2]
     if listName not in parser.variaveis:
-        parser.variaveis[listName] = ([], parser.stackPointer)
+        parser.variaveis[listName] = (parser.stackPointer, 0,0)
         p[0] = f"PUSHN 0\n"
         parser.stackPointer += 1
     else:
@@ -179,13 +197,19 @@ def p_DeclMatriz_Size(p):
     size = int(p[3])
     size1 = int(p[4])
     if listName not in parser.variaveis:
-        parser.variaveis[listName] = (f"PUSHN {size*size1}\n", parser.stackPointer)
+        parser.variaveis[listName] = (parser.stackPointer, size, size1)
         p[0] = f"PUSHN {size*size1}\n"
         parser.stackPointer += size*size1
     else:
         parser.error = (
             f"Variável com o nome {listName} já definida anteriormente.")
         parser.exito = False
+
+def p_AtribMatriz_comMatriz(p):
+    "Alterna : ALTERNA ID ABREPR expr FECHAPR COM lista"
+
+
+
 
 
 ########## Expr Arit
@@ -248,19 +272,19 @@ def p_oue(p):
     p[0] = f"{p[1]}{p[3]}ADD\nPUSHI 1\nSUPEQ\n"
 
 ## IF / WHILE
-def p_if_Then(p):
-   "if : SE exprRel LOGO Corpo FIM"
-   p[0] = f"{p[2]}JZ l{parser.labels}\n{p[4]}l{parser.labels}: NOP\n"
+def p_if_Then_Else(p):
+   "if : SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Corpo FECHACHAV SENAO ABRECHAV Corpo FECHACHAV FIM"
+   p[0] = f"{p[3]}JZ l{parser.labels}\n{p[7]}JUMP l{parser.labels}f\nl{parser.labels}: NOP\n{p[11]}l{parser.labels}f: NOP\n"
    parser.labels += 1
 
-def p_if_Then_Else(p):
-   "if : SE exprRel LOGO Corpo SENAO Corpo FIM"
-   p[0] = f"{p[2]}JZ l{parser.labels}\n{p[4]}JUMP l{parser.labels}f\nl{parser.labels}: NOP\n{p[6]}l{parser.labels}f: NOP\n"
+def p_if_Then(p):
+   "if : SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Corpo FECHACHAV FIM"
+   p[0] = f"{p[3]}JZ l{parser.labels}\n{p[7]}l{parser.labels}: NOP\n"
    parser.labels += 1
 
 def p_while(p):
-    "while : ENQUANTO exprRel FAZ Corpo FIM"
-    p[0] = f'l{parser.labels}c: NOP\n{p[2]}JZ l{parser.labels}f\n{p[4]}JUMP l{parser.labels}c\nl{parser.labels}f: NOP\n'
+    "while : ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Corpo FECHACHAV FIM"
+    p[0] = f'l{parser.labels}c: NOP\n{p[3]}JZ l{parser.labels}f\n{p[7]}JUMP l{parser.labels}c\nl{parser.labels}f: NOP\n'
     parser.labels += 1
 
 #################
@@ -268,18 +292,15 @@ def p_expr(p):
     "expr : INT"
     p[0] = f"PUSHI {int(p[1])}\n"
 
-
 def p_expr_var(p):
     "expr : ID"
     varName = p[1]
     if varName in parser.variaveis:
-        value = parser.variaveis[varName][0]
-        p[0]=value
+        p[0] = f"PUSHG {parser.variaveis[varName][1]}\n"
 
 def p_lista(p):
     "lista : ABREPR elems FECHAPR"
     p[0]=p[2]
-
 
 def p_elems(p):
     "elems : INT"
@@ -288,6 +309,7 @@ def p_elems(p):
 
 def p_elems_rec(p):
     "elems : elems VIRG INT"
+    print(p[1]+[p[3]])
     p[0]=p[1]+[p[3]]
 
 #########
@@ -296,12 +318,13 @@ def p_elems_rec(p):
 #----------------------------------------
 
 def p_error(p):
-    print('Syntax error: ', p)
-    parser.success = False
+    print('Syntax error: ', p, p.type, p.value)
+    parser.exito = False
 
 #----------------------------------------
 
-parser = yacc.yacc()
+log = logging.getLogger()
+parser = yacc.yacc(debug=True,debuglog=log)
 parser.exito = True
 parser.error = ""
 parser.assembly = ""
@@ -315,7 +338,7 @@ assembly =""
 line = input(">")
 while line:
     parser.exito = True
-    parser.parse(line)
+    parser.parse(line, debug = log)
     print(parser.linhaDeCodigo)
     if parser.exito:
         print("--------------------------------------")
