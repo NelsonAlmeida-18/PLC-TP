@@ -7,15 +7,6 @@ import math
 
 from lex2 import *
 
-# Set up a logging object
-import logging
-logging.basicConfig(
-    level = logging.DEBUG,
-    filename = "parselog.txt",
-    filemode = "w",
-    format = "%(filename)10s:%(lineno)4d:%(message)s"
-)
-
 
 def p_Programa_Empty(p):
     '''
@@ -71,6 +62,7 @@ def p_Proc(p):
     '''
     Proc : if
          | while
+         | saidas
     '''
     p[0]=p[1]
 
@@ -143,10 +135,49 @@ def p_DeclLista_Size(p):
             f"Variável com o nome {listName} já definida anteriormente.")
         parser.exito = False
 
+def p_AtribMatriz_comExpr(p):
+    "Atrib : ALTERNA ID ABREPR expr FECHAPR ABREPR expr FECHAPR COM expr"
+    matName = p[2]
+    if matName in parser.variaveis:
+        if len(parser.variaveis[matName]):
+            p[0]=f'''PUSHGP\nPUSHI {parser.variaveis[matName][0]}\nPADD\n{p[4]}PUSHI {parser.variaveis[matName][2]}MUL\nPADD\n{p[7]}{p[10]}STOREN\n'''
+        else:
+            parser.error = f"Operação inválida, variável {matName} não é uma matriz"
+            parser.exito = False
+
+    else:
+        parser.error = f"Variável não declarada anteriormente"
+        parser.exito = False
+
+
+def p_AtribMatriz_comLista(p):
+    "Atrib : ALTERNA ID ABREPR expr FECHAPR COM lista"
+    matName = p[2]
+    if matName in parser.variaveis:
+        if len(parser.variaveis[matName])==3:
+            if len(p[7])<=parser.variaveis[matName][2]:
+                assm =""
+                j=0
+                for i in p[7]:
+                    assm+=f'''PUSHGP\nPUSHI {parser.variaveis[matName][0]}\nPADD\n{p[4]}PUSHI {parser.variaveis[matName][2]}\nMUL\nPADD\nPUSHI {j}\nPUSHI {i}\nSTOREN\n'''
+                    j+=1
+                p[0] = f'{assm}'
+            else:
+                parser.error = f"Tamanho da lista maior do que o alocado"
+                parser.exito = False
+        else:
+            parser.error = f"Operação inválida, variável {matName} não é uma matriz"
+            parser.exito = False
+
+    else:
+        parser.error = f"Variável não declarada anteriormente"
+        parser.exito = False
+
+
 
 # Altera valor de um indice da lista
 def p_AlternaLista_elem(p):
-    "Atrib : ALTERNA ID ABREPR INT FECHAPR COM expr"
+    "Atrib : ALTERNA ID ABREPR expr FECHAPR COM expr"
     varName = p[2]
     pos = p[4]
     if varName in parser.variaveis:
@@ -163,7 +194,7 @@ def p_AlternaLista_elem(p):
 
 # Atribui valores à lista com outra lista
 def p_AtribLista_lista(p):
-    "Atrib : LISTA ID COM lista "
+    "Atrib : LISTA ID COM lista"
     lista = p[4]
     varName = p[2]
     if varName not in parser.variaveis:
@@ -174,6 +205,9 @@ def p_AtribLista_lista(p):
         parser.variaveis[varName]=(parser.stackPointer, len(lista)-1)
         parser.stackPointer+=len(lista)-1
         p[0]=assm
+    else:
+        parser.error = f"Variável com o nome {varName} não definida" 
+        parser.exito = False
 
 
 # Declara lista sem tamanho
@@ -205,15 +239,17 @@ def p_DeclMatriz_Size(p):
             f"Variável com o nome {listName} já definida anteriormente.")
         parser.exito = False
 
-def p_AtribMatriz_comMatriz(p):
-    "Alterna : ALTERNA ID ABREPR expr FECHAPR COM lista"
-
-
-
-
-
-########## Expr Arit
-
+def p_ProcBusca_Lista(p):
+    "Proc : BUSCA ID ABREPR expr FECHAPR"
+    varName = p[2]
+    indice = p[4]
+    if varName in parser.variaveis:
+        p[0] = f"PUSHGP\nPUSHI {parser.variaveis[varName][0]}\nPADD\n{indice}LOADN\n"
+    else:
+        parser.error = (
+            f"Variável com o nome {varName} não definida anteriormente.")
+        parser.exito = False
+########## exprArit / exprRel
 
 def p_soma(p):
     "exprArit : expr SOMA expr"
@@ -288,6 +324,11 @@ def p_while(p):
     parser.labels += 1
 
 #################
+
+def p_expr_in(p):
+    "expr : ENTRADAS"
+    p[0] = f"READ\nATOI\n"
+    
 def p_expr(p):
     "expr : INT"
     p[0] = f"PUSHI {int(p[1])}\n"
@@ -297,6 +338,8 @@ def p_expr_var(p):
     varName = p[1]
     if varName in parser.variaveis:
         p[0] = f"PUSHG {parser.variaveis[varName][1]}\n"
+    else:
+        p[0] = p[1]
 
 def p_lista(p):
     "lista : ABREPR elems FECHAPR"
@@ -306,13 +349,34 @@ def p_elems(p):
     "elems : INT"
     p[0]=[int(p[1])]
 
-
 def p_elems_rec(p):
     "elems : elems VIRG INT"
     print(p[1]+[p[3]])
     p[0]=p[1]+[p[3]]
 
+def p_ProcBusca_Matriz(p):
+    "Proc : BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR"
+    varName = p[2]
+    indice1 = p[4]
+    indice2 = p[7]
+    if varName in parser.variaveis:
+        p[0] = f"PUSHGP\nPUSHI {parser.variaveis[varName][0]}\nPADD\n{indice1}PUSHI {parser.variaveis[varName][2]}\nMUL\nPADD\n{indice2}LOADN\n"
+    else:
+        parser.error = f"Variável com o nome {varName} não definida"
+        parser.exito = False
+
 #########
+
+def p_saidas_STRING(p):
+    "saidas : SAIDAS ID"
+    p[0] = f'PUSHS {p[2]}\nWRITES\n'
+
+def p_saidas_OP(p):
+    "saidas : SAIDAS expr"
+    if "PUSHI" in p[2]:
+        assem = ""
+    else:
+        print("")
 
 
 #----------------------------------------
@@ -323,8 +387,7 @@ def p_error(p):
 
 #----------------------------------------
 
-log = logging.getLogger()
-parser = yacc.yacc(debug=True,debuglog=log)
+parser = yacc.yacc()
 parser.exito = True
 parser.error = ""
 parser.assembly = ""
@@ -338,7 +401,7 @@ assembly =""
 line = input(">")
 while line:
     parser.exito = True
-    parser.parse(line, debug = log)
+    parser.parse(line)
     print(parser.linhaDeCodigo)
     if parser.exito:
         print("--------------------------------------")
