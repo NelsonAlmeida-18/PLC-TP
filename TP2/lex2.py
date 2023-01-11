@@ -38,10 +38,12 @@ tokens = [
     "BUSCA",
 
     "SE",
-    "COND",
     "LOGO",
     "SENAO",
     "FIM",
+
+    "ENTRADAS",
+    "SAIDAS",
 
     "ENQUANTO",
     "FAZ"
@@ -56,7 +58,6 @@ t_SOMA = r'\+'
 t_MENUS = r'\-'
 t_SOMANBEZES = r'\*'
 t_DIBIDE = r'\/'
-t_CHAPEU = r'\^'
 t_SOBRAS = r'\%'
 
 t_ignore = ' \r\n\t'
@@ -162,6 +163,16 @@ def t_LOGO(t):
 def t_SENAO(t):
     r'senao'
     t.type = "SENAO"
+    return t
+
+def t_ENTRADAS(t):
+    r"entradas"
+    t.type = "ENTRADAS"
+    return t
+
+def t_SAIDAS(t):
+    r"saidas"
+    t.type = "SAIDAS"
     return t
 
 def t_ENQUANTO(t):

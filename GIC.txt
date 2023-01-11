@@ -1,0 +1,62 @@
+Programa : Decls 
+         | Corpo
+         | Decls Corpo
+
+Decls    : Decl
+         | Decl Decls
+
+Decl     : VAR ID 
+         | LISTA ID
+         | LISTA ID INT 
+         | LISTA ID COM lista
+         | MATRIZ ID 
+         | MATRIZ ID INT INT
+
+Atrib    : VAR ID COM expr
+         | ALTERNA ID ABREPR expr FECHAPR COM expr
+         | ALTERNA ID COM expr
+         | VAR ID COM entradas 
+         | ALTERNA ID COM entradas
+
+Corpo    : Proc
+         | Proc Corpo
+         | Atrib 
+         | Atrib Corpo
+
+expr     : INT 
+         | ID 
+         | exprArit
+         | exprRel
+
+lista    : ABREPR elems FECHAPR
+
+elems    : INT  
+         | INT VIRG elems 
+
+exprArit : expr SOMA expr
+         | expr MENUS expr
+         | expr SOMANBEZES expr
+         | expr DIBIDE expr
+         | expr SOBRAS expr
+
+exprRel  : NOUM ABREPC expr FECHAPC
+         | GEMEO ABREPC expr VIRG expr FECHAPC
+         | NAOGEMEO ABREPC expr VIRG expr FECHAPC
+         | MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+         | MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+         | MAISGRANDE ABREPC expr VIRG expr FECHAPC
+         | MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
+         | expr IE expr
+         | expr OUE expr
+
+Proc     : if
+         | while 
+         | saidas
+        
+if       : SE exprRel LOGO Corpo FIM
+         | SE exprRel LOGO Corpo SENAO Corpo FIM
+
+while    : ENQUANTO exprRel FAZ Corpo FIM
+
+saidas   : SAIDAS ID 
+         | SAIDAS expre
