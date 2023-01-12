@@ -2,6 +2,7 @@ import ply.yacc as yacc
 import random as rd
 
 from lex2 import *
+import sys
 
 
 def p_Programa_Empty(p):
@@ -115,8 +116,6 @@ def p_expr_var(p):
     varName = p[1]
     if varName in parser.variaveis:
         p[0] = f"PUSHG {parser.variaveis[varName][1]}\n"
-    else:
-        p[0] = p[1]
 
 
 def p_expr_entradas(p):
@@ -145,9 +144,9 @@ def p_DeclLista_Size(p):
     size = int(p[3])
     if listName not in parser.variaveis:
         if size > 0:
-            parser.variaveis[listName] = (parser.stackPointer, size-1)
+            parser.variaveis[listName] = (parser.stackPointer, size)
             p[0] = f"PUSHN {size}\n"
-            parser.stackPointer += size-1
+            parser.stackPointer += size
         else:
             parser.error = f"Impossível declarar um array de tamanho {size}"
             parser.exito = False
@@ -162,17 +161,27 @@ def p_AtribLista_lista(p):
     "Atrib : LISTA ID COM lista"
     lista = p[4]
     varName = p[2]
-    if varName not in parser.variaveis:
+    if varName in parser.variaveis:
+        if len(lista)<parser.variaveis[varName][1]:
+            assm = ""
+            for i in lista:
+                assm += f"PUSHI {i}\n"
+
+            parser.variaveis[varName] = (parser.stackPointer, parser.variaveis[varName][1])
+            parser.stackPointer += len(lista)
+            p[0] = assm
+        else:
+            parser.error = f"Variável com o nome {varName} não definida"
+            parser.exito = False
+    else:
         assm = ""
         for i in lista:
             assm += f"PUSHI {i}\n"
 
-        parser.variaveis[varName] = (parser.stackPointer, len(lista)-1)
-        parser.stackPointer += len(lista)-1
+        parser.variaveis[varName] = (parser.stackPointer, len(lista))
+        parser.stackPointer += len(lista)
         p[0] = assm
-    else:
-        parser.error = f"Variável com o nome {varName} não definida"
-        parser.exito = False
+
 
 
 # Altera valor de um indice da lista
@@ -406,16 +415,34 @@ def p_while(p):
 
 
 def p_saidas_STRING(p):
-    "saidas : SAIDAS ID"
+    "saidas : SAIDAS STRING"
     p[0] = f'PUSHS {p[2]}\nWRITES\n'
 
 
-def p_saidas_OP(p):
+def p_saidas_lista(p):
+    "saidas : SAIDAS ID"
+    if len(parser.variaveis[p[2]])==3 :
+        listas = parser.variaveis[p[2]]
+        initLista = listas[0]
+        numeroListas = listas[1]
+        tamanhoListas = listas[2]
+        assm = ""
+        for i in range(numeroListas):
+            for j in range(tamanhoListas):
+                assm+=f"PUSHGP\nPUSHI {initLista}\nPADD\nPUSHI {i}\nPUSHI {tamanhoListas}\nPADD\nPUSHI {j}\nLOADN\nWRITEI\n"
+
+    if len(parser.variaveis[p[2]])==2:
+        listas = parser.variaveis[p[2]]
+        initLista = listas[0]
+        tamanhoListas = listas[1]
+        assm = ""
+        for j in range(tamanhoListas):
+            assm+=f"PUSHGP\nPUSHI {initLista}\nPADD\nPUSHI {j}\nLOADN\nWRITEI\n"
+        p[0]=assm
+
+def p_saidas_expr(p):
     "saidas : SAIDAS expr"
-    if "PUSHI" in p[2]:
-        assem = ""
-    else:
-        print("")
+    p[0] = f"{p[2]}WRITEI\n"
 
 
 # Funções auxiliares
@@ -432,7 +459,6 @@ def p_elems(p):
 
 def p_elems_rec(p):
     "elems : elems VIRG INT"
-    print(p[1]+[p[3]])
     p[0] = p[1]+[p[3]]
 
 
@@ -445,7 +471,7 @@ def p_error(p):
 # ----------------------------------------
 
 
-parser = yacc.yacc()
+parser = yacc.yacc(outputdir="./cache")
 parser.exito = True
 parser.error = ""
 parser.assembly = ""
@@ -456,23 +482,44 @@ parser.labels = 0
 
 assembly = ""
 
-line = input(">")
-while line:
-    parser.exito = True
-    parser.parse(line)
-    print(parser.linhaDeCodigo)
-    if parser.exito:
-        print("--------------------------------------")
-        print(f"Variáveis: {parser.variaveis}")
-        parser.linhaDeCodigo += 1
-        print(parser.assembly)
-        assembly += parser.assembly
-        print("--------------------------------------")
-    else:
-        print("--------------------------------------")
-        print(parser.error)
-        print("--------------------------------------")
-        break
-    line = input(">")
+if len(sys.argv)==3:
+    print(f"{sys.argv[0]}, {sys.argv[1]}, {sys.argv[2]}")
 
-print(assembly)
+if len(sys.argv)==2:
+    print(f"{sys.argv[0]}, {sys.argv[1]}")
+
+if len(sys.argv)==1:
+    line = input(">")
+    while line:
+        parser.exito = True
+        parser.parse(line)
+        if parser.exito:
+            assembly += parser.assembly
+        else:
+            print("--------------------------------------")
+            print(parser.error)
+            print("--------------------------------------")
+            quit
+        line = input(">")
+
+    saveMachineCode=input("Do you want to save the code that you generated?[y/n]")
+    if saveMachineCode.lower()=="y":
+        path = input("Where do you want to save it?")
+        if path:
+            if ".vm" not in path:
+                file = open(f"{path}.vm", "w")
+                file.write(assembly)
+            else:
+                file = open(f"{path}.vm", "w")
+                file.write(assembly)
+            
+        else:
+            file = open("./a.vm","w")
+            file.write(assembly)
+
+        file.close()
+        print("File saved successfully")
+        
+    else:
+        print("Bye Bye")
+        quit

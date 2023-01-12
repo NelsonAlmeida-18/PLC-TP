@@ -48,7 +48,8 @@ tokens = [
     "FAZ",
 
     "ENTRADAS",
-    "SAIDAS"
+    "SAIDAS",
+    "STRING"
 ]
 
 t_ABRECHAV = r"\{"
@@ -63,6 +64,7 @@ t_MENUS = r'\-'
 t_SOMANBEZES = r'\*'
 t_DIBIDE = r'\/'
 t_SOBRAS = r'\%'
+t_STRING = r"\"w+\"|\'w+\'"
 
 t_ignore = ' \r\n\t'
 
