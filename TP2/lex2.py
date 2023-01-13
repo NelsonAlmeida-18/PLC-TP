@@ -1,6 +1,7 @@
 import ply.lex as lex
 
 tokens = [
+    "STRING",
     "ID",
     "VAR",
     "COM",
@@ -48,8 +49,7 @@ tokens = [
     "FAZ",
 
     "ENTRADAS",
-    "SAIDAS",
-    "STRING"
+    "SAIDAS"
 ]
 
 t_ABRECHAV = r"\{"
@@ -64,7 +64,7 @@ t_MENUS = r'\-'
 t_SOMANBEZES = r'\*'
 t_DIBIDE = r'\/'
 t_SOBRAS = r'\%'
-t_STRING = r"\"w+\"|\'w+\'"
+t_STRING = r"\"[w+d+]*\"|\'[w+d+]*\'"
 
 t_ignore = ' \r\n\t'
 

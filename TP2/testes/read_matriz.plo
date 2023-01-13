@@ -1,0 +1,15 @@
+matriz m 3 4
+
+var i com 0
+var j com 0
+
+enquanto (maisPiqueno(i,3)) faz {
+    alterna j com 0
+    enquanto (maisPiqueno(j,4)) faz {
+        alterna m [i] [j] com entrada
+        alterna j com j + 1
+    } fim
+    alterna i com i + 1
+} fim
+
+saidas m

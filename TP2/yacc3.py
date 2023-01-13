@@ -3,6 +3,7 @@ import random as rd
 
 from lex2 import *
 import sys
+import os
 
 
 def p_Programa_Empty(p):
@@ -75,7 +76,7 @@ def p_Decl(p):
     "Decl : VAR ID"
     varName = p[2]
     if varName not in parser.variaveis:
-        parser.variaveis[varName] = (parser.stackPointer,None)
+        parser.variaveis[varName] = (parser.stackPointer, None)
         p[0] = "PUSHI 0\n"
         parser.stackPointer += 1
     else:
@@ -102,7 +103,7 @@ def p_alterna_var(p):
     '''Atrib : ALTERNA ID COM expr'''
     varName = p[2]
     if varName in parser.variaveis:
-        #parser.variaveis[varName] = (p[4], parser.variaveis[varName][0])
+        # parser.variaveis[varName] = (p[4], parser.variaveis[varName][0])
         p[0] = f"{p[4]}STOREG {parser.variaveis[varName][0]}\n"
 
 
@@ -162,12 +163,13 @@ def p_AtribLista_lista(p):
     lista = p[4]
     varName = p[2]
     if varName in parser.variaveis:
-        if len(lista)<parser.variaveis[varName][1]:
+        if len(lista) < parser.variaveis[varName][1]:
             assm = ""
             for i in lista:
                 assm += f"PUSHI {i}\n"
 
-            parser.variaveis[varName] = (parser.stackPointer, parser.variaveis[varName][1])
+            parser.variaveis[varName] = (
+                parser.stackPointer, parser.variaveis[varName][1])
             parser.stackPointer += len(lista)
             p[0] = assm
         else:
@@ -181,7 +183,6 @@ def p_AtribLista_lista(p):
         parser.variaveis[varName] = (parser.stackPointer, len(lista))
         parser.stackPointer += len(lista)
         p[0] = assm
-
 
 
 # Altera valor de um indice da lista
@@ -230,9 +231,12 @@ def p_DeclMatriz_Size(p):
 def p_AtribMatriz_comExpr(p):
     "Atrib : ALTERNA ID ABREPR expr FECHAPR ABREPR expr FECHAPR COM expr"
     matName = p[2]
+    indice1 = p[4]
+    indice2 = p[7]
+    valor = p[10]
     if matName in parser.variaveis:
         if len(parser.variaveis[matName]):
-            p[0] = f'''PUSHGP\nPUSHI {parser.variaveis[matName][0]}\nPADD\n{p[4]}PUSHI {parser.variaveis[matName][2]}MUL\nPADD\n{p[7]}{p[10]}STOREN\n'''
+            p[0] = f"PUSHGP\nPUSHI {parser.variaveis[matName][0]}\nPADD\n{indice1}PUSHI {parser.variaveis[matName][2]}\nMUL\nPADD\n{indice2}{valor}STOREN\n"
         else:
             parser.error = f"Operação inválida, variável {matName} não é uma matriz"
             parser.exito = False
@@ -417,28 +421,40 @@ def p_saidas_STRING(p):
 
 def p_saidas_lista(p):
     "saidas : SAIDAS ID"
-    if len(parser.variaveis[p[2]])==3 :
+    if len(parser.variaveis[p[2]]) == 3:
         listas = parser.variaveis[p[2]]
         initLista = listas[0]
         numeroListas = listas[1]
         tamanhoListas = listas[2]
-        assm = ""
+        assm = "PUSHS \"[\"\nWRITES\n"
         for i in range(numeroListas):
+            assm += "PUSHS \"[\"\nWRITES\n"
             for j in range(tamanhoListas):
-                assm+=f"PUSHGP\nPUSHI {initLista}\nPADD\nPUSHI {i}\nPUSHI {tamanhoListas}\nPADD\nPUSHI {j}\nLOADN\nWRITEI\n"
+                assm += f"PUSHGP\nPUSHI {initLista}\nPADD\nPUSHGP\nPUSHI {tamanhoListas}\nPADD\nPUSHI {j}\nLOADN\nWRITEI\nPUSHS \",\"\nWRITES\n"
+            rm = "PUSHS \",\"\nWRITES"
+            assm = assm[:-len(rm)-1]
+            assm += "PUSHS \"]\"\nWRITES\n"
+            assm += "PUSHS \",\"\nWRITES\n"
+        rm = "PUSHS \",\"\nWRITES"
+        assm = assm[:-len(rm)-1]
+        assm += "PUSHS \"]\"\nWRITES\n"
+        p[0] = assm
 
-    if len(parser.variaveis[p[2]])==2:
+    elif len(parser.variaveis[p[2]]) == 2:
         listas = parser.variaveis[p[2]]
         initLista = listas[0]
         tamanhoListas = listas[1]
-        assm = ""
+        assm = "PUSHS \"[\"\nWRITES\n"
         for j in range(tamanhoListas):
-            assm+=f"PUSHGP\nPUSHI {initLista}\nPADD\nPUSHI {j}\nLOADN\nWRITEI\n"
-        p[0]=assm
+            assm += f"PUSHGP\nPUSHI {initLista}\nPADD\nPUSHI {j}\nLOADN\nWRITEI\nPUSHS \",\"\nWRITES\n"
+        rm = "PUSHS \",\"\nWRITES"
+        assm = assm[:-len(rm)-1]
+        assm += "PUSHS \"]\"\nWRITES\n"
+        p[0] = assm
 
-def p_saidas_expr(p):
-    "saidas : SAIDAS expr"
-    p[0] = f"{p[2]}WRITEI\n"
+    else:
+        parser.error = ""
+        parser.exito = False
 
 
 # Funções auxiliares
@@ -467,7 +483,7 @@ def p_error(p):
 # ----------------------------------------
 
 
-parser = yacc.yacc(outputdir="./cache")
+parser = yacc.yacc()
 parser.exito = True
 parser.error = ""
 parser.assembly = ""
@@ -478,13 +494,65 @@ parser.labels = 0
 
 assembly = ""
 
-if len(sys.argv)==3:
-    print(f"{sys.argv[0]}, {sys.argv[1]}, {sys.argv[2]}")
 
-if len(sys.argv)==2:
-    print(f"{sys.argv[0]}, {sys.argv[1]}")
+if len(sys.argv) == 3:
+    inputFileName = sys.argv[1]
+    if inputFileName[-4:] == ".plo":
+        file = open(inputFileName, "r")
+        for line in file.readlines():
+            parser.parse(line)
+            if parser.exito:
+                assembly += parser.assembly
+                print(parser.variaveis)
+            else:
+                print("--------------------------------------")
+                print(parser.error)
+                print("--------------------------------------")
+                sys.exit()
+        file.close()
+        outputFileName = sys.argv[2]
+        outputFile = open(outputFileName, "w")
+        outputFileName.write(assembly)
+        print("File saved successfully")
 
-if len(sys.argv)==1:
+    else:
+        print("Invalid file extension")
+
+
+if len(sys.argv) == 2:
+    inputFileName = sys.argv[1]
+    if inputFileName[-4:] == ".plo":
+        file = open(inputFileName, "r")
+        for line in file.readlines():
+            print(line)
+            parser.parse(line)
+            if parser.exito:
+                assembly += parser.assembly
+                print(parser.variaveis)
+            else:
+                print("--------------------------------------")
+                print(parser.error)
+                print("--------------------------------------")
+                sys.exit()
+        file.close()
+        outputFileName = "a.vm"
+
+        arr = os.listdir()
+
+        if outputFileName in arr:
+            outputFileName = outputFileName.split(".")[0]
+            outputFileName += "_copy.vm"
+
+        outputFile = open(outputFileName, "w")
+        outputFile.write(assembly)
+        outputFile.close()
+
+        print("File saved successfully")
+
+    else:
+        print("Invalid file extension")
+
+if len(sys.argv) == 1:
     line = input(">")
     while line:
         parser.exito = True
@@ -496,11 +564,12 @@ if len(sys.argv)==1:
             print("--------------------------------------")
             print(parser.error)
             print("--------------------------------------")
-            quit
+            sys.exit()
         line = input(">")
 
-    saveMachineCode=input("Do you want to save the code that you generated?[y/n]")
-    if saveMachineCode.lower()=="y":
+    saveMachineCode = input(
+        "Do you want to save the code that you generated?[y/n]")
+    if saveMachineCode.lower() == "y":
         path = input("Where do you want to save it?")
         if path:
             if ".vm" not in path:
@@ -509,14 +578,14 @@ if len(sys.argv)==1:
             else:
                 file = open(f"{path}.vm", "w")
                 file.write(assembly)
-            
+
         else:
-            file = open("./a.vm","w")
+            file = open("./a.vm", "w")
             file.write(assembly)
 
         file.close()
         print("File saved successfully")
-        
+
     else:
         print("Bye Bye")
         quit
