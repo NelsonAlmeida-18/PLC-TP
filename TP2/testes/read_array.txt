@@ -1,0 +1,10 @@
+var n com 5
+var i com 0
+lista a 10
+
+enquanto (naogemeo(i,n)) faz {
+    alterna a [i] com entradas 
+    alterna i com i + 1
+} fim
+
+saidas a

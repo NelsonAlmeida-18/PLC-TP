@@ -75,7 +75,7 @@ def p_Decl(p):
     "Decl : VAR ID"
     varName = p[2]
     if varName not in parser.variaveis:
-        parser.variaveis[varName] = (None, parser.stackPointer)
+        parser.variaveis[varName] = (parser.stackPointer,None)
         p[0] = "PUSHI 0\n"
         parser.stackPointer += 1
     else:
@@ -89,7 +89,7 @@ def p_Atrib_expr(p):
     varName = p[2]
     if varName not in parser.variaveis:
         value = p[4]
-        parser.variaveis[varName] = (value, parser.stackPointer)
+        parser.variaveis[varName] = (parser.stackPointer, None)
         p[0] = f"{value}STOREG {parser.stackPointer}\n"
         parser.stackPointer += 1
     else:
@@ -102,8 +102,8 @@ def p_alterna_var(p):
     '''Atrib : ALTERNA ID COM expr'''
     varName = p[2]
     if varName in parser.variaveis:
-        parser.variaveis[varName] = (p[4], parser.variaveis[varName][1])
-        p[0] = f"{p[4]}STOREG {parser.variaveis[varName][1]}\n"
+        #parser.variaveis[varName] = (p[4], parser.variaveis[varName][0])
+        p[0] = f"{p[4]}STOREG {parser.variaveis[varName][0]}\n"
 
 
 def p_expr(p):
@@ -115,7 +115,7 @@ def p_expr_var(p):
     "expr : ID"
     varName = p[1]
     if varName in parser.variaveis:
-        p[0] = f"PUSHG {parser.variaveis[varName][1]}\n"
+        p[0] = f"PUSHG {parser.variaveis[varName][0]}\n"
 
 
 def p_expr_entradas(p):
@@ -190,11 +190,7 @@ def p_AlternaLista_elem(p):
     varName = p[2]
     pos = p[4]
     if varName in parser.variaveis:
-        if pos < parser.variaveis[varName][1]:
-            p[0] = f"PUSHGP\nPUSHI {parser.variaveis[varName][1]}\nPADD\n{p[4]}{p[7]}STOREN\n"
-        else:
-            parser.error = f"Indice {pos} fora de alcance"
-            parser.exito = False
+        p[0] = f"PUSHGP\nPUSHI {parser.variaveis[varName][0]}\nPADD\n{p[4]}{p[7]}STOREN\n"
     else:
         parser.error = f"Variável com o nome {varName} não definida"
         parser.exito = False
@@ -297,12 +293,12 @@ def p_ProcBusca_Matriz(p):
 
 # Função swap entre elementos do mesmo array
 def p_ProcSwap_Lista(p):
-    "Proc : SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR"
+    "Proc : SWAP ID ABREPR expr FECHAPR COM ABREPR expr FECHAPR"
     varName = p[2]
     indice1 = p[4]
     indice2 = p[8]
     if varName in parser.variaveis:
-        p[0] = f"PUSHG {indice1}\nPUSHG {indice2}\nSTOREG {indice1}\nSTOREG {indice2}\n"
+        p[0] = f"PUSHG {parser.variaveis[varName][0]}"
     else:
         parser.error = (
             f"Variável com o nome {varName} não definida anteriormente.")
@@ -465,7 +461,7 @@ def p_elems_rec(p):
 # ----------------------------------------
 
 def p_error(p):
-    print('Syntax error: ', p, p.type, p.value)
+    print(f'Erro na linha {parser.linhaDeCodigo}: {parser.error}')
     parser.exito = False
 
 # ----------------------------------------
@@ -495,6 +491,7 @@ if len(sys.argv)==1:
         parser.parse(line)
         if parser.exito:
             assembly += parser.assembly
+            print(parser.variaveis)
         else:
             print("--------------------------------------")
             print(parser.error)
