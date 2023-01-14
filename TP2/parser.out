@@ -24,8 +24,8 @@ Rule 18    Atrib -> ALTERNA ID COM expr
 Rule 19    expr -> INT
 Rule 20    expr -> ID
 Rule 21    expr -> ENTRADAS
-Rule 22    Decl -> LISTA ID
-Rule 23    Decl -> LISTA ID INT
+Rule 22    Decl -> LISTA ID INT
+Rule 23    Decl -> LISTA ID
 Rule 24    Atrib -> LISTA ID COM lista
 Rule 25    Atrib -> ALTERNA ID ABREPR expr FECHAPR COM expr
 Rule 26    Decl -> MATRIZ ID
@@ -78,7 +78,7 @@ FIM                  : 47 48 49
 GEMEO                : 39
 ID                   : 16 17 18 20 22 23 24 25 26 27 28 29 30 31 32 51
 IE                   : 45
-INT                  : 19 23 27 27 53 54
+INT                  : 19 22 27 27 53 54
 LISTA                : 22 23 24
 MAISGRANDE           : 43
 MAISGRANDEOUGEMEO    : 44
@@ -140,8 +140,8 @@ state 0
     (7) Corpo -> . Proc Corpo
     (8) Corpo -> . Atrib Corpo
     (16) Decl -> . VAR ID
-    (22) Decl -> . LISTA ID
-    (23) Decl -> . LISTA ID INT
+    (22) Decl -> . LISTA ID INT
+    (23) Decl -> . LISTA ID
     (26) Decl -> . MATRIZ ID
     (27) Decl -> . MATRIZ ID INT INT
     (13) Proc -> . if
@@ -192,8 +192,8 @@ state 2
     (7) Corpo -> . Proc Corpo
     (8) Corpo -> . Atrib Corpo
     (16) Decl -> . VAR ID
-    (22) Decl -> . LISTA ID
-    (23) Decl -> . LISTA ID INT
+    (22) Decl -> . LISTA ID INT
+    (23) Decl -> . LISTA ID
     (26) Decl -> . MATRIZ ID
     (27) Decl -> . MATRIZ ID INT INT
     (13) Proc -> . if
@@ -324,8 +324,8 @@ state 7
 state 8
 
     (24) Atrib -> LISTA . ID COM lista
-    (22) Decl -> LISTA . ID
-    (23) Decl -> LISTA . ID INT
+    (22) Decl -> LISTA . ID INT
+    (23) Decl -> LISTA . ID
 
     ID              shift and go to state 29
 
@@ -546,8 +546,8 @@ state 22
 
 state 23
 
-    (22) Decl -> LISTA . ID
-    (23) Decl -> LISTA . ID INT
+    (22) Decl -> LISTA . ID INT
+    (23) Decl -> LISTA . ID
     (24) Atrib -> LISTA . ID COM lista
 
     ID              shift and go to state 39
@@ -607,21 +607,21 @@ state 28
 state 29
 
     (24) Atrib -> LISTA ID . COM lista
-    (22) Decl -> LISTA ID .
-    (23) Decl -> LISTA ID . INT
+    (22) Decl -> LISTA ID . INT
+    (23) Decl -> LISTA ID .
 
     COM             shift and go to state 45
-    VAR             reduce using rule 22 (Decl -> LISTA ID .)
-    LISTA           reduce using rule 22 (Decl -> LISTA ID .)
-    MATRIZ          reduce using rule 22 (Decl -> LISTA ID .)
-    BUSCA           reduce using rule 22 (Decl -> LISTA ID .)
-    SWAP            reduce using rule 22 (Decl -> LISTA ID .)
-    ALTERNA         reduce using rule 22 (Decl -> LISTA ID .)
-    SE              reduce using rule 22 (Decl -> LISTA ID .)
-    ENQUANTO        reduce using rule 22 (Decl -> LISTA ID .)
-    SAIDAS          reduce using rule 22 (Decl -> LISTA ID .)
-    $end            reduce using rule 22 (Decl -> LISTA ID .)
     INT             shift and go to state 46
+    VAR             reduce using rule 23 (Decl -> LISTA ID .)
+    LISTA           reduce using rule 23 (Decl -> LISTA ID .)
+    MATRIZ          reduce using rule 23 (Decl -> LISTA ID .)
+    BUSCA           reduce using rule 23 (Decl -> LISTA ID .)
+    SWAP            reduce using rule 23 (Decl -> LISTA ID .)
+    ALTERNA         reduce using rule 23 (Decl -> LISTA ID .)
+    SE              reduce using rule 23 (Decl -> LISTA ID .)
+    ENQUANTO        reduce using rule 23 (Decl -> LISTA ID .)
+    SAIDAS          reduce using rule 23 (Decl -> LISTA ID .)
+    $end            reduce using rule 23 (Decl -> LISTA ID .)
 
 
 state 30
@@ -794,21 +794,21 @@ state 38
 
 state 39
 
-    (22) Decl -> LISTA ID .
-    (23) Decl -> LISTA ID . INT
+    (22) Decl -> LISTA ID . INT
+    (23) Decl -> LISTA ID .
     (24) Atrib -> LISTA ID . COM lista
 
-    VAR             reduce using rule 22 (Decl -> LISTA ID .)
-    LISTA           reduce using rule 22 (Decl -> LISTA ID .)
-    MATRIZ          reduce using rule 22 (Decl -> LISTA ID .)
-    BUSCA           reduce using rule 22 (Decl -> LISTA ID .)
-    SWAP            reduce using rule 22 (Decl -> LISTA ID .)
-    ALTERNA         reduce using rule 22 (Decl -> LISTA ID .)
-    SE              reduce using rule 22 (Decl -> LISTA ID .)
-    ENQUANTO        reduce using rule 22 (Decl -> LISTA ID .)
-    SAIDAS          reduce using rule 22 (Decl -> LISTA ID .)
-    $end            reduce using rule 22 (Decl -> LISTA ID .)
     INT             shift and go to state 46
+    VAR             reduce using rule 23 (Decl -> LISTA ID .)
+    LISTA           reduce using rule 23 (Decl -> LISTA ID .)
+    MATRIZ          reduce using rule 23 (Decl -> LISTA ID .)
+    BUSCA           reduce using rule 23 (Decl -> LISTA ID .)
+    SWAP            reduce using rule 23 (Decl -> LISTA ID .)
+    ALTERNA         reduce using rule 23 (Decl -> LISTA ID .)
+    SE              reduce using rule 23 (Decl -> LISTA ID .)
+    ENQUANTO        reduce using rule 23 (Decl -> LISTA ID .)
+    SAIDAS          reduce using rule 23 (Decl -> LISTA ID .)
+    $end            reduce using rule 23 (Decl -> LISTA ID .)
     COM             shift and go to state 45
 
 
@@ -953,18 +953,18 @@ state 45
 
 state 46
 
-    (23) Decl -> LISTA ID INT .
+    (22) Decl -> LISTA ID INT .
 
-    VAR             reduce using rule 23 (Decl -> LISTA ID INT .)
-    LISTA           reduce using rule 23 (Decl -> LISTA ID INT .)
-    MATRIZ          reduce using rule 23 (Decl -> LISTA ID INT .)
-    BUSCA           reduce using rule 23 (Decl -> LISTA ID INT .)
-    SWAP            reduce using rule 23 (Decl -> LISTA ID INT .)
-    ALTERNA         reduce using rule 23 (Decl -> LISTA ID INT .)
-    SE              reduce using rule 23 (Decl -> LISTA ID INT .)
-    ENQUANTO        reduce using rule 23 (Decl -> LISTA ID INT .)
-    SAIDAS          reduce using rule 23 (Decl -> LISTA ID INT .)
-    $end            reduce using rule 23 (Decl -> LISTA ID INT .)
+    VAR             reduce using rule 22 (Decl -> LISTA ID INT .)
+    LISTA           reduce using rule 22 (Decl -> LISTA ID INT .)
+    MATRIZ          reduce using rule 22 (Decl -> LISTA ID INT .)
+    BUSCA           reduce using rule 22 (Decl -> LISTA ID INT .)
+    SWAP            reduce using rule 22 (Decl -> LISTA ID INT .)
+    ALTERNA         reduce using rule 22 (Decl -> LISTA ID INT .)
+    SE              reduce using rule 22 (Decl -> LISTA ID INT .)
+    ENQUANTO        reduce using rule 22 (Decl -> LISTA ID INT .)
+    SAIDAS          reduce using rule 22 (Decl -> LISTA ID INT .)
+    $end            reduce using rule 22 (Decl -> LISTA ID INT .)
 
 
 state 47

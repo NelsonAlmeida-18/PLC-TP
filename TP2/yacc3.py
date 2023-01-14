@@ -1,5 +1,6 @@
 import ply.yacc as yacc
 import random as rd
+import re
 
 from lex2 import *
 import sys
@@ -124,20 +125,6 @@ def p_expr_entradas(p):
     p[0] = f"READ\nATOI\n"
 
 
-# Declara lista sem tamanho
-def p_Decl_Lista_NoSize(p):
-    "Decl : LISTA ID"
-    listName = p[2]
-    if listName not in parser.variaveis:
-        parser.variaveis[listName] = (parser.stackPointer, 0)
-        p[0] = f"PUSHN 0\n"
-        parser.stackPointer += 1
-    else:
-        parser.error = (
-            f"Variável com o nome {listName} já definida anteriormente.")
-        parser.exito = False
-
-
 # Declara lista com tamanho INT
 def p_DeclLista_Size(p):
     "Decl : LISTA ID INT"
@@ -157,7 +144,22 @@ def p_DeclLista_Size(p):
         parser.exito = False
 
 
+# Declara lista sem tamanho
+def p_Decl_Lista_NoSize(p):
+    "Decl : LISTA ID"
+    listName = p[2]
+    if listName not in parser.variaveis:
+        parser.variaveis[listName] = (parser.stackPointer, 0)
+        p[0] = f"PUSHN 0\n"
+        parser.stackPointer += 1
+    else:
+        parser.error = (
+            f"Variável com o nome {listName} já definida anteriormente.")
+        parser.exito = False
+
 # Atribui valores à lista com outra lista
+
+
 def p_AtribLista_lista(p):
     "Atrib : LISTA ID COM lista"
     lista = p[4]
@@ -173,19 +175,24 @@ def p_AtribLista_lista(p):
             parser.stackPointer += len(lista)
             p[0] = assm
         else:
-            parser.error = f"Variável com o nome {varName} não definida"
+            parser.error = f"Atribuição com tamanho maior à declaração da lista {varName}"
             parser.exito = False
     else:
-        assm = ""
-        for i in lista:
-            assm += f"PUSHI {i}\n"
-
-        parser.variaveis[varName] = (parser.stackPointer, len(lista))
-        parser.stackPointer += len(lista)
-        p[0] = assm
-
+        parser.error = f"Variável com o nome {varName} não definida"
+        parser.exito = False
+#    else:
+#        assm = ""
+#        for i in lista:
+#            assm += f"PUSHI {i}\n"
+#
+#        parser.variaveis[varName] = (parser.stackPointer, len(lista))
+#        parser.stackPointer += len(lista)
+#        p[0] = assm
+#
 
 # Altera valor de um indice da lista
+
+
 def p_AlternaLista_elem(p):
     "Atrib : ALTERNA ID ABREPR expr FECHAPR COM expr"
     varName = p[2]
@@ -234,6 +241,7 @@ def p_AtribMatriz_comExpr(p):
     indice1 = p[4]
     indice2 = p[7]
     valor = p[10]
+
     if matName in parser.variaveis:
         if len(parser.variaveis[matName]):
             p[0] = f"PUSHGP\nPUSHI {parser.variaveis[matName][0]}\nPADD\n{indice1}PUSHI {parser.variaveis[matName][2]}\nMUL\nPADD\n{indice2}{valor}STOREN\n"
@@ -430,7 +438,7 @@ def p_saidas_lista(p):
         for i in range(numeroListas):
             assm += "PUSHS \"[\"\nWRITES\n"
             for j in range(tamanhoListas):
-                assm += f"PUSHGP\nPUSHI {initLista}\nPADD\nPUSHGP\nPUSHI {tamanhoListas}\nPADD\nPUSHI {j}\nLOADN\nWRITEI\nPUSHS \",\"\nWRITES\n"
+                assm += f"PUSHGP\nPUSHI {initLista}\nPADD\nPUSHGP\nPUSHI {i}\nPUSHI {tamanhoListas}\nMUL\nPADD\nPUSHI {j}\nLOADN\nWRITEI\nPOP 1\nPUSHS \",\"\nWRITES\n"
             rm = "PUSHS \",\"\nWRITES"
             assm = assm[:-len(rm)-1]
             assm += "PUSHS \"]\"\nWRITES\n"
@@ -499,16 +507,15 @@ if len(sys.argv) == 3:
     inputFileName = sys.argv[1]
     if inputFileName[-4:] == ".plo":
         file = open(inputFileName, "r")
-        for line in file.readlines():
-            parser.parse(line)
-            if parser.exito:
-                assembly += parser.assembly
-                print(parser.variaveis)
-            else:
-                print("--------------------------------------")
-                print(parser.error)
-                print("--------------------------------------")
-                sys.exit()
+        content = file.read()
+        parser.parse(content)
+        if parser.exito:
+            assembly += parser.assembly
+        else:
+            print("--------------------------------------")
+            print(parser.error)
+            print("--------------------------------------")
+            sys.exit()
         file.close()
         outputFileName = sys.argv[2]
         outputFile = open(outputFileName, "w")
@@ -523,23 +530,22 @@ if len(sys.argv) == 2:
     inputFileName = sys.argv[1]
     if inputFileName[-4:] == ".plo":
         file = open(inputFileName, "r")
-        for line in file.readlines():
-            print(line)
-            parser.parse(line)
-            if parser.exito:
-                assembly += parser.assembly
-                print(parser.variaveis)
-            else:
-                print("--------------------------------------")
-                print(parser.error)
-                print("--------------------------------------")
-                sys.exit()
+        content = file.read()
+        parser.parse(content)
+        if parser.exito:
+            assembly += parser.assembly
+            print(parser.variaveis)
+        else:
+            print("--------------------------------------")
+            print(parser.error)
+            print("--------------------------------------")
+            sys.exit()
         file.close()
         outputFileName = "a.vm"
 
         arr = os.listdir()
 
-        if outputFileName in arr:
+        while outputFileName in arr:
             outputFileName = outputFileName.split(".")[0]
             outputFileName += "_copy.vm"
 

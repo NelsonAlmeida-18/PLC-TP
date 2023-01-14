@@ -52,6 +52,8 @@ tokens = [
     "SAIDAS"
 ]
 
+t_ignore = ' \r\n\t'
+
 t_ABRECHAV = r"\{"
 t_FECHACHAV = r"\}"
 t_ABREPC = r'\('
@@ -65,8 +67,6 @@ t_SOMANBEZES = r'\*'
 t_DIBIDE = r'\/'
 t_SOBRAS = r'\%'
 t_STRING = r"\"[w+d+]*\"|\'[w+d+]*\'"
-
-t_ignore = ' \r\n\t'
 
 t_ID = r"\w+"
 
