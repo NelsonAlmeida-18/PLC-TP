@@ -1,6 +1,6 @@
 var n com 5
 var i com 0
-lista a 10
+lista a 5
 
 enquanto (maisPiqueno(i,n)) faz {
     alterna a [i] com entradas

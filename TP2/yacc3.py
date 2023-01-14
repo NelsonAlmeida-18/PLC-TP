@@ -1,7 +1,5 @@
 import ply.yacc as yacc
 import random as rd
-import re
-
 from lex2 import *
 import sys
 import os
@@ -18,6 +16,7 @@ def p_Programa_Empty(p):
 def p_Programa(p):
     '''
     Programa : Decls Corpo
+            | Atrib Corpo
     '''
     parser.assembly = f'{p[1]}START\n{p[2]}STOP\n'
 
@@ -125,9 +124,24 @@ def p_expr_entradas(p):
     p[0] = f"READ\nATOI\n"
 
 
+# Declara lista sem tamanho
+def p_Decl_Lista_NoSize(p):
+    "Atrib : LISTA ID"
+    listName = p[2]
+    if listName not in parser.variaveis:
+        parser.variaveis[listName] = (parser.stackPointer, 0)
+        p[0] = f"PUSHN 0\n"
+        parser.stackPointer += 1
+    else:
+        parser.error = (
+            f"Variável com o nome {listName} já definida anteriormente.")
+        parser.exito = False
+
 # Declara lista com tamanho INT
+
+
 def p_DeclLista_Size(p):
-    "Decl : LISTA ID INT"
+    "Atrib : LISTA ID INT"
     listName = p[2]
     size = int(p[3])
     if listName not in parser.variaveis:
@@ -144,22 +158,7 @@ def p_DeclLista_Size(p):
         parser.exito = False
 
 
-# Declara lista sem tamanho
-def p_Decl_Lista_NoSize(p):
-    "Decl : LISTA ID"
-    listName = p[2]
-    if listName not in parser.variaveis:
-        parser.variaveis[listName] = (parser.stackPointer, 0)
-        p[0] = f"PUSHN 0\n"
-        parser.stackPointer += 1
-    else:
-        parser.error = (
-            f"Variável com o nome {listName} já definida anteriormente.")
-        parser.exito = False
-
 # Atribui valores à lista com outra lista
-
-
 def p_AtribLista_lista(p):
     "Atrib : LISTA ID COM lista"
     lista = p[4]
@@ -429,6 +428,7 @@ def p_saidas_STRING(p):
 
 def p_saidas_lista(p):
     "saidas : SAIDAS ID"
+    print(p[2], parser.variaveis)
     if len(parser.variaveis[p[2]]) == 3:
         listas = parser.variaveis[p[2]]
         initLista = listas[0]
@@ -449,16 +449,19 @@ def p_saidas_lista(p):
         p[0] = assm
 
     elif len(parser.variaveis[p[2]]) == 2:
-        listas = parser.variaveis[p[2]]
-        initLista = listas[0]
-        tamanhoListas = listas[1]
-        assm = "PUSHS \"[\"\nWRITES\n"
-        for j in range(tamanhoListas):
-            assm += f"PUSHGP\nPUSHI {initLista}\nPADD\nPUSHI {j}\nLOADN\nWRITEI\nPUSHS \",\"\nWRITES\n"
-        rm = "PUSHS \",\"\nWRITES"
-        assm = assm[:-len(rm)-1]
-        assm += "PUSHS \"]\"\nWRITES\n"
-        p[0] = assm
+        if parser.variaveis[p[2]][1] != None:
+            listas = parser.variaveis[p[2]]
+            initLista = listas[0]
+            tamanhoListas = listas[1]
+            assm = "PUSHS \"[\"\nWRITES\n"
+            for j in range(tamanhoListas):
+                assm += f"PUSHGP\nPUSHI {initLista}\nPADD\nPUSHI {j}\nLOADN\nWRITEI\nPUSHS \",\"\nWRITES\n"
+            rm = "PUSHS \",\"\nWRITES"
+            assm = assm[:-len(rm)-1]
+            assm += "PUSHS \"]\"\nWRITES\n"
+            p[0] = assm
+        else:
+            p[0] = f"PUSHG {parser.variaveis[p[2]][0]}\nWRITEI\n"
 
     else:
         parser.error = ""
