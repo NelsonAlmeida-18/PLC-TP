@@ -1,0 +1,11 @@
+var n com entradas
+var res com 1
+var x com 1
+
+enquanto (maisGrande(n,0)) faz {
+    alterna x com entradas
+    alterna res com res * x
+    alterna n com n - 1
+} fim
+
+saidas res

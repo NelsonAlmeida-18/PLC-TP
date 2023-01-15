@@ -1,0 +1,67 @@
+Programa : Decls
+         | Atrib
+         | Corpo
+         | Decls Corpo
+         | Atrib Corpo
+
+Corpo    : Codigo
+
+Codigo   : Proc Codigo
+         | Atrib Codigo
+         | Proc
+         | Atrib
+
+Decls    : Decl
+         | Decl Decls
+
+Decl     : VAR ID
+         | MATRIZ ID
+         | MATRIZ ID INT INT
+
+Atrib    : VAR ID COM expr
+         | ALTERNA ID COM expr
+         | LISTA ID
+         | LISTA ID INT
+         | LISTA ID COM lista
+         | ALTERNA ID ABREPR expr FECHAPR ABREPR expr FECHAPR COM expr
+         | ALTERNA ID ABREPR expr FECHAPR COM lista
+
+lista    : ABREPR elems FECHAPR
+
+elems    : INT
+         | elems VIRG INT
+
+expr     : INT
+         | ID
+         | ENTRADAS
+
+exprArit : expr SOMA expr
+         | expr MENUS expr
+         | expr SOMANBEZES expr
+         | expr DIBIDE expr
+         | expr SOBRAS expr
+
+exprRel  : NOUM ABREPC expr FECHAPC
+         | GEMEO ABREPC expr VIRG expr FECHAPC
+         | NAOGEMEO ABREPC expr VIRG expr FECHAPC
+         | MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+         | MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+         | MAISGRANDE ABREPC expr VIRG expr FECHAPC
+         | MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
+         | expr IE expr
+         | expr OUE expr
+
+Proc     : if
+         | while
+         | saidas
+         | BUSCA ID ABREPR expr FECHAPR
+         | BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
+         | SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR
+
+if       : SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM
+         | SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
+
+while    : ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM
+
+saidas   : SAIDAS STRING
+         | SAIDAS lista

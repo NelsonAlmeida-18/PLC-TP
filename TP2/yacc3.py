@@ -16,7 +16,7 @@ def p_Programa_Empty(p):
 def p_Programa(p):
     '''
     Programa : Decls Corpo
-            | Atrib Corpo
+             | Atrib Corpo
     '''
     parser.assembly = f'{p[1]}START\n{p[2]}STOP\n'
 
@@ -30,18 +30,25 @@ def p_Programa_Corpo(p):
 
 def p_Corpo(p):
     '''
-    Corpo : Proc
-          | Atrib
+    Corpo : Codigo
     '''
     p[0] = f"{p[1]}"
 
 
-def p_Corpo_Rec(p):
+def p_Codigo_Rec(p):
     '''
-    Corpo : Proc Corpo
-          | Atrib Corpo
+    Codigo : Proc Codigo
+           | Atrib Codigo
     '''
     p[0] = f"{p[1]}{p[2]}"
+
+
+def p_Codigo(p):
+    '''
+    Codigo : Proc
+           | Atrib
+    '''
+    p[0] = f"{p[1]}"
 
 
 def p_Decls(p):
@@ -50,7 +57,7 @@ def p_Decls(p):
 
 
 def p_DeclsRec(p):
-    "Decls : Decls Decl"
+    "Decls : Decl Decls"
     p[0] = f'{p[1]}{p[2]}'
 
 
@@ -100,7 +107,7 @@ def p_Atrib_expr(p):
 
 # Altera valor de um variável
 def p_alterna_var(p):
-    '''Atrib : ALTERNA ID COM expr'''
+    "Atrib : ALTERNA ID COM expr"
     varName = p[2]
     if varName in parser.variaveis:
         # parser.variaveis[varName] = (p[4], parser.variaveis[varName][0])
@@ -137,9 +144,8 @@ def p_Decl_Lista_NoSize(p):
             f"Variável com o nome {listName} já definida anteriormente.")
         parser.exito = False
 
+
 # Declara lista com tamanho INT
-
-
 def p_DeclLista_Size(p):
     "Atrib : LISTA ID INT"
     listName = p[2]
@@ -179,19 +185,9 @@ def p_AtribLista_lista(p):
     else:
         parser.error = f"Variável com o nome {varName} não definida"
         parser.exito = False
-#    else:
-#        assm = ""
-#        for i in lista:
-#            assm += f"PUSHI {i}\n"
-#
-#        parser.variaveis[varName] = (parser.stackPointer, len(lista))
-#        parser.stackPointer += len(lista)
-#        p[0] = assm
-#
+
 
 # Altera valor de um indice da lista
-
-
 def p_AlternaLista_elem(p):
     "Atrib : ALTERNA ID ABREPR expr FECHAPR COM expr"
     varName = p[2]
@@ -304,12 +300,12 @@ def p_ProcBusca_Matriz(p):
 
 # Função swap entre elementos do mesmo array
 def p_ProcSwap_Lista(p):
-    "Proc : SWAP ID ABREPR expr FECHAPR COM ABREPR expr FECHAPR"
+    "Proc : SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR"
     varName = p[2]
     indice1 = p[4]
     indice2 = p[8]
     if varName in parser.variaveis:
-        p[0] = f"PUSHG {parser.variaveis[varName][0]}"
+        p[0] = f"PUSHG {indice1}\nPUSHG {indice2}\nSTOREG {indice1}\nSTOREG {indice2}\n"
     else:
         parser.error = (
             f"Variável com o nome {varName} não definida anteriormente.")
@@ -402,21 +398,21 @@ def p_oue(p):
 
 # Controlo de fluxo (if then)
 def p_if_Then(p):
-    "if : SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Corpo FECHACHAV FIM"
+    "if : SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM"
     p[0] = f"{p[3]}JZ l{parser.labels}\n{p[7]}l{parser.labels}: NOP\n"
     parser.labels += 1
 
 
 # Controlo de fluxo (if then else)
 def p_if_Then_Else(p):
-    "if : SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Corpo FECHACHAV SENAO ABRECHAV Corpo FECHACHAV FIM"
+    "if : SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM"
     p[0] = f"{p[3]}JZ l{parser.labels}\n{p[7]}JUMP l{parser.labels}f\nl{parser.labels}: NOP\n{p[11]}l{parser.labels}f: NOP\n"
     parser.labels += 1
 
 
 # Ciclo (while)
 def p_while(p):
-    "while : ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Corpo FECHACHAV FIM"
+    "while : ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM"
     p[0] = f'l{parser.labels}c: NOP\n{p[3]}JZ l{parser.labels}f\n{p[7]}JUMP l{parser.labels}c\nl{parser.labels}f: NOP\n'
     parser.labels += 1
 
