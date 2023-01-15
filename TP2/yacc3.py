@@ -1,8 +1,9 @@
 import ply.yacc as yacc
 import random as rd
-from lex2 import *
 import sys
 import os
+
+from lex2 import *
 
 
 def p_Programa_Empty(p):
@@ -171,7 +172,7 @@ def p_AtribLista_lista(p):
     varName = p[2]
     print(lista)
     if varName in parser.variaveis:
-        if len(lista)==parser.variaveis[varName][1]:
+        if len(lista) == parser.variaveis[varName][1]:
             assm = ""
             for i in range(len(lista)):
                 assm += f"PUSHGP\nPUSHI {parser.variaveis[varName][0]+i}\nPUSHI {int(lista[i])}\nSTOREN\n"
@@ -232,7 +233,6 @@ def p_AtribMatriz_comExpr(p):
     indice1 = p[4]
     indice2 = p[7]
     valor = p[10]
-
     if matName in parser.variaveis:
         if len(parser.variaveis[matName]):
             p[0] = f"PUSHGP\nPUSHI {parser.variaveis[matName][0]}\nPADD\n{indice1}PUSHI {parser.variaveis[matName][2]}\nMUL\nPADD\n{indice2}{valor}STOREN\n"

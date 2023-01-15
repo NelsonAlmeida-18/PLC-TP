@@ -11,4 +11,5 @@ enquanto (maisPiqueno(i,3)) faz {
     alterna i com i + 1
 } fim
 
+saidas "Matriz gerada: \n"
 saidas m

@@ -7,4 +7,5 @@ enquanto (maisPiqueno(i,n)) faz {
     alterna i com i + 1
 } fim
 
+saidas "Array gerado:\n"
 saidas a

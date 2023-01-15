@@ -1,4 +1,6 @@
+saidas "Factorial: "
 var n com entradas
+saidas n
 var res com 1
 
 enquanto (maisGrande(n,0)) faz {
@@ -6,4 +8,5 @@ enquanto (maisGrande(n,0)) faz {
     alterna n com n - 1
 } fim
 
+saidas "\nResultado: "
 saidas res

@@ -1,0 +1,12 @@
+lista a 5
+lista a com [1,2,3,4,5]
+
+saidas "Array inicial:\n"
+saidas a
+
+saidas "\nTroca do indice 1 com indice 3."
+
+swap a [1] com [3]
+
+saidas "Array inicial:\n"
+saidas a

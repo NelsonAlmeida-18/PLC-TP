@@ -34,6 +34,8 @@ elems    : INT
 expr     : INT
          | ID
          | ENTRADAS
+         | BUSCA ID ABREPR expr FECHAPR
+         | BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
 
 exprArit : expr SOMA expr
          | expr MENUS expr
@@ -54,8 +56,6 @@ exprRel  : NOUM ABREPC expr FECHAPC
 Proc     : if
          | while
          | saidas
-         | BUSCA ID ABREPR expr FECHAPR
-         | BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
          | SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR
 
 if       : SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM
@@ -63,5 +63,5 @@ if       : SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM
 
 while    : ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM
 
-saidas   : SAIDAS STRING
-         | SAIDAS lista
+saidas   : SAIDAS ASPA
+         | SAIDAS ID
