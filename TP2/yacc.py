@@ -234,7 +234,7 @@ def p_AtribMatriz_comExpr(p):
     indice2 = p[7]
     valor = p[10]
     if matName in parser.variaveis:
-        if len(parser.variaveis[matName]):
+        if len(parser.variaveis[matName]) == 3:
             p[0] = f"PUSHGP\nPUSHI {parser.variaveis[matName][0]}\nPADD\n{indice1}PUSHI {parser.variaveis[matName][2]}\nMUL\nPADD\n{indice2}{valor}STOREN\n"
         else:
             parser.error = f"Operação inválida, variável {matName} não é uma matriz"

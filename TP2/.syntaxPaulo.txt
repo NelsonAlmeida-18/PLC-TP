@@ -1,41 +1,92 @@
-criar um comentario:
-comentario(o comentario a fazer)
+Criar uma variável:
+var "nomeDaVariavel"
+> var x
 
-criar uma variável:
-var nomeDaVariavel
+Criar variavel com valor:
+var "nomeDaVariavel" com "valor"
+> var x com 2 + 3
 
-criar variavel com valor:
-var nomeDaVariavel com valorDaVariavel
+Alterar variavel com valor:
+> alterna x com 5
+
+
+Criar lista:
+lista "nomeDaLista"
+> lista a
+
+Criar lista com tamanho:
+lista "nomeDaLista" "tamanho"
+> lista a 5
+
+Alterar lista com lista:
+lista "nomeDaLista" com lista
+> lista a com [1,2,3,4,5]
+
+Alterar valor dum indice da lista:
+alterna "nomeDaLista" ["indice"] com "valor"
+> alterna a [0] com 3
+
+Obter o valor do indice de uma lista:
+busca "nomeDaLista" ["indice"]
+> busca a [1]
+
+Swap entre elementos de uma lista:
+swap "nomeDaLista" ["indice1"] com ["indice2"]
+
+
+Criar matriz:
+matriz "nomeDaMatriz"
+> matriz m
+
+Criar matriz com tamanho:
+matriz "nomeDaMatriz" "tamanho1" "tamanho2"
+> matriz m 2 3
+
+Alterar valor de um indice de uma matriz:
+alterna "nomeDaMatriz" ["indice"] com "valor"
+> alterna m [0][1] com 5
+
+Altera uma linha da matriz por uma lista:
+alterna "nomeDaMatriz" ["indice"] com lista
+> alterna m [0] com [1,2]
+
+Obter o valor do indice de uma matriz:
+busca "nomeDaMatriz" ["indice1"] ["indice2"]
+> busca m [1][0]
+
 
 condicional if:
-se (condicao==logico) logo opcao1 senao opcao2
+se (condicao==logico) entao opcao1 senao opcao2
+
 
 ciclo while-do:
-enquanto(condicao) faz ciclo 
+enquanto(condicao) faz ciclo
 
 ciclo for-do:
 faz x enquanto(condicao)
 
+
 operacoes aritméticas usuais:
 + -> soma
-- -> perdeste
+- -> menus
 / -> dibide
-* -> mula
+* -> somanbezes
 ^ -> pau
 % -> sobras
 
+
 operacoes relacionais:
-    Maior entre x e y:
-        maisGrande(x,y) 
-    Menor entre x e y:
-        maisPiqueno(x,y)
-    Verificar a igualdade entre x e y:
-        gemeo(x,y)
-    X maior ou igual que Y:
-        maisGrandeOuGemeo(x,y)
-    X menor ou igual que Y:
-        maisPiquenoOuGemeo(x,y)
-    
+Maior entre x e y:
+    maisGrande(x,y)
+Menor entre x e y:
+    maisPiqueno(x,y)
+Verificar a igualdade entre x e y:
+    gemeo(x,y)
+X maior ou igual que Y:
+    maisGrandeOuGemeo(x,y)
+X menor ou igual que Y:
+    maisPiquenoOuGemeo(x,y)
+
 
 ler do stdin:
 entradas
@@ -43,18 +94,4 @@ entradas
 ler do stdout:
 saidas
 
-criar array:
-lista nomeDaLista
-
-criar array de tamanho x:
-lista nomeDaLista tamanhoX
-
-operacao de indexaçao no array:
-busca nomeDoArray indice
-
-criar matriz de tamanho t1xt2:
-matriz nomeDaMatriz t1 t2
-
-operacao de indexacao na matriz:
-busca nomeDaMatriz indice1 indice2
 
