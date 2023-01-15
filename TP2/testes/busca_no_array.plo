@@ -1,9 +1,7 @@
+lista a
 lista a com [1,2,3,4,5,6,7,8,9,10]
 
-saidas "Introduza um indice:"
 var i com entradas
-
 var x com busca a[i]
-saidas "Valor no indice"
 saidas x
 

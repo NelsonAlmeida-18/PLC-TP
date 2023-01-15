@@ -152,7 +152,7 @@ def p_DeclLista_Size(p):
     size = int(p[3])
     if listName not in parser.variaveis:
         if size > 0:
-            parser.variaveis[listName] = (parser.stackPointer, size)
+            parser.variaveis[listName] = (parser.stackPointer, size-1)
             p[0] = f"PUSHN {size}\n"
             parser.stackPointer += size
         else:
@@ -170,18 +170,13 @@ def p_AtribLista_lista(p):
     lista = p[4]
     varName = p[2]
     if varName in parser.variaveis:
-        if len(lista) < parser.variaveis[varName][1]:
-            assm = ""
-            for i in lista:
-                assm += f"PUSHI {i}\n"
-
-            parser.variaveis[varName] = (
-                parser.stackPointer, parser.variaveis[varName][1])
-            parser.stackPointer += len(lista)
-            p[0] = assm
-        else:
-            parser.error = f"Atribuição com tamanho maior à declaração da lista {varName}"
-            parser.exito = False
+        assm = ""
+        for i in lista:
+            assm += f"PUSHI {i}\n"
+        parser.variaveis[varName] = (
+            parser.stackPointer, parser.variaveis[varName][1])
+        parser.stackPointer += len(lista)
+        p[0] = assm
     else:
         parser.error = f"Variável com o nome {varName} não definida"
         parser.exito = False
