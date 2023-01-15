@@ -152,7 +152,7 @@ def p_DeclLista_Size(p):
     size = int(p[3])
     if listName not in parser.variaveis:
         if size > 0:
-            parser.variaveis[listName] = (parser.stackPointer, size-1)
+            parser.variaveis[listName] = (parser.stackPointer, size)
             p[0] = f"PUSHN {size}\n"
             parser.stackPointer += size
         else:
@@ -169,14 +169,15 @@ def p_AtribLista_lista(p):
     "Atrib : LISTA ID COM lista"
     lista = p[4]
     varName = p[2]
+    print(lista)
     if varName in parser.variaveis:
-        assm = ""
-        for i in lista:
-            assm += f"PUSHI {i}\n"
-        parser.variaveis[varName] = (
-            parser.stackPointer, parser.variaveis[varName][1])
-        parser.stackPointer += len(lista)
-        p[0] = assm
+        if len(lista)==parser.variaveis[varName][1]:
+            assm = ""
+            for i in range(len(lista)):
+                assm += f"PUSHGP\nPUSHI {parser.variaveis[varName][0]+i}\nPUSHI {int(lista[i])}\nSTOREN\n"
+            p[0] = assm
+        else:
+            print("stackOverflow")
     else:
         parser.error = f"Variável com o nome {varName} não definida"
         parser.exito = False
@@ -268,8 +269,8 @@ def p_AtribMatriz_comLista(p):
 
 
 # Função que vai buscar o valor do indice na lista
-def p_ProcBusca_Lista(p):
-    "Proc : BUSCA ID ABREPR expr FECHAPR"
+def p_AtribBusca_Lista(p):
+    "expr : BUSCA ID ABREPR expr FECHAPR"
     varName = p[2]
     indice = p[4]
     if varName in parser.variaveis:
@@ -281,8 +282,8 @@ def p_ProcBusca_Lista(p):
 
 
 # Função que vai buscar o valor do indice na matriz
-def p_ProcBusca_Matriz(p):
-    "Proc : BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR"
+def p_AtribBusca_Matriz(p):
+    "expr : BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR"
     varName = p[2]
     indice1 = p[4]
     indice2 = p[7]
@@ -413,13 +414,12 @@ def p_while(p):
 
 
 def p_saidas_STRING(p):
-    "saidas : SAIDAS STRING"
+    '''saidas : SAIDAS ASPA'''
     p[0] = f'PUSHS {p[2]}\nWRITES\n'
 
 
 def p_saidas_lista(p):
     "saidas : SAIDAS ID"
-    print(p[2], parser.variaveis)
     if len(parser.variaveis[p[2]]) == 3:
         listas = parser.variaveis[p[2]]
         initLista = listas[0]
@@ -532,6 +532,7 @@ if len(sys.argv) == 2:
         else:
             print("--------------------------------------")
             print(parser.error)
+            print(parser.variaveis)
             print("--------------------------------------")
             sys.exit()
         file.close()

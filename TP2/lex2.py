@@ -1,7 +1,7 @@
 import ply.lex as lex
 
 tokens = [
-    "STRING",
+    "ASPA",
     "ID",
     "VAR",
     "COM",
@@ -66,10 +66,10 @@ t_MENUS = r'\-'
 t_SOMANBEZES = r'\*'
 t_DIBIDE = r'\/'
 t_SOBRAS = r'\%'
-t_STRING = r"\"[w+d+]*\"|\'[w+d+]*\'"
 
+
+t_ASPA= r'\".*\"'
 t_ID = r"\w+"
-
 
 def t_INT(t):
     r'\d+'

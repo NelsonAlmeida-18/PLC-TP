@@ -34,8 +34,8 @@ Rule 28    Decl -> MATRIZ ID
 Rule 29    Decl -> MATRIZ ID INT INT
 Rule 30    Atrib -> ALTERNA ID ABREPR expr FECHAPR ABREPR expr FECHAPR COM expr
 Rule 31    Atrib -> ALTERNA ID ABREPR expr FECHAPR COM lista
-Rule 32    Proc -> BUSCA ID ABREPR expr FECHAPR
-Rule 33    Proc -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
+Rule 32    expr -> BUSCA ID ABREPR expr FECHAPR
+Rule 33    expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
 Rule 34    Proc -> SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR
 Rule 35    exprArit -> expr SOMA expr
 Rule 36    exprArit -> expr MENUS expr
@@ -54,7 +54,7 @@ Rule 48    exprRel -> expr OUE expr
 Rule 49    if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM
 Rule 50    if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
 Rule 51    while -> ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM
-Rule 52    saidas -> SAIDAS STRING
+Rule 52    saidas -> SAIDAS ASPA
 Rule 53    saidas -> SAIDAS ID
 Rule 54    lista -> ABREPR elems FECHAPR
 Rule 55    elems -> INT
@@ -66,6 +66,7 @@ ABRECHAV             : 49 50 50 51
 ABREPC               : 40 41 42 43 44 45 46 49 50 51
 ABREPR               : 27 30 30 31 32 33 33 34 34 54
 ALTERNA              : 20 27 30 31
+ASPA                 : 52
 BUSCA                : 32 33
 COM                  : 19 20 26 27 30 31 34
 DIBIDE               : 38
@@ -97,7 +98,6 @@ SENAO                : 50
 SOBRAS               : 39
 SOMA                 : 35
 SOMANBEZES           : 37
-STRING               : 52
 SWAP                 : 34
 VAR                  : 18 19
 VIRG                 : 41 42 43 44 45 46 56
@@ -152,24 +152,21 @@ state 0
     (15) Proc -> . if
     (16) Proc -> . while
     (17) Proc -> . saidas
-    (32) Proc -> . BUSCA ID ABREPR expr FECHAPR
-    (33) Proc -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (34) Proc -> . SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR
     (49) if -> . SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM
     (50) if -> . SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
     (51) while -> . ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM
-    (52) saidas -> . SAIDAS STRING
+    (52) saidas -> . SAIDAS ASPA
     (53) saidas -> . SAIDAS ID
 
     VAR             shift and go to state 6
     ALTERNA         shift and go to state 7
     LISTA           shift and go to state 8
     MATRIZ          shift and go to state 10
-    BUSCA           shift and go to state 15
-    SWAP            shift and go to state 16
-    SE              shift and go to state 17
-    ENQUANTO        shift and go to state 18
-    SAIDAS          shift and go to state 19
+    SWAP            shift and go to state 15
+    SE              shift and go to state 16
+    ENQUANTO        shift and go to state 17
+    SAIDAS          shift and go to state 18
 
     Programa                       shift and go to state 1
     Decls                          shift and go to state 2
@@ -200,8 +197,6 @@ state 2
     (15) Proc -> . if
     (16) Proc -> . while
     (17) Proc -> . saidas
-    (32) Proc -> . BUSCA ID ABREPR expr FECHAPR
-    (33) Proc -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (34) Proc -> . SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR
     (19) Atrib -> . VAR ID COM expr
     (20) Atrib -> . ALTERNA ID COM expr
@@ -214,23 +209,22 @@ state 2
     (49) if -> . SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM
     (50) if -> . SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
     (51) while -> . ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM
-    (52) saidas -> . SAIDAS STRING
+    (52) saidas -> . SAIDAS ASPA
     (53) saidas -> . SAIDAS ID
 
     $end            reduce using rule 1 (Programa -> Decls .)
-    BUSCA           shift and go to state 15
-    SWAP            shift and go to state 16
-    VAR             shift and go to state 22
+    SWAP            shift and go to state 15
+    VAR             shift and go to state 21
     ALTERNA         shift and go to state 7
     LISTA           shift and go to state 8
-    SE              shift and go to state 17
-    ENQUANTO        shift and go to state 18
-    SAIDAS          shift and go to state 19
+    SE              shift and go to state 16
+    ENQUANTO        shift and go to state 17
+    SAIDAS          shift and go to state 18
 
-    Corpo                          shift and go to state 20
+    Corpo                          shift and go to state 19
     Codigo                         shift and go to state 9
     Proc                           shift and go to state 11
-    Atrib                          shift and go to state 21
+    Atrib                          shift and go to state 20
     if                             shift and go to state 12
     while                          shift and go to state 13
     saidas                         shift and go to state 14
@@ -249,8 +243,6 @@ state 3
     (15) Proc -> . if
     (16) Proc -> . while
     (17) Proc -> . saidas
-    (32) Proc -> . BUSCA ID ABREPR expr FECHAPR
-    (33) Proc -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (34) Proc -> . SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR
     (19) Atrib -> . VAR ID COM expr
     (20) Atrib -> . ALTERNA ID COM expr
@@ -263,25 +255,24 @@ state 3
     (49) if -> . SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM
     (50) if -> . SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
     (51) while -> . ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM
-    (52) saidas -> . SAIDAS STRING
+    (52) saidas -> . SAIDAS ASPA
     (53) saidas -> . SAIDAS ID
 
   ! reduce/reduce conflict for $end resolved using rule 2 (Programa -> Atrib .)
     $end            reduce using rule 2 (Programa -> Atrib .)
-    BUSCA           shift and go to state 15
-    SWAP            shift and go to state 16
-    VAR             shift and go to state 22
+    SWAP            shift and go to state 15
+    VAR             shift and go to state 21
     ALTERNA         shift and go to state 7
     LISTA           shift and go to state 8
-    SE              shift and go to state 17
-    ENQUANTO        shift and go to state 18
-    SAIDAS          shift and go to state 19
+    SE              shift and go to state 16
+    ENQUANTO        shift and go to state 17
+    SAIDAS          shift and go to state 18
 
   ! $end            [ reduce using rule 10 (Codigo -> Atrib .) ]
 
-    Atrib                          shift and go to state 21
-    Corpo                          shift and go to state 23
-    Codigo                         shift and go to state 24
+    Atrib                          shift and go to state 20
+    Corpo                          shift and go to state 22
+    Codigo                         shift and go to state 23
     Proc                           shift and go to state 11
     if                             shift and go to state 12
     while                          shift and go to state 13
@@ -305,7 +296,6 @@ state 5
     (29) Decl -> . MATRIZ ID INT INT
 
   ! shift/reduce conflict for VAR resolved as shift
-    BUSCA           reduce using rule 11 (Decls -> Decl .)
     SWAP            reduce using rule 11 (Decls -> Decl .)
     ALTERNA         reduce using rule 11 (Decls -> Decl .)
     LISTA           reduce using rule 11 (Decls -> Decl .)
@@ -313,20 +303,20 @@ state 5
     ENQUANTO        reduce using rule 11 (Decls -> Decl .)
     SAIDAS          reduce using rule 11 (Decls -> Decl .)
     $end            reduce using rule 11 (Decls -> Decl .)
-    VAR             shift and go to state 26
+    VAR             shift and go to state 25
     MATRIZ          shift and go to state 10
 
   ! VAR             [ reduce using rule 11 (Decls -> Decl .) ]
 
     Decl                           shift and go to state 5
-    Decls                          shift and go to state 25
+    Decls                          shift and go to state 24
 
 state 6
 
     (19) Atrib -> VAR . ID COM expr
     (18) Decl -> VAR . ID
 
-    ID              shift and go to state 27
+    ID              shift and go to state 26
 
 
 state 7
@@ -336,7 +326,7 @@ state 7
     (30) Atrib -> ALTERNA . ID ABREPR expr FECHAPR ABREPR expr FECHAPR COM expr
     (31) Atrib -> ALTERNA . ID ABREPR expr FECHAPR COM lista
 
-    ID              shift and go to state 28
+    ID              shift and go to state 27
 
 
 state 8
@@ -345,7 +335,7 @@ state 8
     (25) Atrib -> LISTA . ID INT
     (26) Atrib -> LISTA . ID COM lista
 
-    ID              shift and go to state 29
+    ID              shift and go to state 28
 
 
 state 9
@@ -360,7 +350,7 @@ state 10
     (28) Decl -> MATRIZ . ID
     (29) Decl -> MATRIZ . ID INT INT
 
-    ID              shift and go to state 30
+    ID              shift and go to state 29
 
 
 state 11
@@ -374,8 +364,6 @@ state 11
     (15) Proc -> . if
     (16) Proc -> . while
     (17) Proc -> . saidas
-    (32) Proc -> . BUSCA ID ABREPR expr FECHAPR
-    (33) Proc -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (34) Proc -> . SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR
     (19) Atrib -> . VAR ID COM expr
     (20) Atrib -> . ALTERNA ID COM expr
@@ -388,23 +376,22 @@ state 11
     (49) if -> . SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM
     (50) if -> . SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
     (51) while -> . ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM
-    (52) saidas -> . SAIDAS STRING
+    (52) saidas -> . SAIDAS ASPA
     (53) saidas -> . SAIDAS ID
 
     $end            reduce using rule 9 (Codigo -> Proc .)
     FECHACHAV       reduce using rule 9 (Codigo -> Proc .)
-    BUSCA           shift and go to state 15
-    SWAP            shift and go to state 16
-    VAR             shift and go to state 22
+    SWAP            shift and go to state 15
+    VAR             shift and go to state 21
     ALTERNA         shift and go to state 7
     LISTA           shift and go to state 8
-    SE              shift and go to state 17
-    ENQUANTO        shift and go to state 18
-    SAIDAS          shift and go to state 19
+    SE              shift and go to state 16
+    ENQUANTO        shift and go to state 17
+    SAIDAS          shift and go to state 18
 
     Proc                           shift and go to state 11
-    Codigo                         shift and go to state 31
-    Atrib                          shift and go to state 21
+    Codigo                         shift and go to state 30
+    Atrib                          shift and go to state 20
     if                             shift and go to state 12
     while                          shift and go to state 13
     saidas                         shift and go to state 14
@@ -413,7 +400,6 @@ state 12
 
     (15) Proc -> if .
 
-    BUSCA           reduce using rule 15 (Proc -> if .)
     SWAP            reduce using rule 15 (Proc -> if .)
     VAR             reduce using rule 15 (Proc -> if .)
     ALTERNA         reduce using rule 15 (Proc -> if .)
@@ -429,7 +415,6 @@ state 13
 
     (16) Proc -> while .
 
-    BUSCA           reduce using rule 16 (Proc -> while .)
     SWAP            reduce using rule 16 (Proc -> while .)
     VAR             reduce using rule 16 (Proc -> while .)
     ALTERNA         reduce using rule 16 (Proc -> while .)
@@ -445,7 +430,6 @@ state 14
 
     (17) Proc -> saidas .
 
-    BUSCA           reduce using rule 17 (Proc -> saidas .)
     SWAP            reduce using rule 17 (Proc -> saidas .)
     VAR             reduce using rule 17 (Proc -> saidas .)
     ALTERNA         reduce using rule 17 (Proc -> saidas .)
@@ -459,51 +443,43 @@ state 14
 
 state 15
 
-    (32) Proc -> BUSCA . ID ABREPR expr FECHAPR
-    (33) Proc -> BUSCA . ID ABREPR expr FECHAPR ABREPR expr FECHAPR
+    (34) Proc -> SWAP . ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR
 
-    ID              shift and go to state 32
+    ID              shift and go to state 31
 
 
 state 16
 
-    (34) Proc -> SWAP . ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR
+    (49) if -> SE . ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM
+    (50) if -> SE . ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
 
-    ID              shift and go to state 33
+    ABREPC          shift and go to state 32
 
 
 state 17
 
-    (49) if -> SE . ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM
-    (50) if -> SE . ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
+    (51) while -> ENQUANTO . ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM
 
-    ABREPC          shift and go to state 34
+    ABREPC          shift and go to state 33
 
 
 state 18
 
-    (51) while -> ENQUANTO . ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM
+    (52) saidas -> SAIDAS . ASPA
+    (53) saidas -> SAIDAS . ID
 
-    ABREPC          shift and go to state 35
+    ASPA            shift and go to state 34
+    ID              shift and go to state 35
 
 
 state 19
-
-    (52) saidas -> SAIDAS . STRING
-    (53) saidas -> SAIDAS . ID
-
-    STRING          shift and go to state 36
-    ID              shift and go to state 37
-
-
-state 20
 
     (3) Programa -> Decls Corpo .
 
     $end            reduce using rule 3 (Programa -> Decls Corpo .)
 
 
-state 21
+state 20
 
     (8) Codigo -> Atrib . Codigo
     (10) Codigo -> Atrib .
@@ -514,8 +490,6 @@ state 21
     (15) Proc -> . if
     (16) Proc -> . while
     (17) Proc -> . saidas
-    (32) Proc -> . BUSCA ID ABREPR expr FECHAPR
-    (33) Proc -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (34) Proc -> . SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR
     (19) Atrib -> . VAR ID COM expr
     (20) Atrib -> . ALTERNA ID COM expr
@@ -528,42 +502,41 @@ state 21
     (49) if -> . SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM
     (50) if -> . SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
     (51) while -> . ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM
-    (52) saidas -> . SAIDAS STRING
+    (52) saidas -> . SAIDAS ASPA
     (53) saidas -> . SAIDAS ID
 
     $end            reduce using rule 10 (Codigo -> Atrib .)
     FECHACHAV       reduce using rule 10 (Codigo -> Atrib .)
-    BUSCA           shift and go to state 15
-    SWAP            shift and go to state 16
-    VAR             shift and go to state 22
+    SWAP            shift and go to state 15
+    VAR             shift and go to state 21
     ALTERNA         shift and go to state 7
     LISTA           shift and go to state 8
-    SE              shift and go to state 17
-    ENQUANTO        shift and go to state 18
-    SAIDAS          shift and go to state 19
+    SE              shift and go to state 16
+    ENQUANTO        shift and go to state 17
+    SAIDAS          shift and go to state 18
 
-    Atrib                          shift and go to state 21
-    Codigo                         shift and go to state 38
+    Atrib                          shift and go to state 20
+    Codigo                         shift and go to state 36
     Proc                           shift and go to state 11
     if                             shift and go to state 12
     while                          shift and go to state 13
     saidas                         shift and go to state 14
 
-state 22
+state 21
 
     (19) Atrib -> VAR . ID COM expr
 
-    ID              shift and go to state 39
+    ID              shift and go to state 37
 
 
-state 23
+state 22
 
     (4) Programa -> Atrib Corpo .
 
     $end            reduce using rule 4 (Programa -> Atrib Corpo .)
 
 
-state 24
+state 23
 
     (8) Codigo -> Atrib Codigo .
     (6) Corpo -> Codigo .
@@ -574,11 +547,10 @@ state 24
   ! $end            [ reduce using rule 8 (Codigo -> Atrib Codigo .) ]
 
 
-state 25
+state 24
 
     (12) Decls -> Decl Decls .
 
-    BUSCA           reduce using rule 12 (Decls -> Decl Decls .)
     SWAP            reduce using rule 12 (Decls -> Decl Decls .)
     VAR             reduce using rule 12 (Decls -> Decl Decls .)
     ALTERNA         reduce using rule 12 (Decls -> Decl Decls .)
@@ -589,22 +561,21 @@ state 25
     $end            reduce using rule 12 (Decls -> Decl Decls .)
 
 
-state 26
+state 25
 
     (18) Decl -> VAR . ID
 
-    ID              shift and go to state 40
+    ID              shift and go to state 38
 
 
-state 27
+state 26
 
     (19) Atrib -> VAR ID . COM expr
     (18) Decl -> VAR ID .
 
-    COM             shift and go to state 41
+    COM             shift and go to state 39
     VAR             reduce using rule 18 (Decl -> VAR ID .)
     MATRIZ          reduce using rule 18 (Decl -> VAR ID .)
-    BUSCA           reduce using rule 18 (Decl -> VAR ID .)
     SWAP            reduce using rule 18 (Decl -> VAR ID .)
     ALTERNA         reduce using rule 18 (Decl -> VAR ID .)
     LISTA           reduce using rule 18 (Decl -> VAR ID .)
@@ -614,24 +585,23 @@ state 27
     $end            reduce using rule 18 (Decl -> VAR ID .)
 
 
-state 28
+state 27
 
     (20) Atrib -> ALTERNA ID . COM expr
     (27) Atrib -> ALTERNA ID . ABREPR expr FECHAPR COM expr
     (30) Atrib -> ALTERNA ID . ABREPR expr FECHAPR ABREPR expr FECHAPR COM expr
     (31) Atrib -> ALTERNA ID . ABREPR expr FECHAPR COM lista
 
-    COM             shift and go to state 42
-    ABREPR          shift and go to state 43
+    COM             shift and go to state 40
+    ABREPR          shift and go to state 41
 
 
-state 29
+state 28
 
     (24) Atrib -> LISTA ID .
     (25) Atrib -> LISTA ID . INT
     (26) Atrib -> LISTA ID . COM lista
 
-    BUSCA           reduce using rule 24 (Atrib -> LISTA ID .)
     SWAP            reduce using rule 24 (Atrib -> LISTA ID .)
     VAR             reduce using rule 24 (Atrib -> LISTA ID .)
     ALTERNA         reduce using rule 24 (Atrib -> LISTA ID .)
@@ -641,18 +611,17 @@ state 29
     SAIDAS          reduce using rule 24 (Atrib -> LISTA ID .)
     $end            reduce using rule 24 (Atrib -> LISTA ID .)
     FECHACHAV       reduce using rule 24 (Atrib -> LISTA ID .)
-    INT             shift and go to state 44
-    COM             shift and go to state 45
+    INT             shift and go to state 42
+    COM             shift and go to state 43
 
 
-state 30
+state 29
 
     (28) Decl -> MATRIZ ID .
     (29) Decl -> MATRIZ ID . INT INT
 
     VAR             reduce using rule 28 (Decl -> MATRIZ ID .)
     MATRIZ          reduce using rule 28 (Decl -> MATRIZ ID .)
-    BUSCA           reduce using rule 28 (Decl -> MATRIZ ID .)
     SWAP            reduce using rule 28 (Decl -> MATRIZ ID .)
     ALTERNA         reduce using rule 28 (Decl -> MATRIZ ID .)
     LISTA           reduce using rule 28 (Decl -> MATRIZ ID .)
@@ -660,10 +629,10 @@ state 30
     ENQUANTO        reduce using rule 28 (Decl -> MATRIZ ID .)
     SAIDAS          reduce using rule 28 (Decl -> MATRIZ ID .)
     $end            reduce using rule 28 (Decl -> MATRIZ ID .)
-    INT             shift and go to state 46
+    INT             shift and go to state 44
 
 
-state 31
+state 30
 
     (7) Codigo -> Proc Codigo .
 
@@ -671,22 +640,14 @@ state 31
     FECHACHAV       reduce using rule 7 (Codigo -> Proc Codigo .)
 
 
-state 32
-
-    (32) Proc -> BUSCA ID . ABREPR expr FECHAPR
-    (33) Proc -> BUSCA ID . ABREPR expr FECHAPR ABREPR expr FECHAPR
-
-    ABREPR          shift and go to state 47
-
-
-state 33
+state 31
 
     (34) Proc -> SWAP ID . ABREPR INT FECHAPR COM ABREPR INT FECHAPR
 
-    ABREPR          shift and go to state 48
+    ABREPR          shift and go to state 45
 
 
-state 34
+state 32
 
     (49) if -> SE ABREPC . exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM
     (50) if -> SE ABREPC . exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
@@ -704,28 +665,31 @@ state 34
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
     (38) exprArit -> . expr DIBIDE expr
     (39) exprArit -> . expr SOBRAS expr
 
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
 
-    exprRel                        shift and go to state 49
-    expr                           shift and go to state 51
-    exprArit                       shift and go to state 58
+    exprRel                        shift and go to state 46
+    expr                           shift and go to state 48
+    exprArit                       shift and go to state 55
 
-state 35
+state 33
 
     (51) while -> ENQUANTO ABREPC . exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM
     (40) exprRel -> . NOUM ABREPC expr FECHAPC
@@ -742,48 +706,49 @@ state 35
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
     (38) exprArit -> . expr DIBIDE expr
     (39) exprArit -> . expr SOBRAS expr
 
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
 
-    exprRel                        shift and go to state 62
-    expr                           shift and go to state 51
-    exprArit                       shift and go to state 58
+    exprRel                        shift and go to state 60
+    expr                           shift and go to state 48
+    exprArit                       shift and go to state 55
 
-state 36
+state 34
 
-    (52) saidas -> SAIDAS STRING .
+    (52) saidas -> SAIDAS ASPA .
 
-    BUSCA           reduce using rule 52 (saidas -> SAIDAS STRING .)
-    SWAP            reduce using rule 52 (saidas -> SAIDAS STRING .)
-    VAR             reduce using rule 52 (saidas -> SAIDAS STRING .)
-    ALTERNA         reduce using rule 52 (saidas -> SAIDAS STRING .)
-    LISTA           reduce using rule 52 (saidas -> SAIDAS STRING .)
-    SE              reduce using rule 52 (saidas -> SAIDAS STRING .)
-    ENQUANTO        reduce using rule 52 (saidas -> SAIDAS STRING .)
-    SAIDAS          reduce using rule 52 (saidas -> SAIDAS STRING .)
-    $end            reduce using rule 52 (saidas -> SAIDAS STRING .)
-    FECHACHAV       reduce using rule 52 (saidas -> SAIDAS STRING .)
+    SWAP            reduce using rule 52 (saidas -> SAIDAS ASPA .)
+    VAR             reduce using rule 52 (saidas -> SAIDAS ASPA .)
+    ALTERNA         reduce using rule 52 (saidas -> SAIDAS ASPA .)
+    LISTA           reduce using rule 52 (saidas -> SAIDAS ASPA .)
+    SE              reduce using rule 52 (saidas -> SAIDAS ASPA .)
+    ENQUANTO        reduce using rule 52 (saidas -> SAIDAS ASPA .)
+    SAIDAS          reduce using rule 52 (saidas -> SAIDAS ASPA .)
+    $end            reduce using rule 52 (saidas -> SAIDAS ASPA .)
+    FECHACHAV       reduce using rule 52 (saidas -> SAIDAS ASPA .)
 
 
-state 37
+state 35
 
     (53) saidas -> SAIDAS ID .
 
-    BUSCA           reduce using rule 53 (saidas -> SAIDAS ID .)
     SWAP            reduce using rule 53 (saidas -> SAIDAS ID .)
     VAR             reduce using rule 53 (saidas -> SAIDAS ID .)
     ALTERNA         reduce using rule 53 (saidas -> SAIDAS ID .)
@@ -795,7 +760,7 @@ state 37
     FECHACHAV       reduce using rule 53 (saidas -> SAIDAS ID .)
 
 
-state 38
+state 36
 
     (8) Codigo -> Atrib Codigo .
 
@@ -803,20 +768,19 @@ state 38
     FECHACHAV       reduce using rule 8 (Codigo -> Atrib Codigo .)
 
 
-state 39
+state 37
 
     (19) Atrib -> VAR ID . COM expr
 
-    COM             shift and go to state 41
+    COM             shift and go to state 39
 
 
-state 40
+state 38
 
     (18) Decl -> VAR ID .
 
     VAR             reduce using rule 18 (Decl -> VAR ID .)
     MATRIZ          reduce using rule 18 (Decl -> VAR ID .)
-    BUSCA           reduce using rule 18 (Decl -> VAR ID .)
     SWAP            reduce using rule 18 (Decl -> VAR ID .)
     ALTERNA         reduce using rule 18 (Decl -> VAR ID .)
     LISTA           reduce using rule 18 (Decl -> VAR ID .)
@@ -826,7 +790,7 @@ state 40
     $end            reduce using rule 18 (Decl -> VAR ID .)
 
 
-state 41
+state 39
 
     (19) Atrib -> VAR ID COM . expr
     (13) expr -> . exprArit
@@ -834,6 +798,8 @@ state 41
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -849,22 +815,23 @@ state 41
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 63
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 61
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 42
+state 40
 
     (20) Atrib -> ALTERNA ID COM . expr
     (13) expr -> . exprArit
@@ -872,6 +839,8 @@ state 42
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -887,22 +856,23 @@ state 42
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 65
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 63
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 43
+state 41
 
     (27) Atrib -> ALTERNA ID ABREPR . expr FECHAPR COM expr
     (30) Atrib -> ALTERNA ID ABREPR . expr FECHAPR ABREPR expr FECHAPR COM expr
@@ -912,6 +882,8 @@ state 43
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -927,26 +899,26 @@ state 43
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 66
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 64
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 44
+state 42
 
     (25) Atrib -> LISTA ID INT .
 
-    BUSCA           reduce using rule 25 (Atrib -> LISTA ID INT .)
     SWAP            reduce using rule 25 (Atrib -> LISTA ID INT .)
     VAR             reduce using rule 25 (Atrib -> LISTA ID INT .)
     ALTERNA         reduce using rule 25 (Atrib -> LISTA ID INT .)
@@ -958,75 +930,36 @@ state 44
     FECHACHAV       reduce using rule 25 (Atrib -> LISTA ID INT .)
 
 
-state 45
+state 43
 
     (26) Atrib -> LISTA ID COM . lista
     (54) lista -> . ABREPR elems FECHAPR
 
-    ABREPR          shift and go to state 68
+    ABREPR          shift and go to state 66
 
-    lista                          shift and go to state 67
+    lista                          shift and go to state 65
 
-state 46
+state 44
 
     (29) Decl -> MATRIZ ID INT . INT
 
-    INT             shift and go to state 69
+    INT             shift and go to state 67
 
 
-state 47
-
-    (32) Proc -> BUSCA ID ABREPR . expr FECHAPR
-    (33) Proc -> BUSCA ID ABREPR . expr FECHAPR ABREPR expr FECHAPR
-    (13) expr -> . exprArit
-    (14) expr -> . exprRel
-    (21) expr -> . INT
-    (22) expr -> . ID
-    (23) expr -> . ENTRADAS
-    (35) exprArit -> . expr SOMA expr
-    (36) exprArit -> . expr MENUS expr
-    (37) exprArit -> . expr SOMANBEZES expr
-    (38) exprArit -> . expr DIBIDE expr
-    (39) exprArit -> . expr SOBRAS expr
-    (40) exprRel -> . NOUM ABREPC expr FECHAPC
-    (41) exprRel -> . GEMEO ABREPC expr VIRG expr FECHAPC
-    (42) exprRel -> . NAOGEMEO ABREPC expr VIRG expr FECHAPC
-    (43) exprRel -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
-    (44) exprRel -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
-    (45) exprRel -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
-    (46) exprRel -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
-    (47) exprRel -> . expr IE expr
-    (48) exprRel -> . expr OUE expr
-
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
-
-    expr                           shift and go to state 70
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
-
-state 48
+state 45
 
     (34) Proc -> SWAP ID ABREPR . INT FECHAPR COM ABREPR INT FECHAPR
 
-    INT             shift and go to state 71
+    INT             shift and go to state 68
 
 
-state 49
+state 46
 
     (49) if -> SE ABREPC exprRel . FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM
     (50) if -> SE ABREPC exprRel . FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
     (14) expr -> exprRel .
 
-    FECHAPC         shift and go to state 72
+    FECHAPC         shift and go to state 69
     IE              reduce using rule 14 (expr -> exprRel .)
     OUE             reduce using rule 14 (expr -> exprRel .)
     SOMA            reduce using rule 14 (expr -> exprRel .)
@@ -1036,14 +969,14 @@ state 49
     SOBRAS          reduce using rule 14 (expr -> exprRel .)
 
 
-state 50
+state 47
 
     (40) exprRel -> NOUM . ABREPC expr FECHAPC
 
-    ABREPC          shift and go to state 73
+    ABREPC          shift and go to state 70
 
 
-state 51
+state 48
 
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
@@ -1053,58 +986,58 @@ state 51
     (38) exprArit -> expr . DIBIDE expr
     (39) exprArit -> expr . SOBRAS expr
 
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+
+
+state 49
+
+    (41) exprRel -> GEMEO . ABREPC expr VIRG expr FECHAPC
+
+    ABREPC          shift and go to state 78
+
+
+state 50
+
+    (42) exprRel -> NAOGEMEO . ABREPC expr VIRG expr FECHAPC
+
+    ABREPC          shift and go to state 79
+
+
+state 51
+
+    (43) exprRel -> MAISPIQUENO . ABREPC expr VIRG expr FECHAPC
+
+    ABREPC          shift and go to state 80
 
 
 state 52
 
-    (41) exprRel -> GEMEO . ABREPC expr VIRG expr FECHAPC
+    (44) exprRel -> MAISPIQUENOOUGEMEO . ABREPC expr VIRG expr FECHAPC
 
     ABREPC          shift and go to state 81
 
 
 state 53
 
-    (42) exprRel -> NAOGEMEO . ABREPC expr VIRG expr FECHAPC
+    (45) exprRel -> MAISGRANDE . ABREPC expr VIRG expr FECHAPC
 
     ABREPC          shift and go to state 82
 
 
 state 54
 
-    (43) exprRel -> MAISPIQUENO . ABREPC expr VIRG expr FECHAPC
+    (46) exprRel -> MAISGRANDEOUGEMEO . ABREPC expr VIRG expr FECHAPC
 
     ABREPC          shift and go to state 83
 
 
 state 55
-
-    (44) exprRel -> MAISPIQUENOOUGEMEO . ABREPC expr VIRG expr FECHAPC
-
-    ABREPC          shift and go to state 84
-
-
-state 56
-
-    (45) exprRel -> MAISGRANDE . ABREPC expr VIRG expr FECHAPC
-
-    ABREPC          shift and go to state 85
-
-
-state 57
-
-    (46) exprRel -> MAISGRANDEOUGEMEO . ABREPC expr VIRG expr FECHAPC
-
-    ABREPC          shift and go to state 86
-
-
-state 58
 
     (13) expr -> exprArit .
 
@@ -1115,7 +1048,6 @@ state 58
     SOMANBEZES      reduce using rule 13 (expr -> exprArit .)
     DIBIDE          reduce using rule 13 (expr -> exprArit .)
     SOBRAS          reduce using rule 13 (expr -> exprArit .)
-    BUSCA           reduce using rule 13 (expr -> exprArit .)
     SWAP            reduce using rule 13 (expr -> exprArit .)
     VAR             reduce using rule 13 (expr -> exprArit .)
     ALTERNA         reduce using rule 13 (expr -> exprArit .)
@@ -1130,7 +1062,7 @@ state 58
     VIRG            reduce using rule 13 (expr -> exprArit .)
 
 
-state 59
+state 56
 
     (21) expr -> INT .
 
@@ -1141,7 +1073,6 @@ state 59
     SOMANBEZES      reduce using rule 21 (expr -> INT .)
     DIBIDE          reduce using rule 21 (expr -> INT .)
     SOBRAS          reduce using rule 21 (expr -> INT .)
-    BUSCA           reduce using rule 21 (expr -> INT .)
     SWAP            reduce using rule 21 (expr -> INT .)
     VAR             reduce using rule 21 (expr -> INT .)
     ALTERNA         reduce using rule 21 (expr -> INT .)
@@ -1156,7 +1087,7 @@ state 59
     VIRG            reduce using rule 21 (expr -> INT .)
 
 
-state 60
+state 57
 
     (22) expr -> ID .
 
@@ -1167,7 +1098,6 @@ state 60
     SOMANBEZES      reduce using rule 22 (expr -> ID .)
     DIBIDE          reduce using rule 22 (expr -> ID .)
     SOBRAS          reduce using rule 22 (expr -> ID .)
-    BUSCA           reduce using rule 22 (expr -> ID .)
     SWAP            reduce using rule 22 (expr -> ID .)
     VAR             reduce using rule 22 (expr -> ID .)
     ALTERNA         reduce using rule 22 (expr -> ID .)
@@ -1182,7 +1112,7 @@ state 60
     VIRG            reduce using rule 22 (expr -> ID .)
 
 
-state 61
+state 58
 
     (23) expr -> ENTRADAS .
 
@@ -1193,7 +1123,6 @@ state 61
     SOMANBEZES      reduce using rule 23 (expr -> ENTRADAS .)
     DIBIDE          reduce using rule 23 (expr -> ENTRADAS .)
     SOBRAS          reduce using rule 23 (expr -> ENTRADAS .)
-    BUSCA           reduce using rule 23 (expr -> ENTRADAS .)
     SWAP            reduce using rule 23 (expr -> ENTRADAS .)
     VAR             reduce using rule 23 (expr -> ENTRADAS .)
     ALTERNA         reduce using rule 23 (expr -> ENTRADAS .)
@@ -1208,12 +1137,20 @@ state 61
     VIRG            reduce using rule 23 (expr -> ENTRADAS .)
 
 
-state 62
+state 59
+
+    (32) expr -> BUSCA . ID ABREPR expr FECHAPR
+    (33) expr -> BUSCA . ID ABREPR expr FECHAPR ABREPR expr FECHAPR
+
+    ID              shift and go to state 84
+
+
+state 60
 
     (51) while -> ENQUANTO ABREPC exprRel . FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM
     (14) expr -> exprRel .
 
-    FECHAPC         shift and go to state 87
+    FECHAPC         shift and go to state 85
     IE              reduce using rule 14 (expr -> exprRel .)
     OUE             reduce using rule 14 (expr -> exprRel .)
     SOMA            reduce using rule 14 (expr -> exprRel .)
@@ -1223,7 +1160,7 @@ state 62
     SOBRAS          reduce using rule 14 (expr -> exprRel .)
 
 
-state 63
+state 61
 
     (19) Atrib -> VAR ID COM expr .
     (35) exprArit -> expr . SOMA expr
@@ -1234,7 +1171,6 @@ state 63
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    BUSCA           reduce using rule 19 (Atrib -> VAR ID COM expr .)
     SWAP            reduce using rule 19 (Atrib -> VAR ID COM expr .)
     VAR             reduce using rule 19 (Atrib -> VAR ID COM expr .)
     ALTERNA         reduce using rule 19 (Atrib -> VAR ID COM expr .)
@@ -1244,16 +1180,16 @@ state 63
     SAIDAS          reduce using rule 19 (Atrib -> VAR ID COM expr .)
     $end            reduce using rule 19 (Atrib -> VAR ID COM expr .)
     FECHACHAV       reduce using rule 19 (Atrib -> VAR ID COM expr .)
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 64
+state 62
 
     (14) expr -> exprRel .
 
@@ -1264,7 +1200,6 @@ state 64
     SOBRAS          reduce using rule 14 (expr -> exprRel .)
     IE              reduce using rule 14 (expr -> exprRel .)
     OUE             reduce using rule 14 (expr -> exprRel .)
-    BUSCA           reduce using rule 14 (expr -> exprRel .)
     SWAP            reduce using rule 14 (expr -> exprRel .)
     VAR             reduce using rule 14 (expr -> exprRel .)
     ALTERNA         reduce using rule 14 (expr -> exprRel .)
@@ -1279,7 +1214,7 @@ state 64
     VIRG            reduce using rule 14 (expr -> exprRel .)
 
 
-state 65
+state 63
 
     (20) Atrib -> ALTERNA ID COM expr .
     (35) exprArit -> expr . SOMA expr
@@ -1290,7 +1225,6 @@ state 65
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    BUSCA           reduce using rule 20 (Atrib -> ALTERNA ID COM expr .)
     SWAP            reduce using rule 20 (Atrib -> ALTERNA ID COM expr .)
     VAR             reduce using rule 20 (Atrib -> ALTERNA ID COM expr .)
     ALTERNA         reduce using rule 20 (Atrib -> ALTERNA ID COM expr .)
@@ -1300,16 +1234,16 @@ state 65
     SAIDAS          reduce using rule 20 (Atrib -> ALTERNA ID COM expr .)
     $end            reduce using rule 20 (Atrib -> ALTERNA ID COM expr .)
     FECHACHAV       reduce using rule 20 (Atrib -> ALTERNA ID COM expr .)
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 66
+state 64
 
     (27) Atrib -> ALTERNA ID ABREPR expr . FECHAPR COM expr
     (30) Atrib -> ALTERNA ID ABREPR expr . FECHAPR ABREPR expr FECHAPR COM expr
@@ -1322,21 +1256,20 @@ state 66
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    FECHAPR         shift and go to state 88
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    FECHAPR         shift and go to state 86
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 67
+state 65
 
     (26) Atrib -> LISTA ID COM lista .
 
-    BUSCA           reduce using rule 26 (Atrib -> LISTA ID COM lista .)
     SWAP            reduce using rule 26 (Atrib -> LISTA ID COM lista .)
     VAR             reduce using rule 26 (Atrib -> LISTA ID COM lista .)
     ALTERNA         reduce using rule 26 (Atrib -> LISTA ID COM lista .)
@@ -1348,23 +1281,22 @@ state 67
     FECHACHAV       reduce using rule 26 (Atrib -> LISTA ID COM lista .)
 
 
-state 68
+state 66
 
     (54) lista -> ABREPR . elems FECHAPR
     (55) elems -> . INT
     (56) elems -> . elems VIRG INT
 
-    INT             shift and go to state 90
+    INT             shift and go to state 88
 
-    elems                          shift and go to state 89
+    elems                          shift and go to state 87
 
-state 69
+state 67
 
     (29) Decl -> MATRIZ ID INT INT .
 
     VAR             reduce using rule 29 (Decl -> MATRIZ ID INT INT .)
     MATRIZ          reduce using rule 29 (Decl -> MATRIZ ID INT INT .)
-    BUSCA           reduce using rule 29 (Decl -> MATRIZ ID INT INT .)
     SWAP            reduce using rule 29 (Decl -> MATRIZ ID INT INT .)
     ALTERNA         reduce using rule 29 (Decl -> MATRIZ ID INT INT .)
     LISTA           reduce using rule 29 (Decl -> MATRIZ ID INT INT .)
@@ -1374,44 +1306,22 @@ state 69
     $end            reduce using rule 29 (Decl -> MATRIZ ID INT INT .)
 
 
-state 70
-
-    (32) Proc -> BUSCA ID ABREPR expr . FECHAPR
-    (33) Proc -> BUSCA ID ABREPR expr . FECHAPR ABREPR expr FECHAPR
-    (35) exprArit -> expr . SOMA expr
-    (36) exprArit -> expr . MENUS expr
-    (37) exprArit -> expr . SOMANBEZES expr
-    (38) exprArit -> expr . DIBIDE expr
-    (39) exprArit -> expr . SOBRAS expr
-    (47) exprRel -> expr . IE expr
-    (48) exprRel -> expr . OUE expr
-
-    FECHAPR         shift and go to state 91
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
-
-
-state 71
+state 68
 
     (34) Proc -> SWAP ID ABREPR INT . FECHAPR COM ABREPR INT FECHAPR
 
-    FECHAPR         shift and go to state 92
+    FECHAPR         shift and go to state 89
 
 
-state 72
+state 69
 
     (49) if -> SE ABREPC exprRel FECHAPC . ENTAO ABRECHAV Codigo FECHACHAV FIM
     (50) if -> SE ABREPC exprRel FECHAPC . ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
 
-    ENTAO           shift and go to state 93
+    ENTAO           shift and go to state 90
 
 
-state 73
+state 70
 
     (40) exprRel -> NOUM ABREPC . expr FECHAPC
     (13) expr -> . exprArit
@@ -1419,6 +1329,8 @@ state 73
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -1434,22 +1346,23 @@ state 73
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 94
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 91
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 74
+state 71
 
     (47) exprRel -> expr IE . expr
     (13) expr -> . exprArit
@@ -1457,6 +1370,8 @@ state 74
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -1472,22 +1387,23 @@ state 74
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 95
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 92
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 75
+state 72
 
     (48) exprRel -> expr OUE . expr
     (13) expr -> . exprArit
@@ -1495,6 +1411,8 @@ state 75
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -1510,22 +1428,23 @@ state 75
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 96
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 93
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 76
+state 73
 
     (35) exprArit -> expr SOMA . expr
     (13) expr -> . exprArit
@@ -1533,6 +1452,8 @@ state 76
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -1548,22 +1469,23 @@ state 76
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 97
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 94
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 77
+state 74
 
     (36) exprArit -> expr MENUS . expr
     (13) expr -> . exprArit
@@ -1571,6 +1493,8 @@ state 77
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -1586,22 +1510,23 @@ state 77
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 98
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 95
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 78
+state 75
 
     (37) exprArit -> expr SOMANBEZES . expr
     (13) expr -> . exprArit
@@ -1609,6 +1534,8 @@ state 78
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -1624,22 +1551,23 @@ state 78
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 99
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 96
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 79
+state 76
 
     (38) exprArit -> expr DIBIDE . expr
     (13) expr -> . exprArit
@@ -1647,6 +1575,8 @@ state 79
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -1662,22 +1592,23 @@ state 79
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 100
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 97
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 80
+state 77
 
     (39) exprArit -> expr SOBRAS . expr
     (13) expr -> . exprArit
@@ -1685,6 +1616,8 @@ state 80
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -1700,22 +1633,23 @@ state 80
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 101
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 98
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 81
+state 78
 
     (41) exprRel -> GEMEO ABREPC . expr VIRG expr FECHAPC
     (13) expr -> . exprArit
@@ -1723,6 +1657,8 @@ state 81
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -1738,22 +1674,23 @@ state 81
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 102
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 99
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 82
+state 79
 
     (42) exprRel -> NAOGEMEO ABREPC . expr VIRG expr FECHAPC
     (13) expr -> . exprArit
@@ -1761,6 +1698,8 @@ state 82
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -1776,22 +1715,23 @@ state 82
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 103
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 100
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 83
+state 80
 
     (43) exprRel -> MAISPIQUENO ABREPC . expr VIRG expr FECHAPC
     (13) expr -> . exprArit
@@ -1799,6 +1739,8 @@ state 83
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -1814,22 +1756,23 @@ state 83
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 104
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 101
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 84
+state 81
 
     (44) exprRel -> MAISPIQUENOOUGEMEO ABREPC . expr VIRG expr FECHAPC
     (13) expr -> . exprArit
@@ -1837,6 +1780,8 @@ state 84
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -1852,22 +1797,23 @@ state 84
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 105
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 102
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 85
+state 82
 
     (45) exprRel -> MAISGRANDE ABREPC . expr VIRG expr FECHAPC
     (13) expr -> . exprArit
@@ -1875,6 +1821,8 @@ state 85
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -1890,22 +1838,23 @@ state 85
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 106
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 103
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 86
+state 83
 
     (46) exprRel -> MAISGRANDEOUGEMEO ABREPC . expr VIRG expr FECHAPC
     (13) expr -> . exprArit
@@ -1913,6 +1862,8 @@ state 86
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -1928,48 +1879,57 @@ state 86
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 107
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 104
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 87
+state 84
+
+    (32) expr -> BUSCA ID . ABREPR expr FECHAPR
+    (33) expr -> BUSCA ID . ABREPR expr FECHAPR ABREPR expr FECHAPR
+
+    ABREPR          shift and go to state 105
+
+
+state 85
 
     (51) while -> ENQUANTO ABREPC exprRel FECHAPC . FAZ ABRECHAV Codigo FECHACHAV FIM
 
-    FAZ             shift and go to state 108
+    FAZ             shift and go to state 106
 
 
-state 88
+state 86
 
     (27) Atrib -> ALTERNA ID ABREPR expr FECHAPR . COM expr
     (30) Atrib -> ALTERNA ID ABREPR expr FECHAPR . ABREPR expr FECHAPR COM expr
     (31) Atrib -> ALTERNA ID ABREPR expr FECHAPR . COM lista
 
-    COM             shift and go to state 110
-    ABREPR          shift and go to state 109
+    COM             shift and go to state 108
+    ABREPR          shift and go to state 107
 
 
-state 89
+state 87
 
     (54) lista -> ABREPR elems . FECHAPR
     (56) elems -> elems . VIRG INT
 
-    FECHAPR         shift and go to state 111
-    VIRG            shift and go to state 112
+    FECHAPR         shift and go to state 109
+    VIRG            shift and go to state 110
 
 
-state 90
+state 88
 
     (55) elems -> INT .
 
@@ -1977,40 +1937,22 @@ state 90
     VIRG            reduce using rule 55 (elems -> INT .)
 
 
-state 91
-
-    (32) Proc -> BUSCA ID ABREPR expr FECHAPR .
-    (33) Proc -> BUSCA ID ABREPR expr FECHAPR . ABREPR expr FECHAPR
-
-    BUSCA           reduce using rule 32 (Proc -> BUSCA ID ABREPR expr FECHAPR .)
-    SWAP            reduce using rule 32 (Proc -> BUSCA ID ABREPR expr FECHAPR .)
-    VAR             reduce using rule 32 (Proc -> BUSCA ID ABREPR expr FECHAPR .)
-    ALTERNA         reduce using rule 32 (Proc -> BUSCA ID ABREPR expr FECHAPR .)
-    LISTA           reduce using rule 32 (Proc -> BUSCA ID ABREPR expr FECHAPR .)
-    SE              reduce using rule 32 (Proc -> BUSCA ID ABREPR expr FECHAPR .)
-    ENQUANTO        reduce using rule 32 (Proc -> BUSCA ID ABREPR expr FECHAPR .)
-    SAIDAS          reduce using rule 32 (Proc -> BUSCA ID ABREPR expr FECHAPR .)
-    $end            reduce using rule 32 (Proc -> BUSCA ID ABREPR expr FECHAPR .)
-    FECHACHAV       reduce using rule 32 (Proc -> BUSCA ID ABREPR expr FECHAPR .)
-    ABREPR          shift and go to state 113
-
-
-state 92
+state 89
 
     (34) Proc -> SWAP ID ABREPR INT FECHAPR . COM ABREPR INT FECHAPR
 
-    COM             shift and go to state 114
+    COM             shift and go to state 111
 
 
-state 93
+state 90
 
     (49) if -> SE ABREPC exprRel FECHAPC ENTAO . ABRECHAV Codigo FECHACHAV FIM
     (50) if -> SE ABREPC exprRel FECHAPC ENTAO . ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
 
-    ABRECHAV        shift and go to state 115
+    ABRECHAV        shift and go to state 112
 
 
-state 94
+state 91
 
     (40) exprRel -> NOUM ABREPC expr . FECHAPC
     (35) exprArit -> expr . SOMA expr
@@ -2021,17 +1963,17 @@ state 94
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    FECHAPC         shift and go to state 116
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    FECHAPC         shift and go to state 113
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 95
+state 92
 
     (47) exprRel -> expr IE expr .
     (35) exprArit -> expr . SOMA expr
@@ -2050,7 +1992,6 @@ state 95
   ! shift/reduce conflict for IE resolved as shift
   ! shift/reduce conflict for OUE resolved as shift
     FECHAPC         reduce using rule 47 (exprRel -> expr IE expr .)
-    BUSCA           reduce using rule 47 (exprRel -> expr IE expr .)
     SWAP            reduce using rule 47 (exprRel -> expr IE expr .)
     VAR             reduce using rule 47 (exprRel -> expr IE expr .)
     ALTERNA         reduce using rule 47 (exprRel -> expr IE expr .)
@@ -2062,13 +2003,13 @@ state 95
     FECHACHAV       reduce using rule 47 (exprRel -> expr IE expr .)
     FECHAPR         reduce using rule 47 (exprRel -> expr IE expr .)
     VIRG            reduce using rule 47 (exprRel -> expr IE expr .)
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
   ! IE              [ reduce using rule 47 (exprRel -> expr IE expr .) ]
   ! OUE             [ reduce using rule 47 (exprRel -> expr IE expr .) ]
@@ -2079,7 +2020,7 @@ state 95
   ! SOBRAS          [ reduce using rule 47 (exprRel -> expr IE expr .) ]
 
 
-state 96
+state 93
 
     (48) exprRel -> expr OUE expr .
     (35) exprArit -> expr . SOMA expr
@@ -2098,7 +2039,6 @@ state 96
   ! shift/reduce conflict for IE resolved as shift
   ! shift/reduce conflict for OUE resolved as shift
     FECHAPC         reduce using rule 48 (exprRel -> expr OUE expr .)
-    BUSCA           reduce using rule 48 (exprRel -> expr OUE expr .)
     SWAP            reduce using rule 48 (exprRel -> expr OUE expr .)
     VAR             reduce using rule 48 (exprRel -> expr OUE expr .)
     ALTERNA         reduce using rule 48 (exprRel -> expr OUE expr .)
@@ -2110,13 +2050,13 @@ state 96
     FECHACHAV       reduce using rule 48 (exprRel -> expr OUE expr .)
     FECHAPR         reduce using rule 48 (exprRel -> expr OUE expr .)
     VIRG            reduce using rule 48 (exprRel -> expr OUE expr .)
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
   ! IE              [ reduce using rule 48 (exprRel -> expr OUE expr .) ]
   ! OUE             [ reduce using rule 48 (exprRel -> expr OUE expr .) ]
@@ -2127,7 +2067,7 @@ state 96
   ! SOBRAS          [ reduce using rule 48 (exprRel -> expr OUE expr .) ]
 
 
-state 97
+state 94
 
     (35) exprArit -> expr SOMA expr .
     (35) exprArit -> expr . SOMA expr
@@ -2145,7 +2085,6 @@ state 97
   ! shift/reduce conflict for SOBRAS resolved as shift
   ! shift/reduce conflict for IE resolved as shift
   ! shift/reduce conflict for OUE resolved as shift
-    BUSCA           reduce using rule 35 (exprArit -> expr SOMA expr .)
     SWAP            reduce using rule 35 (exprArit -> expr SOMA expr .)
     VAR             reduce using rule 35 (exprArit -> expr SOMA expr .)
     ALTERNA         reduce using rule 35 (exprArit -> expr SOMA expr .)
@@ -2158,13 +2097,13 @@ state 97
     FECHAPR         reduce using rule 35 (exprArit -> expr SOMA expr .)
     FECHAPC         reduce using rule 35 (exprArit -> expr SOMA expr .)
     VIRG            reduce using rule 35 (exprArit -> expr SOMA expr .)
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
   ! IE              [ reduce using rule 35 (exprArit -> expr SOMA expr .) ]
   ! OUE             [ reduce using rule 35 (exprArit -> expr SOMA expr .) ]
@@ -2175,7 +2114,7 @@ state 97
   ! SOBRAS          [ reduce using rule 35 (exprArit -> expr SOMA expr .) ]
 
 
-state 98
+state 95
 
     (36) exprArit -> expr MENUS expr .
     (35) exprArit -> expr . SOMA expr
@@ -2193,7 +2132,6 @@ state 98
   ! shift/reduce conflict for SOBRAS resolved as shift
   ! shift/reduce conflict for IE resolved as shift
   ! shift/reduce conflict for OUE resolved as shift
-    BUSCA           reduce using rule 36 (exprArit -> expr MENUS expr .)
     SWAP            reduce using rule 36 (exprArit -> expr MENUS expr .)
     VAR             reduce using rule 36 (exprArit -> expr MENUS expr .)
     ALTERNA         reduce using rule 36 (exprArit -> expr MENUS expr .)
@@ -2206,13 +2144,13 @@ state 98
     FECHAPR         reduce using rule 36 (exprArit -> expr MENUS expr .)
     FECHAPC         reduce using rule 36 (exprArit -> expr MENUS expr .)
     VIRG            reduce using rule 36 (exprArit -> expr MENUS expr .)
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
   ! IE              [ reduce using rule 36 (exprArit -> expr MENUS expr .) ]
   ! OUE             [ reduce using rule 36 (exprArit -> expr MENUS expr .) ]
@@ -2223,7 +2161,7 @@ state 98
   ! SOBRAS          [ reduce using rule 36 (exprArit -> expr MENUS expr .) ]
 
 
-state 99
+state 96
 
     (37) exprArit -> expr SOMANBEZES expr .
     (35) exprArit -> expr . SOMA expr
@@ -2241,7 +2179,6 @@ state 99
   ! shift/reduce conflict for SOBRAS resolved as shift
   ! shift/reduce conflict for IE resolved as shift
   ! shift/reduce conflict for OUE resolved as shift
-    BUSCA           reduce using rule 37 (exprArit -> expr SOMANBEZES expr .)
     SWAP            reduce using rule 37 (exprArit -> expr SOMANBEZES expr .)
     VAR             reduce using rule 37 (exprArit -> expr SOMANBEZES expr .)
     ALTERNA         reduce using rule 37 (exprArit -> expr SOMANBEZES expr .)
@@ -2254,13 +2191,13 @@ state 99
     FECHAPR         reduce using rule 37 (exprArit -> expr SOMANBEZES expr .)
     FECHAPC         reduce using rule 37 (exprArit -> expr SOMANBEZES expr .)
     VIRG            reduce using rule 37 (exprArit -> expr SOMANBEZES expr .)
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
   ! IE              [ reduce using rule 37 (exprArit -> expr SOMANBEZES expr .) ]
   ! OUE             [ reduce using rule 37 (exprArit -> expr SOMANBEZES expr .) ]
@@ -2271,7 +2208,7 @@ state 99
   ! SOBRAS          [ reduce using rule 37 (exprArit -> expr SOMANBEZES expr .) ]
 
 
-state 100
+state 97
 
     (38) exprArit -> expr DIBIDE expr .
     (35) exprArit -> expr . SOMA expr
@@ -2289,7 +2226,6 @@ state 100
   ! shift/reduce conflict for SOBRAS resolved as shift
   ! shift/reduce conflict for IE resolved as shift
   ! shift/reduce conflict for OUE resolved as shift
-    BUSCA           reduce using rule 38 (exprArit -> expr DIBIDE expr .)
     SWAP            reduce using rule 38 (exprArit -> expr DIBIDE expr .)
     VAR             reduce using rule 38 (exprArit -> expr DIBIDE expr .)
     ALTERNA         reduce using rule 38 (exprArit -> expr DIBIDE expr .)
@@ -2302,13 +2238,13 @@ state 100
     FECHAPR         reduce using rule 38 (exprArit -> expr DIBIDE expr .)
     FECHAPC         reduce using rule 38 (exprArit -> expr DIBIDE expr .)
     VIRG            reduce using rule 38 (exprArit -> expr DIBIDE expr .)
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
   ! IE              [ reduce using rule 38 (exprArit -> expr DIBIDE expr .) ]
   ! OUE             [ reduce using rule 38 (exprArit -> expr DIBIDE expr .) ]
@@ -2319,7 +2255,7 @@ state 100
   ! SOBRAS          [ reduce using rule 38 (exprArit -> expr DIBIDE expr .) ]
 
 
-state 101
+state 98
 
     (39) exprArit -> expr SOBRAS expr .
     (35) exprArit -> expr . SOMA expr
@@ -2337,7 +2273,6 @@ state 101
   ! shift/reduce conflict for SOBRAS resolved as shift
   ! shift/reduce conflict for IE resolved as shift
   ! shift/reduce conflict for OUE resolved as shift
-    BUSCA           reduce using rule 39 (exprArit -> expr SOBRAS expr .)
     SWAP            reduce using rule 39 (exprArit -> expr SOBRAS expr .)
     VAR             reduce using rule 39 (exprArit -> expr SOBRAS expr .)
     ALTERNA         reduce using rule 39 (exprArit -> expr SOBRAS expr .)
@@ -2350,13 +2285,13 @@ state 101
     FECHAPR         reduce using rule 39 (exprArit -> expr SOBRAS expr .)
     FECHAPC         reduce using rule 39 (exprArit -> expr SOBRAS expr .)
     VIRG            reduce using rule 39 (exprArit -> expr SOBRAS expr .)
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
   ! IE              [ reduce using rule 39 (exprArit -> expr SOBRAS expr .) ]
   ! OUE             [ reduce using rule 39 (exprArit -> expr SOBRAS expr .) ]
@@ -2367,7 +2302,7 @@ state 101
   ! SOBRAS          [ reduce using rule 39 (exprArit -> expr SOBRAS expr .) ]
 
 
-state 102
+state 99
 
     (41) exprRel -> GEMEO ABREPC expr . VIRG expr FECHAPC
     (35) exprArit -> expr . SOMA expr
@@ -2378,17 +2313,17 @@ state 102
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    VIRG            shift and go to state 117
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    VIRG            shift and go to state 114
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 103
+state 100
 
     (42) exprRel -> NAOGEMEO ABREPC expr . VIRG expr FECHAPC
     (35) exprArit -> expr . SOMA expr
@@ -2399,17 +2334,17 @@ state 103
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    VIRG            shift and go to state 118
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    VIRG            shift and go to state 115
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 104
+state 101
 
     (43) exprRel -> MAISPIQUENO ABREPC expr . VIRG expr FECHAPC
     (35) exprArit -> expr . SOMA expr
@@ -2420,17 +2355,17 @@ state 104
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    VIRG            shift and go to state 119
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    VIRG            shift and go to state 116
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 105
+state 102
 
     (44) exprRel -> MAISPIQUENOOUGEMEO ABREPC expr . VIRG expr FECHAPC
     (35) exprArit -> expr . SOMA expr
@@ -2441,17 +2376,17 @@ state 105
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    VIRG            shift and go to state 120
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    VIRG            shift and go to state 117
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 106
+state 103
 
     (45) exprRel -> MAISGRANDE ABREPC expr . VIRG expr FECHAPC
     (35) exprArit -> expr . SOMA expr
@@ -2462,17 +2397,17 @@ state 106
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    VIRG            shift and go to state 121
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    VIRG            shift and go to state 118
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 107
+state 104
 
     (46) exprRel -> MAISGRANDEOUGEMEO ABREPC expr . VIRG expr FECHAPC
     (35) exprArit -> expr . SOMA expr
@@ -2483,31 +2418,27 @@ state 107
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    VIRG            shift and go to state 122
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    VIRG            shift and go to state 119
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 108
+state 105
 
-    (51) while -> ENQUANTO ABREPC exprRel FECHAPC FAZ . ABRECHAV Codigo FECHACHAV FIM
-
-    ABRECHAV        shift and go to state 123
-
-
-state 109
-
-    (30) Atrib -> ALTERNA ID ABREPR expr FECHAPR ABREPR . expr FECHAPR COM expr
+    (32) expr -> BUSCA ID ABREPR . expr FECHAPR
+    (33) expr -> BUSCA ID ABREPR . expr FECHAPR ABREPR expr FECHAPR
     (13) expr -> . exprArit
     (14) expr -> . exprRel
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -2523,22 +2454,71 @@ state 109
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 124
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 120
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 110
+state 106
+
+    (51) while -> ENQUANTO ABREPC exprRel FECHAPC FAZ . ABRECHAV Codigo FECHACHAV FIM
+
+    ABRECHAV        shift and go to state 121
+
+
+state 107
+
+    (30) Atrib -> ALTERNA ID ABREPR expr FECHAPR ABREPR . expr FECHAPR COM expr
+    (13) expr -> . exprArit
+    (14) expr -> . exprRel
+    (21) expr -> . INT
+    (22) expr -> . ID
+    (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
+    (35) exprArit -> . expr SOMA expr
+    (36) exprArit -> . expr MENUS expr
+    (37) exprArit -> . expr SOMANBEZES expr
+    (38) exprArit -> . expr DIBIDE expr
+    (39) exprArit -> . expr SOBRAS expr
+    (40) exprRel -> . NOUM ABREPC expr FECHAPC
+    (41) exprRel -> . GEMEO ABREPC expr VIRG expr FECHAPC
+    (42) exprRel -> . NAOGEMEO ABREPC expr VIRG expr FECHAPC
+    (43) exprRel -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (44) exprRel -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (45) exprRel -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (46) exprRel -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (47) exprRel -> . expr IE expr
+    (48) exprRel -> . expr OUE expr
+
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
+
+    expr                           shift and go to state 122
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
+
+state 108
 
     (27) Atrib -> ALTERNA ID ABREPR expr FECHAPR COM . expr
     (31) Atrib -> ALTERNA ID ABREPR expr FECHAPR COM . lista
@@ -2547,6 +2527,8 @@ state 110
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (54) lista -> . ABREPR elems FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
@@ -2563,28 +2545,28 @@ state 110
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    ABREPR          shift and go to state 68
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    ABREPR          shift and go to state 66
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 125
-    lista                          shift and go to state 126
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 123
+    lista                          shift and go to state 124
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 111
+state 109
 
     (54) lista -> ABREPR elems FECHAPR .
 
-    BUSCA           reduce using rule 54 (lista -> ABREPR elems FECHAPR .)
     SWAP            reduce using rule 54 (lista -> ABREPR elems FECHAPR .)
     VAR             reduce using rule 54 (lista -> ABREPR elems FECHAPR .)
     ALTERNA         reduce using rule 54 (lista -> ABREPR elems FECHAPR .)
@@ -2596,59 +2578,21 @@ state 111
     FECHACHAV       reduce using rule 54 (lista -> ABREPR elems FECHAPR .)
 
 
-state 112
+state 110
 
     (56) elems -> elems VIRG . INT
 
-    INT             shift and go to state 127
+    INT             shift and go to state 125
 
 
-state 113
-
-    (33) Proc -> BUSCA ID ABREPR expr FECHAPR ABREPR . expr FECHAPR
-    (13) expr -> . exprArit
-    (14) expr -> . exprRel
-    (21) expr -> . INT
-    (22) expr -> . ID
-    (23) expr -> . ENTRADAS
-    (35) exprArit -> . expr SOMA expr
-    (36) exprArit -> . expr MENUS expr
-    (37) exprArit -> . expr SOMANBEZES expr
-    (38) exprArit -> . expr DIBIDE expr
-    (39) exprArit -> . expr SOBRAS expr
-    (40) exprRel -> . NOUM ABREPC expr FECHAPC
-    (41) exprRel -> . GEMEO ABREPC expr VIRG expr FECHAPC
-    (42) exprRel -> . NAOGEMEO ABREPC expr VIRG expr FECHAPC
-    (43) exprRel -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
-    (44) exprRel -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
-    (45) exprRel -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
-    (46) exprRel -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
-    (47) exprRel -> . expr IE expr
-    (48) exprRel -> . expr OUE expr
-
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
-
-    expr                           shift and go to state 128
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
-
-state 114
+state 111
 
     (34) Proc -> SWAP ID ABREPR INT FECHAPR COM . ABREPR INT FECHAPR
 
-    ABREPR          shift and go to state 129
+    ABREPR          shift and go to state 126
 
 
-state 115
+state 112
 
     (49) if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV . Codigo FECHACHAV FIM
     (50) if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV . Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
@@ -2659,8 +2603,6 @@ state 115
     (15) Proc -> . if
     (16) Proc -> . while
     (17) Proc -> . saidas
-    (32) Proc -> . BUSCA ID ABREPR expr FECHAPR
-    (33) Proc -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (34) Proc -> . SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR
     (19) Atrib -> . VAR ID COM expr
     (20) Atrib -> . ALTERNA ID COM expr
@@ -2673,26 +2615,25 @@ state 115
     (49) if -> . SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM
     (50) if -> . SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
     (51) while -> . ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM
-    (52) saidas -> . SAIDAS STRING
+    (52) saidas -> . SAIDAS ASPA
     (53) saidas -> . SAIDAS ID
 
-    BUSCA           shift and go to state 15
-    SWAP            shift and go to state 16
-    VAR             shift and go to state 22
+    SWAP            shift and go to state 15
+    VAR             shift and go to state 21
     ALTERNA         shift and go to state 7
     LISTA           shift and go to state 8
-    SE              shift and go to state 17
-    ENQUANTO        shift and go to state 18
-    SAIDAS          shift and go to state 19
+    SE              shift and go to state 16
+    ENQUANTO        shift and go to state 17
+    SAIDAS          shift and go to state 18
 
-    Codigo                         shift and go to state 130
+    Codigo                         shift and go to state 127
     Proc                           shift and go to state 11
-    Atrib                          shift and go to state 21
+    Atrib                          shift and go to state 20
     if                             shift and go to state 12
     while                          shift and go to state 13
     saidas                         shift and go to state 14
 
-state 116
+state 113
 
     (40) exprRel -> NOUM ABREPC expr FECHAPC .
 
@@ -2704,7 +2645,6 @@ state 116
     SOMANBEZES      reduce using rule 40 (exprRel -> NOUM ABREPC expr FECHAPC .)
     DIBIDE          reduce using rule 40 (exprRel -> NOUM ABREPC expr FECHAPC .)
     SOBRAS          reduce using rule 40 (exprRel -> NOUM ABREPC expr FECHAPC .)
-    BUSCA           reduce using rule 40 (exprRel -> NOUM ABREPC expr FECHAPC .)
     SWAP            reduce using rule 40 (exprRel -> NOUM ABREPC expr FECHAPC .)
     VAR             reduce using rule 40 (exprRel -> NOUM ABREPC expr FECHAPC .)
     ALTERNA         reduce using rule 40 (exprRel -> NOUM ABREPC expr FECHAPC .)
@@ -2718,7 +2658,7 @@ state 116
     VIRG            reduce using rule 40 (exprRel -> NOUM ABREPC expr FECHAPC .)
 
 
-state 117
+state 114
 
     (41) exprRel -> GEMEO ABREPC expr VIRG . expr FECHAPC
     (13) expr -> . exprArit
@@ -2726,6 +2666,8 @@ state 117
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -2741,22 +2683,23 @@ state 117
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 131
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 128
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 118
+state 115
 
     (42) exprRel -> NAOGEMEO ABREPC expr VIRG . expr FECHAPC
     (13) expr -> . exprArit
@@ -2764,6 +2707,8 @@ state 118
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -2779,22 +2724,23 @@ state 118
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 132
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 129
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 119
+state 116
 
     (43) exprRel -> MAISPIQUENO ABREPC expr VIRG . expr FECHAPC
     (13) expr -> . exprArit
@@ -2802,6 +2748,8 @@ state 119
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -2817,22 +2765,23 @@ state 119
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 133
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 130
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 120
+state 117
 
     (44) exprRel -> MAISPIQUENOOUGEMEO ABREPC expr VIRG . expr FECHAPC
     (13) expr -> . exprArit
@@ -2840,6 +2789,8 @@ state 120
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -2855,22 +2806,23 @@ state 120
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 134
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 131
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 121
+state 118
 
     (45) exprRel -> MAISGRANDE ABREPC expr VIRG . expr FECHAPC
     (13) expr -> . exprArit
@@ -2878,6 +2830,8 @@ state 121
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -2893,22 +2847,23 @@ state 121
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 135
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 132
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 122
+state 119
 
     (46) exprRel -> MAISGRANDEOUGEMEO ABREPC expr VIRG . expr FECHAPC
     (13) expr -> . exprArit
@@ -2916,6 +2871,8 @@ state 122
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -2931,22 +2888,45 @@ state 122
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 136
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 133
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 123
+state 120
+
+    (32) expr -> BUSCA ID ABREPR expr . FECHAPR
+    (33) expr -> BUSCA ID ABREPR expr . FECHAPR ABREPR expr FECHAPR
+    (35) exprArit -> expr . SOMA expr
+    (36) exprArit -> expr . MENUS expr
+    (37) exprArit -> expr . SOMANBEZES expr
+    (38) exprArit -> expr . DIBIDE expr
+    (39) exprArit -> expr . SOBRAS expr
+    (47) exprRel -> expr . IE expr
+    (48) exprRel -> expr . OUE expr
+
+    FECHAPR         shift and go to state 134
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
+
+
+state 121
 
     (51) while -> ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV . Codigo FECHACHAV FIM
     (7) Codigo -> . Proc Codigo
@@ -2956,8 +2936,6 @@ state 123
     (15) Proc -> . if
     (16) Proc -> . while
     (17) Proc -> . saidas
-    (32) Proc -> . BUSCA ID ABREPR expr FECHAPR
-    (33) Proc -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (34) Proc -> . SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR
     (19) Atrib -> . VAR ID COM expr
     (20) Atrib -> . ALTERNA ID COM expr
@@ -2970,26 +2948,25 @@ state 123
     (49) if -> . SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM
     (50) if -> . SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
     (51) while -> . ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM
-    (52) saidas -> . SAIDAS STRING
+    (52) saidas -> . SAIDAS ASPA
     (53) saidas -> . SAIDAS ID
 
-    BUSCA           shift and go to state 15
-    SWAP            shift and go to state 16
-    VAR             shift and go to state 22
+    SWAP            shift and go to state 15
+    VAR             shift and go to state 21
     ALTERNA         shift and go to state 7
     LISTA           shift and go to state 8
-    SE              shift and go to state 17
-    ENQUANTO        shift and go to state 18
-    SAIDAS          shift and go to state 19
+    SE              shift and go to state 16
+    ENQUANTO        shift and go to state 17
+    SAIDAS          shift and go to state 18
 
-    Codigo                         shift and go to state 137
+    Codigo                         shift and go to state 135
     Proc                           shift and go to state 11
-    Atrib                          shift and go to state 21
+    Atrib                          shift and go to state 20
     if                             shift and go to state 12
     while                          shift and go to state 13
     saidas                         shift and go to state 14
 
-state 124
+state 122
 
     (30) Atrib -> ALTERNA ID ABREPR expr FECHAPR ABREPR expr . FECHAPR COM expr
     (35) exprArit -> expr . SOMA expr
@@ -3000,17 +2977,17 @@ state 124
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    FECHAPR         shift and go to state 138
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    FECHAPR         shift and go to state 136
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 125
+state 123
 
     (27) Atrib -> ALTERNA ID ABREPR expr FECHAPR COM expr .
     (35) exprArit -> expr . SOMA expr
@@ -3021,7 +2998,6 @@ state 125
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    BUSCA           reduce using rule 27 (Atrib -> ALTERNA ID ABREPR expr FECHAPR COM expr .)
     SWAP            reduce using rule 27 (Atrib -> ALTERNA ID ABREPR expr FECHAPR COM expr .)
     VAR             reduce using rule 27 (Atrib -> ALTERNA ID ABREPR expr FECHAPR COM expr .)
     ALTERNA         reduce using rule 27 (Atrib -> ALTERNA ID ABREPR expr FECHAPR COM expr .)
@@ -3031,20 +3007,19 @@ state 125
     SAIDAS          reduce using rule 27 (Atrib -> ALTERNA ID ABREPR expr FECHAPR COM expr .)
     $end            reduce using rule 27 (Atrib -> ALTERNA ID ABREPR expr FECHAPR COM expr .)
     FECHACHAV       reduce using rule 27 (Atrib -> ALTERNA ID ABREPR expr FECHAPR COM expr .)
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 126
+state 124
 
     (31) Atrib -> ALTERNA ID ABREPR expr FECHAPR COM lista .
 
-    BUSCA           reduce using rule 31 (Atrib -> ALTERNA ID ABREPR expr FECHAPR COM lista .)
     SWAP            reduce using rule 31 (Atrib -> ALTERNA ID ABREPR expr FECHAPR COM lista .)
     VAR             reduce using rule 31 (Atrib -> ALTERNA ID ABREPR expr FECHAPR COM lista .)
     ALTERNA         reduce using rule 31 (Atrib -> ALTERNA ID ABREPR expr FECHAPR COM lista .)
@@ -3056,7 +3031,7 @@ state 126
     FECHACHAV       reduce using rule 31 (Atrib -> ALTERNA ID ABREPR expr FECHAPR COM lista .)
 
 
-state 127
+state 125
 
     (56) elems -> elems VIRG INT .
 
@@ -3064,43 +3039,22 @@ state 127
     VIRG            reduce using rule 56 (elems -> elems VIRG INT .)
 
 
-state 128
-
-    (33) Proc -> BUSCA ID ABREPR expr FECHAPR ABREPR expr . FECHAPR
-    (35) exprArit -> expr . SOMA expr
-    (36) exprArit -> expr . MENUS expr
-    (37) exprArit -> expr . SOMANBEZES expr
-    (38) exprArit -> expr . DIBIDE expr
-    (39) exprArit -> expr . SOBRAS expr
-    (47) exprRel -> expr . IE expr
-    (48) exprRel -> expr . OUE expr
-
-    FECHAPR         shift and go to state 139
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
-
-
-state 129
+state 126
 
     (34) Proc -> SWAP ID ABREPR INT FECHAPR COM ABREPR . INT FECHAPR
 
-    INT             shift and go to state 140
+    INT             shift and go to state 137
 
 
-state 130
+state 127
 
     (49) if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo . FECHACHAV FIM
     (50) if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo . FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
 
-    FECHACHAV       shift and go to state 141
+    FECHACHAV       shift and go to state 138
 
 
-state 131
+state 128
 
     (41) exprRel -> GEMEO ABREPC expr VIRG expr . FECHAPC
     (35) exprArit -> expr . SOMA expr
@@ -3111,17 +3065,17 @@ state 131
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    FECHAPC         shift and go to state 142
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    FECHAPC         shift and go to state 139
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 132
+state 129
 
     (42) exprRel -> NAOGEMEO ABREPC expr VIRG expr . FECHAPC
     (35) exprArit -> expr . SOMA expr
@@ -3132,17 +3086,17 @@ state 132
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    FECHAPC         shift and go to state 143
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    FECHAPC         shift and go to state 140
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 133
+state 130
 
     (43) exprRel -> MAISPIQUENO ABREPC expr VIRG expr . FECHAPC
     (35) exprArit -> expr . SOMA expr
@@ -3153,17 +3107,17 @@ state 133
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    FECHAPC         shift and go to state 144
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    FECHAPC         shift and go to state 141
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 134
+state 131
 
     (44) exprRel -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr . FECHAPC
     (35) exprArit -> expr . SOMA expr
@@ -3174,17 +3128,17 @@ state 134
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    FECHAPC         shift and go to state 145
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    FECHAPC         shift and go to state 142
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 135
+state 132
 
     (45) exprRel -> MAISGRANDE ABREPC expr VIRG expr . FECHAPC
     (35) exprArit -> expr . SOMA expr
@@ -3195,17 +3149,17 @@ state 135
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    FECHAPC         shift and go to state 146
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    FECHAPC         shift and go to state 143
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 136
+state 133
 
     (46) exprRel -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr . FECHAPC
     (35) exprArit -> expr . SOMA expr
@@ -3216,63 +3170,74 @@ state 136
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    FECHAPC         shift and go to state 147
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    FECHAPC         shift and go to state 144
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
+
+
+state 134
+
+    (32) expr -> BUSCA ID ABREPR expr FECHAPR .
+    (33) expr -> BUSCA ID ABREPR expr FECHAPR . ABREPR expr FECHAPR
+
+    IE              reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    OUE             reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    SOMA            reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    MENUS           reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    SOMANBEZES      reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    DIBIDE          reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    SOBRAS          reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    SWAP            reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    VAR             reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    ALTERNA         reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    LISTA           reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    SE              reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    ENQUANTO        reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    SAIDAS          reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    $end            reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    FECHACHAV       reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    FECHAPR         reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    FECHAPC         reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    VIRG            reduce using rule 32 (expr -> BUSCA ID ABREPR expr FECHAPR .)
+    ABREPR          shift and go to state 145
+
+
+state 135
+
+    (51) while -> ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo . FECHACHAV FIM
+
+    FECHACHAV       shift and go to state 146
+
+
+state 136
+
+    (30) Atrib -> ALTERNA ID ABREPR expr FECHAPR ABREPR expr FECHAPR . COM expr
+
+    COM             shift and go to state 147
 
 
 state 137
 
-    (51) while -> ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo . FECHACHAV FIM
+    (34) Proc -> SWAP ID ABREPR INT FECHAPR COM ABREPR INT . FECHAPR
 
-    FECHACHAV       shift and go to state 148
+    FECHAPR         shift and go to state 148
 
 
 state 138
 
-    (30) Atrib -> ALTERNA ID ABREPR expr FECHAPR ABREPR expr FECHAPR . COM expr
-
-    COM             shift and go to state 149
-
-
-state 139
-
-    (33) Proc -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .
-
-    BUSCA           reduce using rule 33 (Proc -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
-    SWAP            reduce using rule 33 (Proc -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
-    VAR             reduce using rule 33 (Proc -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
-    ALTERNA         reduce using rule 33 (Proc -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
-    LISTA           reduce using rule 33 (Proc -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
-    SE              reduce using rule 33 (Proc -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
-    ENQUANTO        reduce using rule 33 (Proc -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
-    SAIDAS          reduce using rule 33 (Proc -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
-    $end            reduce using rule 33 (Proc -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
-    FECHACHAV       reduce using rule 33 (Proc -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
-
-
-state 140
-
-    (34) Proc -> SWAP ID ABREPR INT FECHAPR COM ABREPR INT . FECHAPR
-
-    FECHAPR         shift and go to state 150
-
-
-state 141
-
     (49) if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV . FIM
     (50) if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV . SENAO ABRECHAV Codigo FECHACHAV FIM
 
-    FIM             shift and go to state 151
-    SENAO           shift and go to state 152
+    FIM             shift and go to state 149
+    SENAO           shift and go to state 150
 
 
-state 142
+state 139
 
     (41) exprRel -> GEMEO ABREPC expr VIRG expr FECHAPC .
 
@@ -3284,7 +3249,6 @@ state 142
     SOMANBEZES      reduce using rule 41 (exprRel -> GEMEO ABREPC expr VIRG expr FECHAPC .)
     DIBIDE          reduce using rule 41 (exprRel -> GEMEO ABREPC expr VIRG expr FECHAPC .)
     SOBRAS          reduce using rule 41 (exprRel -> GEMEO ABREPC expr VIRG expr FECHAPC .)
-    BUSCA           reduce using rule 41 (exprRel -> GEMEO ABREPC expr VIRG expr FECHAPC .)
     SWAP            reduce using rule 41 (exprRel -> GEMEO ABREPC expr VIRG expr FECHAPC .)
     VAR             reduce using rule 41 (exprRel -> GEMEO ABREPC expr VIRG expr FECHAPC .)
     ALTERNA         reduce using rule 41 (exprRel -> GEMEO ABREPC expr VIRG expr FECHAPC .)
@@ -3298,7 +3262,7 @@ state 142
     VIRG            reduce using rule 41 (exprRel -> GEMEO ABREPC expr VIRG expr FECHAPC .)
 
 
-state 143
+state 140
 
     (42) exprRel -> NAOGEMEO ABREPC expr VIRG expr FECHAPC .
 
@@ -3310,7 +3274,6 @@ state 143
     SOMANBEZES      reduce using rule 42 (exprRel -> NAOGEMEO ABREPC expr VIRG expr FECHAPC .)
     DIBIDE          reduce using rule 42 (exprRel -> NAOGEMEO ABREPC expr VIRG expr FECHAPC .)
     SOBRAS          reduce using rule 42 (exprRel -> NAOGEMEO ABREPC expr VIRG expr FECHAPC .)
-    BUSCA           reduce using rule 42 (exprRel -> NAOGEMEO ABREPC expr VIRG expr FECHAPC .)
     SWAP            reduce using rule 42 (exprRel -> NAOGEMEO ABREPC expr VIRG expr FECHAPC .)
     VAR             reduce using rule 42 (exprRel -> NAOGEMEO ABREPC expr VIRG expr FECHAPC .)
     ALTERNA         reduce using rule 42 (exprRel -> NAOGEMEO ABREPC expr VIRG expr FECHAPC .)
@@ -3324,7 +3287,7 @@ state 143
     VIRG            reduce using rule 42 (exprRel -> NAOGEMEO ABREPC expr VIRG expr FECHAPC .)
 
 
-state 144
+state 141
 
     (43) exprRel -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .
 
@@ -3336,7 +3299,6 @@ state 144
     SOMANBEZES      reduce using rule 43 (exprRel -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
     DIBIDE          reduce using rule 43 (exprRel -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
     SOBRAS          reduce using rule 43 (exprRel -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
-    BUSCA           reduce using rule 43 (exprRel -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
     SWAP            reduce using rule 43 (exprRel -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
     VAR             reduce using rule 43 (exprRel -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
     ALTERNA         reduce using rule 43 (exprRel -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
@@ -3350,7 +3312,7 @@ state 144
     VIRG            reduce using rule 43 (exprRel -> MAISPIQUENO ABREPC expr VIRG expr FECHAPC .)
 
 
-state 145
+state 142
 
     (44) exprRel -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .
 
@@ -3362,7 +3324,6 @@ state 145
     SOMANBEZES      reduce using rule 44 (exprRel -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
     DIBIDE          reduce using rule 44 (exprRel -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
     SOBRAS          reduce using rule 44 (exprRel -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
-    BUSCA           reduce using rule 44 (exprRel -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
     SWAP            reduce using rule 44 (exprRel -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
     VAR             reduce using rule 44 (exprRel -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
     ALTERNA         reduce using rule 44 (exprRel -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
@@ -3376,7 +3337,7 @@ state 145
     VIRG            reduce using rule 44 (exprRel -> MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC .)
 
 
-state 146
+state 143
 
     (45) exprRel -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .
 
@@ -3388,7 +3349,6 @@ state 146
     SOMANBEZES      reduce using rule 45 (exprRel -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
     DIBIDE          reduce using rule 45 (exprRel -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
     SOBRAS          reduce using rule 45 (exprRel -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
-    BUSCA           reduce using rule 45 (exprRel -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
     SWAP            reduce using rule 45 (exprRel -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
     VAR             reduce using rule 45 (exprRel -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
     ALTERNA         reduce using rule 45 (exprRel -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
@@ -3402,7 +3362,7 @@ state 146
     VIRG            reduce using rule 45 (exprRel -> MAISGRANDE ABREPC expr VIRG expr FECHAPC .)
 
 
-state 147
+state 144
 
     (46) exprRel -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .
 
@@ -3414,7 +3374,6 @@ state 147
     SOMANBEZES      reduce using rule 46 (exprRel -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
     DIBIDE          reduce using rule 46 (exprRel -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
     SOBRAS          reduce using rule 46 (exprRel -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
-    BUSCA           reduce using rule 46 (exprRel -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
     SWAP            reduce using rule 46 (exprRel -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
     VAR             reduce using rule 46 (exprRel -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
     ALTERNA         reduce using rule 46 (exprRel -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
@@ -3428,21 +3387,16 @@ state 147
     VIRG            reduce using rule 46 (exprRel -> MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC .)
 
 
-state 148
+state 145
 
-    (51) while -> ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV . FIM
-
-    FIM             shift and go to state 153
-
-
-state 149
-
-    (30) Atrib -> ALTERNA ID ABREPR expr FECHAPR ABREPR expr FECHAPR COM . expr
+    (33) expr -> BUSCA ID ABREPR expr FECHAPR ABREPR . expr FECHAPR
     (13) expr -> . exprArit
     (14) expr -> . exprRel
     (21) expr -> . INT
     (22) expr -> . ID
     (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (35) exprArit -> . expr SOMA expr
     (36) exprArit -> . expr MENUS expr
     (37) exprArit -> . expr SOMANBEZES expr
@@ -3458,26 +3412,74 @@ state 149
     (47) exprRel -> . expr IE expr
     (48) exprRel -> . expr OUE expr
 
-    INT             shift and go to state 59
-    ID              shift and go to state 60
-    ENTRADAS        shift and go to state 61
-    NOUM            shift and go to state 50
-    GEMEO           shift and go to state 52
-    NAOGEMEO        shift and go to state 53
-    MAISPIQUENO     shift and go to state 54
-    MAISPIQUENOOUGEMEO shift and go to state 55
-    MAISGRANDE      shift and go to state 56
-    MAISGRANDEOUGEMEO shift and go to state 57
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
 
-    expr                           shift and go to state 154
-    exprArit                       shift and go to state 58
-    exprRel                        shift and go to state 64
+    expr                           shift and go to state 151
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
 
-state 150
+state 146
+
+    (51) while -> ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV . FIM
+
+    FIM             shift and go to state 152
+
+
+state 147
+
+    (30) Atrib -> ALTERNA ID ABREPR expr FECHAPR ABREPR expr FECHAPR COM . expr
+    (13) expr -> . exprArit
+    (14) expr -> . exprRel
+    (21) expr -> . INT
+    (22) expr -> . ID
+    (23) expr -> . ENTRADAS
+    (32) expr -> . BUSCA ID ABREPR expr FECHAPR
+    (33) expr -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
+    (35) exprArit -> . expr SOMA expr
+    (36) exprArit -> . expr MENUS expr
+    (37) exprArit -> . expr SOMANBEZES expr
+    (38) exprArit -> . expr DIBIDE expr
+    (39) exprArit -> . expr SOBRAS expr
+    (40) exprRel -> . NOUM ABREPC expr FECHAPC
+    (41) exprRel -> . GEMEO ABREPC expr VIRG expr FECHAPC
+    (42) exprRel -> . NAOGEMEO ABREPC expr VIRG expr FECHAPC
+    (43) exprRel -> . MAISPIQUENO ABREPC expr VIRG expr FECHAPC
+    (44) exprRel -> . MAISPIQUENOOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (45) exprRel -> . MAISGRANDE ABREPC expr VIRG expr FECHAPC
+    (46) exprRel -> . MAISGRANDEOUGEMEO ABREPC expr VIRG expr FECHAPC
+    (47) exprRel -> . expr IE expr
+    (48) exprRel -> . expr OUE expr
+
+    INT             shift and go to state 56
+    ID              shift and go to state 57
+    ENTRADAS        shift and go to state 58
+    BUSCA           shift and go to state 59
+    NOUM            shift and go to state 47
+    GEMEO           shift and go to state 49
+    NAOGEMEO        shift and go to state 50
+    MAISPIQUENO     shift and go to state 51
+    MAISPIQUENOOUGEMEO shift and go to state 52
+    MAISGRANDE      shift and go to state 53
+    MAISGRANDEOUGEMEO shift and go to state 54
+
+    expr                           shift and go to state 153
+    exprArit                       shift and go to state 55
+    exprRel                        shift and go to state 62
+
+state 148
 
     (34) Proc -> SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR .
 
-    BUSCA           reduce using rule 34 (Proc -> SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR .)
     SWAP            reduce using rule 34 (Proc -> SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR .)
     VAR             reduce using rule 34 (Proc -> SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR .)
     ALTERNA         reduce using rule 34 (Proc -> SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR .)
@@ -3489,11 +3491,10 @@ state 150
     FECHACHAV       reduce using rule 34 (Proc -> SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR .)
 
 
-state 151
+state 149
 
     (49) if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM .
 
-    BUSCA           reduce using rule 49 (if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM .)
     SWAP            reduce using rule 49 (if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM .)
     VAR             reduce using rule 49 (if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM .)
     ALTERNA         reduce using rule 49 (if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM .)
@@ -3505,18 +3506,38 @@ state 151
     FECHACHAV       reduce using rule 49 (if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM .)
 
 
-state 152
+state 150
 
     (50) if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO . ABRECHAV Codigo FECHACHAV FIM
 
-    ABRECHAV        shift and go to state 155
+    ABRECHAV        shift and go to state 154
 
 
-state 153
+state 151
+
+    (33) expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr . FECHAPR
+    (35) exprArit -> expr . SOMA expr
+    (36) exprArit -> expr . MENUS expr
+    (37) exprArit -> expr . SOMANBEZES expr
+    (38) exprArit -> expr . DIBIDE expr
+    (39) exprArit -> expr . SOBRAS expr
+    (47) exprRel -> expr . IE expr
+    (48) exprRel -> expr . OUE expr
+
+    FECHAPR         shift and go to state 155
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
+
+
+state 152
 
     (51) while -> ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM .
 
-    BUSCA           reduce using rule 51 (while -> ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM .)
     SWAP            reduce using rule 51 (while -> ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM .)
     VAR             reduce using rule 51 (while -> ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM .)
     ALTERNA         reduce using rule 51 (while -> ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM .)
@@ -3528,7 +3549,7 @@ state 153
     FECHACHAV       reduce using rule 51 (while -> ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM .)
 
 
-state 154
+state 153
 
     (30) Atrib -> ALTERNA ID ABREPR expr FECHAPR ABREPR expr FECHAPR COM expr .
     (35) exprArit -> expr . SOMA expr
@@ -3539,7 +3560,6 @@ state 154
     (47) exprRel -> expr . IE expr
     (48) exprRel -> expr . OUE expr
 
-    BUSCA           reduce using rule 30 (Atrib -> ALTERNA ID ABREPR expr FECHAPR ABREPR expr FECHAPR COM expr .)
     SWAP            reduce using rule 30 (Atrib -> ALTERNA ID ABREPR expr FECHAPR ABREPR expr FECHAPR COM expr .)
     VAR             reduce using rule 30 (Atrib -> ALTERNA ID ABREPR expr FECHAPR ABREPR expr FECHAPR COM expr .)
     ALTERNA         reduce using rule 30 (Atrib -> ALTERNA ID ABREPR expr FECHAPR ABREPR expr FECHAPR COM expr .)
@@ -3549,16 +3569,16 @@ state 154
     SAIDAS          reduce using rule 30 (Atrib -> ALTERNA ID ABREPR expr FECHAPR ABREPR expr FECHAPR COM expr .)
     $end            reduce using rule 30 (Atrib -> ALTERNA ID ABREPR expr FECHAPR ABREPR expr FECHAPR COM expr .)
     FECHACHAV       reduce using rule 30 (Atrib -> ALTERNA ID ABREPR expr FECHAPR ABREPR expr FECHAPR COM expr .)
-    SOMA            shift and go to state 76
-    MENUS           shift and go to state 77
-    SOMANBEZES      shift and go to state 78
-    DIBIDE          shift and go to state 79
-    SOBRAS          shift and go to state 80
-    IE              shift and go to state 74
-    OUE             shift and go to state 75
+    SOMA            shift and go to state 73
+    MENUS           shift and go to state 74
+    SOMANBEZES      shift and go to state 75
+    DIBIDE          shift and go to state 76
+    SOBRAS          shift and go to state 77
+    IE              shift and go to state 71
+    OUE             shift and go to state 72
 
 
-state 155
+state 154
 
     (50) if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV . Codigo FECHACHAV FIM
     (7) Codigo -> . Proc Codigo
@@ -3568,8 +3588,6 @@ state 155
     (15) Proc -> . if
     (16) Proc -> . while
     (17) Proc -> . saidas
-    (32) Proc -> . BUSCA ID ABREPR expr FECHAPR
-    (33) Proc -> . BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR
     (34) Proc -> . SWAP ID ABREPR INT FECHAPR COM ABREPR INT FECHAPR
     (19) Atrib -> . VAR ID COM expr
     (20) Atrib -> . ALTERNA ID COM expr
@@ -3582,24 +3600,48 @@ state 155
     (49) if -> . SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM
     (50) if -> . SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM
     (51) while -> . ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM
-    (52) saidas -> . SAIDAS STRING
+    (52) saidas -> . SAIDAS ASPA
     (53) saidas -> . SAIDAS ID
 
-    BUSCA           shift and go to state 15
-    SWAP            shift and go to state 16
-    VAR             shift and go to state 22
+    SWAP            shift and go to state 15
+    VAR             shift and go to state 21
     ALTERNA         shift and go to state 7
     LISTA           shift and go to state 8
-    SE              shift and go to state 17
-    ENQUANTO        shift and go to state 18
-    SAIDAS          shift and go to state 19
+    SE              shift and go to state 16
+    ENQUANTO        shift and go to state 17
+    SAIDAS          shift and go to state 18
 
     Codigo                         shift and go to state 156
     Proc                           shift and go to state 11
-    Atrib                          shift and go to state 21
+    Atrib                          shift and go to state 20
     if                             shift and go to state 12
     while                          shift and go to state 13
     saidas                         shift and go to state 14
+
+state 155
+
+    (33) expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .
+
+    IE              reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    OUE             reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    SOMA            reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    MENUS           reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    SOMANBEZES      reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    DIBIDE          reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    SOBRAS          reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    SWAP            reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    VAR             reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    ALTERNA         reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    LISTA           reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    SE              reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    ENQUANTO        reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    SAIDAS          reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    $end            reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    FECHACHAV       reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    FECHAPR         reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    FECHAPC         reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+    VIRG            reduce using rule 33 (expr -> BUSCA ID ABREPR expr FECHAPR ABREPR expr FECHAPR .)
+
 
 state 156
 
@@ -3619,7 +3661,6 @@ state 158
 
     (50) if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM .
 
-    BUSCA           reduce using rule 50 (if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM .)
     SWAP            reduce using rule 50 (if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM .)
     VAR             reduce using rule 50 (if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM .)
     ALTERNA         reduce using rule 50 (if -> SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM .)
@@ -3634,6 +3675,27 @@ WARNING:
 WARNING: Conflicts:
 WARNING: 
 WARNING: shift/reduce conflict for VAR in state 5 resolved as shift
+WARNING: shift/reduce conflict for SOMA in state 92 resolved as shift
+WARNING: shift/reduce conflict for MENUS in state 92 resolved as shift
+WARNING: shift/reduce conflict for SOMANBEZES in state 92 resolved as shift
+WARNING: shift/reduce conflict for DIBIDE in state 92 resolved as shift
+WARNING: shift/reduce conflict for SOBRAS in state 92 resolved as shift
+WARNING: shift/reduce conflict for IE in state 92 resolved as shift
+WARNING: shift/reduce conflict for OUE in state 92 resolved as shift
+WARNING: shift/reduce conflict for SOMA in state 93 resolved as shift
+WARNING: shift/reduce conflict for MENUS in state 93 resolved as shift
+WARNING: shift/reduce conflict for SOMANBEZES in state 93 resolved as shift
+WARNING: shift/reduce conflict for DIBIDE in state 93 resolved as shift
+WARNING: shift/reduce conflict for SOBRAS in state 93 resolved as shift
+WARNING: shift/reduce conflict for IE in state 93 resolved as shift
+WARNING: shift/reduce conflict for OUE in state 93 resolved as shift
+WARNING: shift/reduce conflict for SOMA in state 94 resolved as shift
+WARNING: shift/reduce conflict for MENUS in state 94 resolved as shift
+WARNING: shift/reduce conflict for SOMANBEZES in state 94 resolved as shift
+WARNING: shift/reduce conflict for DIBIDE in state 94 resolved as shift
+WARNING: shift/reduce conflict for SOBRAS in state 94 resolved as shift
+WARNING: shift/reduce conflict for IE in state 94 resolved as shift
+WARNING: shift/reduce conflict for OUE in state 94 resolved as shift
 WARNING: shift/reduce conflict for SOMA in state 95 resolved as shift
 WARNING: shift/reduce conflict for MENUS in state 95 resolved as shift
 WARNING: shift/reduce conflict for SOMANBEZES in state 95 resolved as shift
@@ -3662,28 +3724,7 @@ WARNING: shift/reduce conflict for DIBIDE in state 98 resolved as shift
 WARNING: shift/reduce conflict for SOBRAS in state 98 resolved as shift
 WARNING: shift/reduce conflict for IE in state 98 resolved as shift
 WARNING: shift/reduce conflict for OUE in state 98 resolved as shift
-WARNING: shift/reduce conflict for SOMA in state 99 resolved as shift
-WARNING: shift/reduce conflict for MENUS in state 99 resolved as shift
-WARNING: shift/reduce conflict for SOMANBEZES in state 99 resolved as shift
-WARNING: shift/reduce conflict for DIBIDE in state 99 resolved as shift
-WARNING: shift/reduce conflict for SOBRAS in state 99 resolved as shift
-WARNING: shift/reduce conflict for IE in state 99 resolved as shift
-WARNING: shift/reduce conflict for OUE in state 99 resolved as shift
-WARNING: shift/reduce conflict for SOMA in state 100 resolved as shift
-WARNING: shift/reduce conflict for MENUS in state 100 resolved as shift
-WARNING: shift/reduce conflict for SOMANBEZES in state 100 resolved as shift
-WARNING: shift/reduce conflict for DIBIDE in state 100 resolved as shift
-WARNING: shift/reduce conflict for SOBRAS in state 100 resolved as shift
-WARNING: shift/reduce conflict for IE in state 100 resolved as shift
-WARNING: shift/reduce conflict for OUE in state 100 resolved as shift
-WARNING: shift/reduce conflict for SOMA in state 101 resolved as shift
-WARNING: shift/reduce conflict for MENUS in state 101 resolved as shift
-WARNING: shift/reduce conflict for SOMANBEZES in state 101 resolved as shift
-WARNING: shift/reduce conflict for DIBIDE in state 101 resolved as shift
-WARNING: shift/reduce conflict for SOBRAS in state 101 resolved as shift
-WARNING: shift/reduce conflict for IE in state 101 resolved as shift
-WARNING: shift/reduce conflict for OUE in state 101 resolved as shift
 WARNING: reduce/reduce conflict in state 3 resolved using rule (Programa -> Atrib)
 WARNING: rejected rule (Codigo -> Atrib) in state 3
-WARNING: reduce/reduce conflict in state 24 resolved using rule (Corpo -> Codigo)
-WARNING: rejected rule (Codigo -> Atrib Codigo) in state 24
+WARNING: reduce/reduce conflict in state 23 resolved using rule (Corpo -> Codigo)
+WARNING: rejected rule (Codigo -> Atrib Codigo) in state 23
