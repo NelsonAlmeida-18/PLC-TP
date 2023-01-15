@@ -3,7 +3,7 @@ import random as rd
 import sys
 import os
 
-from lex2 import *
+from lex import *
 
 
 def p_Programa_Empty(p):
