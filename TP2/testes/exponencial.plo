@@ -1,0 +1,17 @@
+saidas "Base: "
+var num com entradas
+saidas num
+
+saidas "\nExpoente: "
+var exp com entradas
+saidas exp
+
+var res com num
+
+enquanto (maisGrande(exp,1)) faz {
+    alterna res com res * num
+    alterna exp com exp - 1
+} fim
+
+saidas "\nResultado: "
+saidas res

@@ -2,6 +2,8 @@ import ply.yacc as yacc
 import random as rd
 import sys
 import os
+import difflib
+import random as rd
 
 from lex import *
 
@@ -90,6 +92,7 @@ def p_Decl(p):
     else:
         parser.exito = False
         parser.error = f"Variável com o nome {varName} já existe"
+    parser.linhaDeCodigo +=1
 
 
 # Declaração de uma variável com atribuição de um valor
@@ -104,6 +107,7 @@ def p_Atrib_expr(p):
     else:
         parser.exito = False
         parser.error = f"Variável com o nome {varName} já existe"
+    parser.linhaDeCodigo +=1
 
 
 # Altera valor de um variável
@@ -111,8 +115,8 @@ def p_alterna_var(p):
     "Atrib : ALTERNA ID COM expr"
     varName = p[2]
     if varName in parser.variaveis:
-        # parser.variaveis[varName] = (p[4], parser.variaveis[varName][0])
         p[0] = f"{p[4]}STOREG {parser.variaveis[varName][0]}\n"
+    parser.linhaDeCodigo +=1
 
 
 def p_expr(p):
@@ -144,6 +148,7 @@ def p_Decl_Lista_NoSize(p):
         parser.error = (
             f"Variável com o nome {listName} já definida anteriormente.")
         parser.exito = False
+    parser.linhaDeCodigo +=1
 
 
 # Declara lista com tamanho INT
@@ -163,6 +168,7 @@ def p_DeclLista_Size(p):
         parser.error = (
             f"Variável com o nome {listName} já definida anteriormente.")
         parser.exito = False
+    parser.linhaDeCodigo +=1
 
 
 # Atribui valores à lista com outra lista
@@ -182,6 +188,7 @@ def p_AtribLista_lista(p):
     else:
         parser.error = f"Variável com o nome {varName} não definida"
         parser.exito = False
+    parser.linhaDeCodigo +=1
 
 
 # Altera valor de um indice da lista
@@ -194,6 +201,7 @@ def p_AlternaLista_elem(p):
     else:
         parser.error = f"Variável com o nome {varName} não definida"
         parser.exito = False
+    parser.linhaDeCodigo +=1
 
 
 # Declara lista sem tamanho
@@ -208,6 +216,7 @@ def p_Decl_Matriz_NoSize(p):
         parser.error = (
             f"Variável com o nome {listName} já definida anteriormente.")
         parser.exito = False
+    parser.linhaDeCodigo +=1
 
 
 # Declara matriz com tamanho INT INT
@@ -224,6 +233,7 @@ def p_DeclMatriz_Size(p):
         parser.error = (
             f"Variável com o nome {listName} já definida anteriormente.")
         parser.exito = False
+    parser.linhaDeCodigo +=1
 
 
 # Função que altera o valor de um indice da matriz por outro
@@ -242,6 +252,7 @@ def p_AtribMatriz_comExpr(p):
     else:
         parser.error = f"Variável não declarada anteriormente"
         parser.exito = False
+    parser.linhaDeCodigo +=1
 
 
 # Função que altera uma lista da matriz por outra
@@ -266,6 +277,7 @@ def p_AtribMatriz_comLista(p):
     else:
         parser.error = f"Variável não declarada anteriormente"
         parser.exito = False
+    parser.linhaDeCodigo +=1
 
 
 # Função que vai buscar o valor do indice na lista
@@ -279,6 +291,7 @@ def p_AtribBusca_Lista(p):
         parser.error = (
             f"Variável com o nome {varName} não definida anteriormente.")
         parser.exito = False
+    parser.linhaDeCodigo +=1
 
 
 # Função que vai buscar o valor do indice na matriz
@@ -292,6 +305,7 @@ def p_AtribBusca_Matriz(p):
     else:
         parser.error = f"Variável com o nome {varName} não definida"
         parser.exito = False
+    parser.linhaDeCodigo +=1
 
 
 # Função swap entre elementos do mesmo array
@@ -306,6 +320,7 @@ def p_ProcSwap_Lista(p):
         parser.error = (
             f"Variável com o nome {varName} não definida anteriormente.")
         parser.exito = False
+    parser.linhaDeCodigo +=1
 
 
 # Expressão Aritmética Soma
@@ -397,6 +412,7 @@ def p_if_Then(p):
     "if : SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV FIM"
     p[0] = f"{p[3]}JZ l{parser.labels}\n{p[7]}l{parser.labels}: NOP\n"
     parser.labels += 1
+    parser.linhaDeCodigo+=1
 
 
 # Controlo de fluxo (if then else)
@@ -404,6 +420,7 @@ def p_if_Then_Else(p):
     "if : SE ABREPC exprRel FECHAPC ENTAO ABRECHAV Codigo FECHACHAV SENAO ABRECHAV Codigo FECHACHAV FIM"
     p[0] = f"{p[3]}JZ l{parser.labels}\n{p[7]}JUMP l{parser.labels}f\nl{parser.labels}: NOP\n{p[11]}l{parser.labels}f: NOP\n"
     parser.labels += 1
+    parser.linhaDeCodigo+=1
 
 
 # Ciclo (while)
@@ -411,11 +428,13 @@ def p_while(p):
     "while : ENQUANTO ABREPC exprRel FECHAPC FAZ ABRECHAV Codigo FECHACHAV FIM"
     p[0] = f'l{parser.labels}c: NOP\n{p[3]}JZ l{parser.labels}f\n{p[7]}JUMP l{parser.labels}c\nl{parser.labels}f: NOP\n'
     parser.labels += 1
+    parser.linhaDeCodigo+=1
 
 
 def p_saidas_STRING(p):
     '''saidas : SAIDAS ASPA'''
     p[0] = f'PUSHS {p[2]}\nWRITES\n'
+    parser.linhaDeCodigo+=1
 
 
 def p_saidas_lista(p):
@@ -457,6 +476,7 @@ def p_saidas_lista(p):
     else:
         parser.error = ""
         parser.exito = False
+    parser.linhaDeCodigo+=1
 
 
 # Funções auxiliares
@@ -479,8 +499,20 @@ def p_elems_rec(p):
 # ----------------------------------------
 
 def p_error(p):
-    print(f'Erro na linha {parser.linhaDeCodigo}: {parser.error}')
-    parser.exito = False
+    print(p)
+    try:
+        helper(p.value)
+        parser.exito = False
+    except:
+        print(p)
+        parser.exito=False
+
+
+def helper(syntaxError):
+    error = syntaxError.upper()
+    matches = difflib.get_close_matches(error, tokens, n=2, cutoff=0.6)
+    if matches != []:
+        parser.error = f"Syntax error na linha {parser.linhaDeCodigo}: Querias dizer {matches[0]}"
 
 # ----------------------------------------
 
@@ -511,9 +543,21 @@ if len(sys.argv) == 3:
             print("--------------------------------------")
             sys.exit()
         file.close()
+
+        arr = os.listdir()
         outputFileName = sys.argv[2]
+
+        while outputFileName in arr:
+            outputFileName = outputFileName.split(".")[0]
+            outputFileName += "_copy.vm"
+
+        if ".vm" not in outputFileName:
+            outputFileName+=".vm"
+
         outputFile = open(outputFileName, "w")
-        outputFileName.write(assembly)
+        outputFile.write(assembly)
+        outputFile.close()
+
         print("File saved successfully")
 
     else:
@@ -560,7 +604,6 @@ if len(sys.argv) == 1:
         parser.parse(line)
         if parser.exito:
             assembly += parser.assembly
-            print(parser.variaveis)
         else:
             print("--------------------------------------")
             print(parser.error)

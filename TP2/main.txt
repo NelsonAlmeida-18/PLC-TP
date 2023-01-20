@@ -1,6 +1,0 @@
-comentario(cria um comentario)
-
-var teste com 2
-
-var teste1 com 12
-
