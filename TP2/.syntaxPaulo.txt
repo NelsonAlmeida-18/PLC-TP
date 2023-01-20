@@ -30,9 +30,6 @@ Obter o valor do indice de uma lista:
 busca "nomeDaLista" ["indice"]
 > busca a [1]
 
-Swap entre elementos de uma lista:
-swap "nomeDaLista" ["indice1"] com ["indice2"]
-
 
 Criar matriz:
 matriz "nomeDaMatriz"
@@ -71,7 +68,6 @@ operacoes aritméticas usuais:
 - -> menus
 / -> dibide
 * -> somanbezes
-^ -> pau
 % -> sobras
 
 

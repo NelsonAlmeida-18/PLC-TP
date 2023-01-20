@@ -59,4 +59,4 @@ if       : SE exprRel LOGO Corpo FIM
 while    : ENQUANTO exprRel FAZ Corpo FIM
 
 saidas   : SAIDAS ID 
-         | SAIDAS expre
+         | SAIDAS expr
